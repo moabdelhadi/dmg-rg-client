@@ -1,4 +1,4 @@
-dmg-user-manager
+dmg-rg-client
 ================
 
-user manager users
+rg - client side

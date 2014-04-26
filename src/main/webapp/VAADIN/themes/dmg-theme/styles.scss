@@ -1,0 +1,11 @@
+@import "addons.scss";
+@import "dmg-theme.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in dmg-theme.scss */
+.dmg-theme {
+  @include addons;
+
+  // Include dmg-theme theme styles in your theme
+  @include dmg-theme;
+}

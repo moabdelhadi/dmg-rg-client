@@ -93,6 +93,11 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.dmg</groupId>
+			<artifactId>dmg-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -226,4 +231,13 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.dmg</groupId>
+				<artifactId>dmg-core</artifactId>
+				<version>1.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

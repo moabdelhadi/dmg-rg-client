@@ -4,22 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.HashAttributeSet;
-
 import org.apache.commons.lang.StringUtils;
 
+import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.simplepayment.beans.Constants;
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
-import com.dmg.util.FilterUtil;
 import com.dmg.util.Logger;
 import com.dmg.util.PropertiesManager;
-import com.dmg.util.dao.DAO;
-import com.dmg.util.dao.DaoException;
-import com.dmg.util.dao.filtes.Filter;
-import com.dmg.util.dao.filtes.FilterType;
 
 public class UserManager {
 
@@ -37,36 +31,91 @@ public class UserManager {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.USER_ACCOUNT_EMAIL, user.getEmail());
-		
-		List<UserAccount> list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
-		
-		if(list==null){
+
+		List<UserAccount> list=null;
+		try {
+			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+		} catch (DataAccessLayerException e) {
+			Logger.error(this, "Email is incorrect", e);
+			return;
+		}
+
+		if (list == null) {
 			Logger.warn(this, "Email is incorrect");
 			return;
 		}
-		
-		if(list.size() > 1){
+
+		if (list.size() > 1) {
 			Logger.warn(this, "Email is dublicated Please Check");
-			
+
 		}
-		
+
 		UserAccount userAccount = list.get(0);
 		String password = userAccount.getPassword();
-		if(StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)){
+		if (StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)) {
 			Logger.info(this, "Login Success");
 		}
-		
+
 	}
 
-	public void createUser(UserAccount user) {
+	public UserAccount getAccountFromAccountID(UserAccount user) {
 
-		List<Filter> filterList = FilterUtil.createFilterList("email", FilterType.EQUAL, user.getEmail());
-		DAO<UserAccount> dao = new DAO<UserAccount>();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(Constants.USER_ACCOUNT_ID, user.getAccountId());
+		parameters.put(Constants.USER_CITY, user.getCity());
+		List<UserAccount> list;
+		try {
+			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+		} catch (DataAccessLayerException e) {
+			Logger.error(this, "Account is incorrect", e);
+			return null;
+		}
+
+		if (list == null) {
+			Logger.warn(this, "Email is incorrect");
+			return null;
+		}
+
+		if (list.size() > 1) {
+			Logger.warn(this, "Email is dublicated Please Check");
+		}
+
+		UserAccount userAccount = list.get(0);
+		return userAccount;
+
+	}
+
+	public void registerUser(UserAccount user) {
+
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(Constants.USER_ACCOUNT_ID, user.getAccountId());
+		parameters.put(Constants.USER_CITY, user.getCity());
+		List<UserAccount> list;
+		try {
+			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+		} catch (DataAccessLayerException e) {
+			Logger.error(this, "Account is incorrect", e);
+			return;
+
+		}
+
+		if (list == null) {
+			Logger.warn(this, "Account is incorrect");
+			return;
+		}
+
+		if (list.size() > 1) {
+			Logger.warn(this, "Account is dublicated Please Check");
+			return;
+		}
+
+		UserAccount userAccount = list.get(0);
+
 		String activationLink = user.getEmail() + "==" + System.currentTimeMillis() + "==" + (Math.random() * 10000);
 		String encrypt = EncryptionUtil.encrypt(activationLink);
 		try {
 			String decrypt = EncryptionUtil.decrypt(encrypt);
-			if(decrypt!=null && decrypt.equals(activationLink)){
+			if (decrypt != null && decrypt.equals(activationLink)) {
 				System.out.println("Encription Success");
 			}
 		} catch (Exception e1) {
@@ -74,37 +123,36 @@ public class UserManager {
 			e1.printStackTrace();
 		}
 		user.setActivationString(encrypt);
-		try {
-			List<UserAccount> list = dao.get(UserAccount.class, filterList);
-			if (list != null && list.size() > 0) {
-				// TODO ERROR user Alreadi exsist;
-				System.out.println("ERROR user Alreadi exsist");
-				return;
-			}
 
-			dao.save(user);
-			String confirmationURL = CONFIRMATION_BASE_PATH + "opt=conf&code=" + encrypt;
-			System.out.println("confirmationURL= " +confirmationURL);
-			// MailManager.getInstance().sendMail(user.getEmail(),
-			// "Welcome to Royal Gaz",
-			// "Dear Client <br/><br/>Please click in thi link bellow to Activate your account.<br/><br/>"+confirmationURL);
-		} catch (DaoException e) {
-			e.printStackTrace();
+		userAccount.setEmail(user.getEmail());
+		userAccount.setAddress(user.getEmail());
+		userAccount.setFirstName(user.getFirstName());
+		userAccount.setLastName(user.getLastName());
+		userAccount.setPassword(user.getPassword());
+		userAccount.setPhone(user.getPhone());
+		userAccount.setStatus(UserStatus.NEW.value());
+		
+		
+		try {
+			FacadeFactory.getFacade().store(userAccount);
+		} catch (DataAccessLayerException e) {
+			Logger.error(this, "Error in saving user acount="+userAccount.getAccountId(), e);
+			return;
 		}
 
 	}
 
+
 	public boolean activate(String activationString) {
 
-		Logger.debug(this, "code="+activationString);
+		Logger.debug(this, "code=" + activationString);
 		try {
-			DAO<UserAccount> dao = new DAO<UserAccount>();
-			UserAccount user = getUserFromActivationLink(activationString, dao);
+			UserAccount user = getUserFromActivationLink(activationString);
 
 			if (user != null && activationString.equals(user.getActivationString())) {
 				user.setStatus(UserStatus.ACTIVE.value());
 
-				dao.save(user);
+				FacadeFactory.getFacade().store(user);
 
 				Logger.info(this, "activation Success");
 				return true;
@@ -121,13 +169,13 @@ public class UserManager {
 	public boolean resetPassword(String activationString, String password) {
 
 		try {
-			DAO<UserAccount> dao = new DAO<UserAccount>();
-			UserAccount user = getUserFromActivationLink(activationString, dao);
+			UserAccount user = getUserFromActivationLink(activationString);
 
 			if (user != null && activationString.equals(user.getActivationString())) {
 				Logger.info(this, "reset enable");
 				user.setPassword(password);
 				user.setActivationString("");
+				FacadeFactory.getFacade().store(user);
 				return true;
 			}
 
@@ -136,10 +184,10 @@ public class UserManager {
 			e.printStackTrace();
 		}
 		return false;
-		
+
 	}
 
-	private UserAccount getUserFromActivationLink(String string, DAO<UserAccount> dao) throws Exception {
+	private UserAccount getUserFromActivationLink(String string) throws Exception {
 
 		String decrypt = EncryptionUtil.decrypt(string);
 		String[] params = decrypt.split("==");
@@ -151,15 +199,15 @@ public class UserManager {
 
 		Logger.debug(this, "params= " + params[0] + " ' " + params[0] + " ' " + params[0]);
 
-		List<Filter> filterList = FilterUtil.createFilterList("email", FilterType.EQUAL, params[0].trim());
-
-		List<UserAccount> list = dao.get(UserAccount.class, filterList);
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(Constants.USER_ACCOUNT_EMAIL, params[0].trim());
+		
+		List<UserAccount> list =FacadeFactory.getFacade().list(UserAccount.class, parameters);
 
 		if (list == null || list.isEmpty()) {
 			Logger.warn(this, "no such Email decrypt=" + decrypt);
 			return null;
 		}
-
 		return list.get(0);
 
 	}

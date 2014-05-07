@@ -1,6 +1,6 @@
 package com.dmg.simplepayment.views;
 
-import com.dmg.simplepayment.beans.User;
+import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
 import com.vaadin.data.Validator.InvalidValueException;
@@ -124,7 +124,7 @@ public class Login extends HorizontalLayout implements View {
 		if(!vaildateRegister()){
 			return;
 		}
-		User user = new User();
+		UserAccount user = new UserAccount();
 		user.setEmail(email.getValue());
 		user.setAccountNo(accountNo.getValue());
 		user.setAddress(address.getValue());
@@ -300,7 +300,7 @@ public class Login extends HorizontalLayout implements View {
 			return;
 		}
 		String encrypt = EncryptionUtil.encrypt(loginPassword.getValue());
-		User user = new User(loginEmail.getValue(), encrypt);
+		UserAccount user = new UserAccount(loginEmail.getValue(), encrypt);
 		UserManager.getInstance().login(user);
 
 		removeAllComponents();

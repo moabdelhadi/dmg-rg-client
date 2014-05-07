@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dmg.simplepayment.beans.User;
+import com.dmg.simplepayment.beans.UserAccount;
 import com.vaadin.server.VaadinService;
 
 /**
@@ -17,7 +17,7 @@ public class SessionHandler implements Serializable {
 
 	private static final long serialVersionUID = 4142938996955537395L;
 
-	private User user;
+	private UserAccount user;
 
 	// Store the user object of the currently inlogged user
 
@@ -38,7 +38,7 @@ public class SessionHandler implements Serializable {
 	 * 
 	 * @param user
 	 */
-	public static void setUser(User user) {
+	public static void setUser(UserAccount user) {
 		getCurrent().user = user;
 	}
 
@@ -48,7 +48,7 @@ public class SessionHandler implements Serializable {
 	 * 
 	 * @return The currently inlogged user
 	 */
-	public static User get() {
+	public static UserAccount get() {
 		return getCurrent().user;
 	}
 

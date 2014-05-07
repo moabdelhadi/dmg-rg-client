@@ -1,8 +1,16 @@
 package com.dmg.simplepayment.views;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.dmg.simplepayment.beans.User;
+import javax.print.attribute.HashAttributeSet;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.dmg.core.persistence.FacadeFactory;
+import com.dmg.simplepayment.beans.Constants;
+import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
 import com.dmg.util.FilterUtil;
@@ -25,34 +33,35 @@ public class UserManager {
 		return INSTANCE;
 	}
 
-	public void login(User user) {
+	public void login(UserAccount user) {
 
-		try {
-			List<Filter> filterList = FilterUtil.createFilterList("email", FilterType.EQUAL, user.getEmail());
-			DAO<User> dao = new DAO<User>();
-			List<User> result;
-			result = dao.get(User.class, filterList);
-			if (result == null || result.size() < 1) {
-				// TODO this user is not exsist
-				System.out.println("this user is not exsist");
-				return;
-			}
-			if (!user.getPassword().equals(result.get(0).getPassword())) {
-				// TODO InCorrect Password
-				System.out.println("InCorrect Password");
-				return;
-			}
-			System.out.println("Login Success");
-		} catch (DaoException e) {
-			System.out.println("Login Faild" + e.getMessage());
-			e.printStackTrace();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(Constants.USER_ACCOUNT_EMAIL, user.getEmail());
+		
+		List<UserAccount> list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+		
+		if(list==null){
+			Logger.warn(this, "Email is incorrect");
+			return;
 		}
+		
+		if(list.size() > 1){
+			Logger.warn(this, "Email is dublicated Please Check");
+			
+		}
+		
+		UserAccount userAccount = list.get(0);
+		String password = userAccount.getPassword();
+		if(StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)){
+			Logger.info(this, "Login Success");
+		}
+		
 	}
 
-	public void createUser(User user) {
+	public void createUser(UserAccount user) {
 
 		List<Filter> filterList = FilterUtil.createFilterList("email", FilterType.EQUAL, user.getEmail());
-		DAO<User> dao = new DAO<User>();
+		DAO<UserAccount> dao = new DAO<UserAccount>();
 		String activationLink = user.getEmail() + "==" + System.currentTimeMillis() + "==" + (Math.random() * 10000);
 		String encrypt = EncryptionUtil.encrypt(activationLink);
 		try {
@@ -66,7 +75,7 @@ public class UserManager {
 		}
 		user.setActivationString(encrypt);
 		try {
-			List<User> list = dao.get(User.class, filterList);
+			List<UserAccount> list = dao.get(UserAccount.class, filterList);
 			if (list != null && list.size() > 0) {
 				// TODO ERROR user Alreadi exsist;
 				System.out.println("ERROR user Alreadi exsist");
@@ -89,8 +98,8 @@ public class UserManager {
 
 		Logger.debug(this, "code="+activationString);
 		try {
-			DAO<User> dao = new DAO<User>();
-			User user = getUserFromActivationLink(activationString, dao);
+			DAO<UserAccount> dao = new DAO<UserAccount>();
+			UserAccount user = getUserFromActivationLink(activationString, dao);
 
 			if (user != null && activationString.equals(user.getActivationString())) {
 				user.setStatus(UserStatus.ACTIVE.value());
@@ -112,8 +121,8 @@ public class UserManager {
 	public boolean resetPassword(String activationString, String password) {
 
 		try {
-			DAO<User> dao = new DAO<User>();
-			User user = getUserFromActivationLink(activationString, dao);
+			DAO<UserAccount> dao = new DAO<UserAccount>();
+			UserAccount user = getUserFromActivationLink(activationString, dao);
 
 			if (user != null && activationString.equals(user.getActivationString())) {
 				Logger.info(this, "reset enable");
@@ -130,7 +139,7 @@ public class UserManager {
 		
 	}
 
-	private User getUserFromActivationLink(String string, DAO<User> dao) throws Exception {
+	private UserAccount getUserFromActivationLink(String string, DAO<UserAccount> dao) throws Exception {
 
 		String decrypt = EncryptionUtil.decrypt(string);
 		String[] params = decrypt.split("==");
@@ -144,7 +153,7 @@ public class UserManager {
 
 		List<Filter> filterList = FilterUtil.createFilterList("email", FilterType.EQUAL, params[0].trim());
 
-		List<User> list = dao.get(User.class, filterList);
+		List<UserAccount> list = dao.get(UserAccount.class, filterList);
 
 		if (list == null || list.isEmpty()) {
 			Logger.warn(this, "no such Email decrypt=" + decrypt);

@@ -27,7 +27,7 @@ public class UserManager {
 		return INSTANCE;
 	}
 
-	public void login(UserAccount user) {
+	public boolean login(UserAccount user) {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.USER_ACCOUNT_EMAIL, user.getEmail());
@@ -37,12 +37,12 @@ public class UserManager {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
 		} catch (DataAccessLayerException e) {
 			Logger.error(this, "Email is incorrect", e);
-			return;
+			return false;
 		}
 
 		if (list == null) {
 			Logger.warn(this, "Email is incorrect");
-			return;
+			return false;
 		}
 
 		if (list.size() > 1) {
@@ -54,7 +54,9 @@ public class UserManager {
 		String password = userAccount.getPassword();
 		if (StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)) {
 			Logger.info(this, "Login Success");
+			return true;
 		}
+		return false;
 
 	}
 

@@ -10,7 +10,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
-@Theme("simplepayment")
+@Theme("dmg-theme")
 public class NavigatorUI extends UI {
 	private static final long serialVersionUID = 511085335415683713L;
 
@@ -39,7 +39,6 @@ public class NavigatorUI extends UI {
 
 		// Create and register the views
 		navigator.addView(Views.LOGIN, new Login(navigator));
-		navigator.addView(Views.CONFIRMATION, new ConfirmationPage(navigator));
 		navigator.addView(Views.USER_PAGE, new UserPage(navigator));
 		
 		navigator.addViewChangeListener(new ViewChangeListener() {

@@ -5,6 +5,7 @@ import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -14,304 +15,184 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.themes.Runo;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
-public class Login extends HorizontalLayout implements View {
+public class Login extends VerticalLayout implements View {
 
 	private Navigator navigator;
-	private FormLayout loginForm = new FormLayout();
 
 	/** Login Fileds **/
 	private TextField loginEmail;
 	private PasswordField loginPassword;
 	private Button loginButton;
-	
-	
-	private FormLayout registerForm = new FormLayout();
-	/** Registration Fileds **/
-	private TextField email;
-	private PasswordField password;
-	private PasswordField confirmPassword;
-	private TextField city;
-	private TextField buildingNo;
-	private TextField appartmentNo;
-	private TextField accountNo;
-	private TextField name;
-	private TextField phone;
-	private TextField address;
-	private Button button;
+
+	private TextField accountId;
+	private ComboBox citySelect;
+	private Button registerButton;
 
 	public Login(Navigator navigator) {
 		this.navigator = navigator;
 		init();
 	}
 
-	protected void init() {
+	private void init() {
 
-		addComponent(loginForm);
-		addComponent(registerForm);
-		setWidth("600px");
-
-		initLoginForm();
-		initRegisterForm();
-
-	}
-
-	private void initRegisterForm() {
-
-		email = new TextField("Email");
-		email.addValidator(new EmailValidator("Please Insert Valid Email"));
-		email.setRequired(true);
-		registerForm.addComponent(email);
-
-		password = new PasswordField("Password");
-		password.setRequired(true);
-		registerForm.addComponent(password);
-
-		confirmPassword = new PasswordField("confirmPassword");
-		confirmPassword.setRequired(true);
-		registerForm.addComponent(confirmPassword);
-
-		city = new TextField("city");
-		city.setRequired(true);
-		registerForm.addComponent(city);
-
-		buildingNo = new TextField("buildingNo");
-		buildingNo.setRequired(true);
-		registerForm.addComponent(buildingNo);
-
-		appartmentNo = new TextField("appartmentNo");
-		appartmentNo.setRequired(true);
-		registerForm.addComponent(appartmentNo);
-
-		accountNo = new TextField("accountNo");
-		accountNo.setRequired(true);
-		registerForm.addComponent(accountNo);
-
-		name = new TextField("name");
-		name.setRequired(true);
-		registerForm.addComponent(name);
-
-		phone = new TextField("phone");
-		phone.setRequired(true);
-		registerForm.addComponent(phone);
-
-		address = new TextField("address");
-		registerForm.addComponent(address);
-
-		button = new Button("Register");
-		registerForm.addComponent(button);
-
-		button.addClickListener(new ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				createNewUser();
-			}
-
-		});
-
-	}
-
-	private void createNewUser() {
-
-		System.out.println("Start creation");
-
-		if(!vaildateRegister()){
-			return;
-		}
-		UserAccount user = new UserAccount();
-		user.setEmail(email.getValue());
-		user.setAccountNo(accountNo.getValue());
-		user.setAddress(address.getValue());
-		user.setAppartmentNo(appartmentNo.getValue());
-		user.setBuildingNo(buildingNo.getValue());
-		user.setCity(city.getValue());
-		user.setName(name.getValue());
-		user.setPassword(EncryptionUtil.encrypt(password.getValue()));
-		user.setPhone(phone.getValue());
-		user.setStatus(UserStatus.NEW.value());
-		System.out.println(user);
-		UserManager.getInstance().createUser(user);
-
-	}
-
-	
-	private boolean vaildateRegister() {
-
-		boolean status = true;
-		resetFormValidation();
-		
-		try{
-			email.validate();
-		}catch (InvalidValueException e) {
-			email.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		try{
-			password.validate();
-		}catch (InvalidValueException e) {
-			password.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		try{
-			confirmPassword.validate();
-		}catch (InvalidValueException e) {
-			confirmPassword.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		try{
-			city.validate();
-		}catch (InvalidValueException e) {
-			city.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		try{
-			buildingNo.validate();
-		}catch (InvalidValueException e) {
-			buildingNo.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		try{
-			appartmentNo.validate();
-		}catch (InvalidValueException e) {
-			appartmentNo.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		try{
-			accountNo.validate();
-		}catch (InvalidValueException e) {
-			accountNo.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		try{
-			phone.validate();
-		}catch (InvalidValueException e) {
-			phone.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		try{
-			name.validate();
-		}catch (InvalidValueException e) {
-			name.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		
-		try{
-			address.validate();
-		}catch (InvalidValueException e) {
-			address.setComponentError(new UserError("PThis Field is required"));
-			status= false;
-		}
-		
-		
-		if (password.getValue() != null && !password.getValue().trim().isEmpty() && confirmPassword.getValue() != null && !confirmPassword.getValue().trim().isEmpty()){
-			if (!password.getValue().equals(confirmPassword.getValue())) {
-				password.setComponentError(new UserError("Password must match"));
-				status= false;
-			}
-		}
-		return status;
-
-	}
-	
-	private boolean validateLogin(){
-		boolean status = true;
-		resetFormValidation();
-		
-		try{
-			loginEmail.validate();
-		}catch (InvalidValueException e) {
-			loginEmail.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		
-		try{
-			loginPassword.validate();
-		}catch (InvalidValueException e) {
-			loginPassword.setComponentError(new UserError("This Field is required"));
-			status= false;
-		}
-		return status;
-	}
-
-	private void resetFormValidation() {
-		int componentCount = registerForm.getComponentCount();
-		for(int i=0 ; i < componentCount ;i++){
-			Component component = registerForm.getComponent(i);
-			if(component!=null && component instanceof AbstractField){
-				AbstractField field = (AbstractField) component;
-					field.setComponentError(null);
-			}
-		}
-		
-		componentCount = loginForm.getComponentCount();
-		for(int i=0 ; i < componentCount ;i++){
-			Component component = loginForm.getComponent(i);
-			if(component!=null && component instanceof AbstractField){
-				AbstractField field = (AbstractField) component;
-				field.setComponentError(null);
-			}
-		}
-
-	}
-
-	
-	private void initLoginForm() {
-
-		loginForm.setMargin(new MarginInfo(true, false, false, true));
-
-		loginEmail = new TextField("Email");
-		loginEmail.addValidator(new EmailValidator("Please Insert Valid Email"));
-		loginEmail.setRequired(true);
-		loginForm.addComponent(loginEmail);
+		setSizeFull();
+		CustomLayout customLayout = new CustomLayout("login");
+		// customLayout.setWidth("20%");
+		loginEmail = new TextField("User Email");
+		loginEmail.setInputPrompt("User Email");
+		customLayout.addComponent(loginEmail, "userEmail");
 
 		loginPassword = new PasswordField("Password");
-		loginPassword.setRequired(true);
-		loginForm.addComponent(loginPassword);
+		loginPassword.setInputPrompt("Password");
+		customLayout.addComponent(loginPassword, "userPassword");
 
-		loginButton = new Button("Log In");
+		loginButton = new Button("Login");
+		loginButton.addStyleName(Runo.BUTTON_BIG);
+		loginButton.setClickShortcut(KeyCode.ENTER);
+		customLayout.addComponent(loginButton, "loginButton");
+
+		// customLayout.setWidth("20%");
+		accountId = new TextField("Account No.");
+		accountId.setInputPrompt("Account No.");
+		customLayout.addComponent(accountId, "accountId");
+
+		citySelect = new ComboBox("City");
+		citySelect.addItem("DUBAI");
+		citySelect.addItem("ABUDHABI");
+		citySelect.setInputPrompt("City");
+		customLayout.addComponent(citySelect, "city");
+
+		registerButton = new Button("Register");
+		// loginButton.addStyleName(Runo.BUTTON_BIG);
+		// loginButton.setClickShortcut(KeyCode.ENTER);
+		customLayout.addComponent(registerButton, "registerButton");
+
+		addComponent(customLayout);
+
 		loginButton.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 				loginUser();
+			}
+		});
+
+		registerButton.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				registerNewUser();
 
 			}
 
 		});
 
-		loginForm.addComponent(loginButton);
-
 	}
-	
-	private void loginUser() {
+
+	private void registerNewUser() {
 		
-		if(!validateLogin()){
+		if (!vaildateRegister()) {
 			return;
 		}
-		String encrypt = EncryptionUtil.encrypt(loginPassword.getValue());
-		UserAccount user = new UserAccount(loginEmail.getValue(), encrypt);
-		UserManager.getInstance().login(user);
-
-		removeAllComponents();
-//		addComponent(new UserPage().getLoginLayout());
+		UserAccount user = new UserAccount();
+		user.setAccountId(accountId.getValue());
+		user.setCity(citySelect.getValue().toString());
 		
+		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
+		if(userAccount!=null){
+			navigator.navigateTo(Views.EDIT_USER_PAGE);
+		}else{
+			Notification.show("ERROR", "Erro in account id or City",Notification.Type.ERROR_MESSAGE);
+		}
+	}
+
+
+	private boolean vaildateRegister() {
+
+		boolean status = true;
+		resetFormValidation();
+
+		try {
+			accountId.validate();
+		} catch (InvalidValueException e) {
+			accountId.setComponentError(new UserError("This Field is required"));
+			status = false;
+		}
+
+		try {
+			citySelect.validate();
+		} catch (InvalidValueException e) {
+			status = false;
+		}
+		return status;
+
+	}
+
+	private boolean validateLogin() {
+
+		boolean status = true;
+		resetFormValidation();
+
+		try {
+			loginEmail.validate();
+		} catch (InvalidValueException e) {
+			loginEmail.setComponentError(new UserError("This Field is required"));
+			status = false;
+		}
+
+		try {
+			loginPassword.validate();
+		} catch (InvalidValueException e) {
+			loginPassword.setComponentError(new UserError("This Field is required"));
+			status = false;
+		}
+		return status;
+	}
+
+	private void resetFormValidation() {
+
+		loginEmail.setComponentError(null);
+		loginPassword.setComponentError(null);
+
+		accountId.setComponentError(null);
+		citySelect.setComponentError(null);
+
+	}
+
+	private void loginUser() {
+
+		if (!validateLogin()) {
+			return;
+		}
+		
+		UserAccount user = new UserAccount(loginEmail.getValue(), loginPassword.getValue());
+
+		boolean result = UserManager.getInstance().login(user);
+		
+		if(result){
+			navigator.navigateTo(Views.USER_PAGE);
+		}else{
+			Notification.show("Error", "The User Email or Password is incorrect", Type.ERROR_MESSAGE);
+		}
+
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		System.out.println("get in login");
-		
+
 	}
 
 }

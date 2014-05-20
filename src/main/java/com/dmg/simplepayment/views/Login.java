@@ -112,7 +112,7 @@ public class Login extends VerticalLayout implements View {
 		
 		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
 		if(userAccount!=null){
-			navigator.navigateTo(Views.EDIT_USER_PAGE);
+			navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
 		}else{
 			Notification.show("ERROR", "Erro in account id or City",Notification.Type.ERROR_MESSAGE);
 		}

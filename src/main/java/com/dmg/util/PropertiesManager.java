@@ -38,7 +38,7 @@ public class PropertiesManager {
 		try {
 			properties = new Properties();
 
-			InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("../../WEB-INF/conf/conf.properties");
+			InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("../../WEB-INF/config/config.properties");
 			InputStreamReader reader = new InputStreamReader(resourceAsStream, "UTF8");
 
 			properties.load(reader);

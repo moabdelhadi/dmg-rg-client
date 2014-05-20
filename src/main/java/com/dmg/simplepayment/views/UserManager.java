@@ -52,7 +52,7 @@ public class UserManager {
 
 		UserAccount userAccount = list.get(0);
 		String password = userAccount.getPassword();
-		if (StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)) {
+		if (!StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)) {
 			Logger.info(this, "Login Success");
 			return true;
 		}

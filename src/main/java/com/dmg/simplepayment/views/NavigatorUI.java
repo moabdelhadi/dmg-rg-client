@@ -40,6 +40,8 @@ public class NavigatorUI extends UI {
 		// Create and register the views
 		navigator.addView(Views.LOGIN, new Login(navigator));
 		navigator.addView(Views.USER_PAGE, new UserPage(navigator));
+		navigator.addView(Views.EDIT_PROFILE_PAGE, new EditUserProfile(navigator));
+		navigator.addView(Views.ACTIVATION_PAGE, new WelcomeAfterRegister(navigator));
 		
 		navigator.addViewChangeListener(new ViewChangeListener() {
 			

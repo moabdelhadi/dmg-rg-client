@@ -73,7 +73,7 @@ public class UserManager {
 			return null;
 		}
 
-		if (list == null) {
+		if (list == null || list.size()==0) {
 			Logger.warn(this, "Email is incorrect");
 			return null;
 		}

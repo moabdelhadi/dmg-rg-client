@@ -10,7 +10,7 @@ import javax.persistence.UniqueConstraint;
 import com.dmg.core.bean.AbstractPojo;
 
 @Entity
-@Table(name = "USERACCOUNTS", uniqueConstraints = { @UniqueConstraint(columnNames = { "ACCOUNT_ID" }) })
+@Table(name = "USERACCOUNTS", uniqueConstraints = { @UniqueConstraint(columnNames = { "CONTRACT_NO" }) })
 public class UserAccount extends AbstractPojo {
 
 	/**
@@ -18,49 +18,50 @@ public class UserAccount extends AbstractPojo {
 	 */
 	private static final long serialVersionUID = 711201638919389292L;
 
-
 	@Column(name = "EMAIL")
 	private String email;
 
 	@Column(name = "PASSWORD")
 	protected String password;
 
-	@Column(name = "FIRST_NAME")
-	private String firstName;
-
-	@Column(name = "LAST_NAME")
-	private String lastName;
+	@Column(name = "NAME")
+	private String name;
 
 	@Column(name = "CITY")
 	private String city;
-	
+
 	@Column(name = "BUILDING_NUMBER")
 	private String buildingNumber;
-	
+
 	@Column(name = "APPARTMENT_NUMBER")
 	private String appartmentNumber;
-	
-	@Column(name = "ACCOUNT_ID")
-	private String accountId;
-	
+
+	@Column(name = "CONTRACT_NO")
+	private String contractNo;
+
 	@Column(name = "PHONE")
 	private String phone;
-	
-	@Column(name = "ADDRESS")
-	private String address;
-	
+
+	@Column(name = "MOBILE")
+	private String mobile;
+
+	@Column(name = "POBOX")
+	private String pobox;
+
+	@Column(name = "POBOX_CITY")
+	private String poboxCity;
+
 	@Column(name = "STATUS")
 	private int status;
-	
+
 	@Column(name = "ACTIVATIONSTRING")
 	private String activationString;
-	
+
 	@Column(name = "LASTUPDATE")
 	private Date lastUpdate;
 
+	public UserAccount() {
 
-	public UserAccount(){
-		
 	}
 
 	public UserAccount(String email, String password) {
@@ -84,20 +85,12 @@ public class UserAccount extends AbstractPojo {
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCity() {
@@ -124,12 +117,12 @@ public class UserAccount extends AbstractPojo {
 		this.appartmentNumber = appartmentNumber;
 	}
 
-	public String getAccountId() {
-		return accountId;
+	public String getContractNo() {
+		return contractNo;
 	}
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
 	}
 
 	public String getPhone() {
@@ -140,12 +133,28 @@ public class UserAccount extends AbstractPojo {
 		this.phone = phone;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getPobox() {
+		return pobox;
+	}
+
+	public void setPobox(String pobox) {
+		this.pobox = pobox;
+	}
+
+	public String getPoboxCity() {
+		return poboxCity;
+	}
+
+	public void setPoboxCity(String poboxCity) {
+		this.poboxCity = poboxCity;
 	}
 
 	public int getStatus() {
@@ -172,11 +181,17 @@ public class UserAccount extends AbstractPojo {
 		this.lastUpdate = lastUpdate;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "UserAccount [email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", city=" + city + ", buildingNumber="
-				+ buildingNumber + ", appartmentNumber=" + appartmentNumber + ", accountId=" + accountId + ", phone=" + phone + ", address=" + address + ", status=" + status
-				+ ", activationString=" + activationString + ", lastUpdate=" + lastUpdate + "]";
+		return "UserAccount [email=" + email + ", password=" + password + ", name=" + name + ", city=" + city
+				+ ", buildingNumber=" + buildingNumber + ", appartmentNumber=" + appartmentNumber + ", accountId="
+				+ contractNo + ", phone=" + phone + ", mobile=" + mobile + ", pobox=" + pobox + ", poboxCity="
+				+ poboxCity + ", status=" + status + ", activationString=" + activationString + ", lastUpdate="
+				+ lastUpdate + "]";
 	}
-	
+
 }

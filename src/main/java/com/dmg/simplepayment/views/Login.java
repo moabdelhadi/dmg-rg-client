@@ -107,7 +107,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 		UserAccount user = new UserAccount();
-		user.setAccountId(accountId.getValue());
+		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
 		
 		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);

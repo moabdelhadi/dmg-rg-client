@@ -63,7 +63,7 @@ public class UserManager {
 	public UserAccount getAccountFromAccountID(UserAccount user) {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_ID, user.getAccountId());
+		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
 		List<UserAccount> list;
 		try {
@@ -90,7 +90,7 @@ public class UserManager {
 	public void registerUser(UserAccount user) {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_ID, user.getAccountId());
+		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
 		List<UserAccount> list;
 		try {
@@ -127,9 +127,9 @@ public class UserManager {
 		user.setActivationString(encrypt);
 
 		userAccount.setEmail(user.getEmail());
-		userAccount.setAddress(user.getEmail());
-		userAccount.setFirstName(user.getFirstName());
-		userAccount.setLastName(user.getLastName());
+		userAccount.setPobox(user.getPobox());
+		userAccount.setPoboxCity(user.getPoboxCity());
+		userAccount.setName(user.getName());
 		userAccount.setPassword(user.getPassword());
 		userAccount.setPhone(user.getPhone());
 		userAccount.setStatus(UserStatus.NEW.value());
@@ -138,7 +138,7 @@ public class UserManager {
 		try {
 			FacadeFactory.getFacade().store(userAccount);
 		} catch (DataAccessLayerException e) {
-			Logger.error(this, "Error in saving user acount="+userAccount.getAccountId(), e);
+			Logger.error(this, "Error in saving user acount="+userAccount.getContractNo(), e);
 			return;
 		}
 

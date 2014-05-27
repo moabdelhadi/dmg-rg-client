@@ -126,12 +126,11 @@ public class CopyOfLogin extends HorizontalLayout implements View {
 		}
 		UserAccount user = new UserAccount();
 		user.setEmail(email.getValue());
-		user.setAccountId(accountNo.getValue());
-		user.setAddress(address.getValue());
+		user.setContractNo(accountNo.getValue());
 		user.setAppartmentNumber(appartmentNo.getValue());
 		user.setBuildingNumber(buildingNo.getValue());
 		user.setCity(city.getValue());
-		user.setFirstName(name.getValue());
+		user.setName(name.getValue());
 		user.setPassword(EncryptionUtil.encrypt(password.getValue()));
 		user.setPhone(phone.getValue());
 		user.setStatus(UserStatus.NEW.value());

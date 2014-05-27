@@ -26,16 +26,17 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private Navigator navigator;
 	private Button registerButton;
 	private TextField  loginEmail;
-	private TextField  firstName;
-	private TextField  lastName;
+	private TextField  name;
+	private TextField  poBox;
+	private TextField  poBoxCity;
 	private PasswordField  newPassword;
 	private PasswordField  confirmPassword;
 	private TextField  city;
 	private TextField  appartmentNumber;
 	private TextField  buildingNumber;
-	private TextField  accountId;
+	private TextField  contractNo;
 	private TextField  phone;
-	private TextField  address;
+	private TextField  mobile;
 	private TextField  status;
 	private UserAccount user;
 
@@ -48,18 +49,23 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		setSizeFull();
 		CustomLayout customLayout = new CustomLayout("register");
+		customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
 		loginEmail.setInputPrompt("User Email");
 		customLayout.addComponent(loginEmail, "userEmail");
 		
-		firstName = new TextField("First Name");
-		firstName.setInputPrompt("First Name");
-		customLayout.addComponent(firstName, "firstName");
+		name = new TextField("Full Name");
+		name.setInputPrompt("Full Name");
+		customLayout.addComponent(name, "fullName");
 		
-		lastName = new TextField("Last Name");
-		lastName.setInputPrompt("Last Name");
-		customLayout.addComponent(lastName, "lastName");
+		poBox = new TextField("POBOX");
+		poBox.setInputPrompt("POBOX");
+		customLayout.addComponent(poBox, "poBox");
+		
+		poBoxCity = new TextField("POBOX CITY");
+		poBoxCity.setInputPrompt("POBOX CITY");
+		customLayout.addComponent(poBoxCity, "poBoxCity");
 
 		newPassword = new PasswordField("New Password");
 		newPassword.setInputPrompt("New Password");
@@ -81,17 +87,18 @@ public class EditUserProfile extends VerticalLayout implements View {
 		buildingNumber.setInputPrompt("Building Number");
 		customLayout.addComponent(buildingNumber, "buildingNumber");
 		
-		accountId = new TextField("Account No.");
-		accountId.setInputPrompt("Account No.");
-		customLayout.addComponent(accountId, "accountId");
+		contractNo = new TextField("Account No.");
+		contractNo.setInputPrompt("Account No.");
+		customLayout.addComponent(contractNo, "accountId");
 		
 		phone = new TextField("Phone No.");
 		phone.setInputPrompt("Phone No.");
 		customLayout.addComponent(phone, "phone");
 		
-		address = new TextField("Address");
-		address.setInputPrompt("Address");
-		customLayout.addComponent(address, "address");
+		mobile = new TextField("Mobile No.");
+		mobile.setInputPrompt("Mobile No.");
+		customLayout.addComponent(mobile, "mobile");
+		
 
 		status = new TextField("Status");
 		status.setInputPrompt("Status");
@@ -126,11 +133,11 @@ public class EditUserProfile extends VerticalLayout implements View {
 			return ;
 		}
 		
-		user.setFirstName(firstName.getValue());
-		user.setLastName(lastName.getValue());
+		user.setName(name.getValue());
 		
-		user.setAddress(address.getValue());
 		user.setStatus(UserStatus.NEW.value());
+		user.setPobox(poBox.getValue());
+		user.setPoboxCity(poBoxCity.getValue());
 		
 		//TODO setactivationString
 		user.setActivationString("avtivationString");
@@ -158,9 +165,9 @@ public class EditUserProfile extends VerticalLayout implements View {
 		resetFormValidation();
 
 		try {
-			accountId.validate();
+			contractNo.validate();
 		} catch (InvalidValueException e) {
-			accountId.setComponentError(new UserError("This Field is required"));
+			contractNo.setComponentError(new UserError("This Field is required"));
 			status = false;
 		}
 
@@ -193,13 +200,11 @@ public class EditUserProfile extends VerticalLayout implements View {
 		loginEmail.setComponentError(null);
 		newPassword.setComponentError(null);
 		confirmPassword.setComponentError(null);
-		accountId.setComponentError(null);
-		address.setComponentError(null);
+		contractNo.setComponentError(null);
 		appartmentNumber.setComponentError(null);
 		buildingNumber.setComponentError(null);
 		city.setComponentError(null);
 		phone.setComponentError(null);
-		address.setComponentError(null);
 		status.setComponentError(null);
 
 	}

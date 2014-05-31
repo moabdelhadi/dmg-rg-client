@@ -15,6 +15,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
@@ -31,13 +32,13 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private TextField  poBoxCity;
 	private PasswordField  newPassword;
 	private PasswordField  confirmPassword;
-	private TextField  city;
-	private TextField  appartmentNumber;
-	private TextField  buildingNumber;
-	private TextField  contractNo;
+	private Label  city;
+	private Label  appartmentNumber;
+	private Label  buildingNumber;
+	private Label  contractNo;
 	private TextField  phone;
 	private TextField  mobile;
-	private TextField  status;
+//	private TextField  status;
 	private UserAccount user;
 
 	public EditUserProfile(Navigator navigator) {
@@ -75,20 +76,16 @@ public class EditUserProfile extends VerticalLayout implements View {
 		confirmPassword.setInputPrompt("Confirm Password");
 		customLayout.addComponent(confirmPassword, "confirmPassword");
 		
-		city = new TextField("City");
-		city.setInputPrompt("City");
+		city = new Label("City: Dubai");
 		customLayout.addComponent(city, "city");
 		
-		appartmentNumber = new TextField("Appartment No.");
-		appartmentNumber.setInputPrompt("Appartment No.");
+		appartmentNumber = new Label("Appartment No: 1234");
 		customLayout.addComponent(appartmentNumber, "appartmentNumber");
 		
-		buildingNumber = new TextField("Building Number");
-		buildingNumber.setInputPrompt("Building Number");
+		buildingNumber = new Label("Building Number: 55");
 		customLayout.addComponent(buildingNumber, "buildingNumber");
 		
-		contractNo = new TextField("Account No.");
-		contractNo.setInputPrompt("Account No.");
+		contractNo = new Label("Account No.: 123");
 		customLayout.addComponent(contractNo, "accountId");
 		
 		phone = new TextField("Phone No.");
@@ -100,9 +97,9 @@ public class EditUserProfile extends VerticalLayout implements View {
 		customLayout.addComponent(mobile, "mobile");
 		
 
-		status = new TextField("Status");
-		status.setInputPrompt("Status");
-		customLayout.addComponent(status, "status");
+//		status = new TextField("Status");
+//		status.setInputPrompt("Status");
+//		customLayout.addComponent(status, "status");
 		
 		registerButton = new Button("Register");
 		// loginButton.addStyleName(Runo.BUTTON_BIG);
@@ -164,12 +161,12 @@ public class EditUserProfile extends VerticalLayout implements View {
 		boolean status = true;
 		resetFormValidation();
 
-		try {
-			contractNo.validate();
-		} catch (InvalidValueException e) {
-			contractNo.setComponentError(new UserError("This Field is required"));
-			status = false;
-		}
+//		try {
+//			contractNo.validate();
+//		} catch (InvalidValueException e) {
+//			contractNo.setComponentError(new UserError("This Field is required"));
+//			status = false;
+//		}
 
 		try {
 			newPassword.validate();
@@ -205,7 +202,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		buildingNumber.setComponentError(null);
 		city.setComponentError(null);
 		phone.setComponentError(null);
-		status.setComponentError(null);
+//		status.setComponentError(null);
 
 	}
 

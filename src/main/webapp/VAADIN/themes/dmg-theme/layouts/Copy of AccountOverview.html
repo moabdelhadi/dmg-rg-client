@@ -259,11 +259,11 @@ input[type=submit]:active {
     <section class="register">
     <div></div>
       <h1>Account Overview</h1>
-      <h2> <div location="name">Welcome, Husain</div></h2>
+      <h2> <div location="welcomeName">Welcome, Husain</div></h2>
       <p class="">Now you can manage your account online, where you can manage your payments</p>
       <div class="separator">&nbsp;</div>
 		  
-		  <div class="reg_section personal_info" location="userEmail">
+		  <div class="reg_section personal_info">
 			<table class="condensed-table">
 				<thead>
 					<tr>
@@ -319,12 +319,17 @@ input[type=submit]:active {
 						</tr>
 				</tbody>
 			</table>
-			<div style="float:left;">
-			<div class="separator">&nbsp;</div>
-			<div style="float:left;width:200px;" ><h4>Ammount Due date:</h4></div><div style="float:left;width:200px;"><h4>500AED</h4></div>
+			<div>
+				<div class="separator">&nbsp;</div>
+				<div>
+					<h4>
+						<div location="totalAmount">Ammount Due date: 500AED</div>
+					</h4>
+				</div>
 			</div>
+			 <p class="submit"><div location="payButton"><input type="submit" name="commit" value="Pay Online"></div></p>
 		  </div>
-		  <p class="submit"><div location="loginButton"><input type="submit" name="commit" value="Pay Online"></div></p>
+		 
     </section>
   </div>
  

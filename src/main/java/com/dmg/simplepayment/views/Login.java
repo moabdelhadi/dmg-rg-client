@@ -39,7 +39,9 @@ public class Login extends VerticalLayout implements View {
 	private TextField accountId;
 	private ComboBox citySelect;
 	private Button registerButton;
-
+	private TextField buildingNo;
+	private TextField apartmentNo;
+	
 	public Login(Navigator navigator) {
 		this.navigator = navigator;
 		init();
@@ -73,7 +75,15 @@ public class Login extends VerticalLayout implements View {
 		citySelect.addItem("ABUDHABI");
 		citySelect.setInputPrompt("City");
 		customLayout.addComponent(citySelect, "city");
-
+		
+		buildingNo = new TextField("Building No.");
+		buildingNo.setInputPrompt("Building Number");
+		customLayout.addComponent(buildingNo, "buildingNo");
+		
+		apartmentNo = new TextField("Apartment No.");
+		apartmentNo.setInputPrompt("Apartment Number");
+		customLayout.addComponent(apartmentNo, "apartmentNo");
+		
 		registerButton = new Button("Register");
 		// loginButton.addStyleName(Runo.BUTTON_BIG);
 		// loginButton.setClickShortcut(KeyCode.ENTER);

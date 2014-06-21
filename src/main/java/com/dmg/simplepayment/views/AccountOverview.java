@@ -3,7 +3,9 @@ package com.dmg.simplepayment.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dmg.simplepayment.beans.BellPrife;
+import org.apache.commons.lang.StringUtils;
+
+import com.dmg.simplepayment.beans.Bill;
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
@@ -41,6 +43,14 @@ public class AccountOverview extends VerticalLayout implements View {
 	/** Login Fileds **/
 	private Button payButton;
 
+	private UserAccount user;
+	
+	private Label name;
+	List<Label> dates =  new ArrayList<Label>();
+	List<Label> amounts =  new ArrayList<Label>();
+	List<Label> billViews =  new ArrayList<Label>();
+	
+	
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
 		init();
@@ -52,35 +62,39 @@ public class AccountOverview extends VerticalLayout implements View {
 		CustomLayout customLayout = new CustomLayout("AccountOverview");
 		// customLayout.setWidth("20%");
 		
-		Label welcomeName = new Label("Welcome Husain");
-		welcomeName.setStyleName("h1");
-		customLayout.addComponent(welcomeName, "welcomeName");
-		
+		name = new Label("");
+		name.setStyleName("h1");
+		customLayout.addComponent(name, "welcomeName");
 
-		
-		List<BellPrife> list = new ArrayList<BellPrife>();
-		list.add(new BellPrife("1", "May 01, 2014", "100"));
-		list.add(new BellPrife("2", "May 02, 2014", "200"));
-		list.add(new BellPrife("3", "May 03, 2014", "300"));
-		
+
 		int counter =0;
-		for (BellPrife bill : list) {
+
+		dates.clear();
+		amounts.clear();
+		billViews.clear();
+		
+		for (int i=0; i<3; i++) {
 			
-			Label date = new Label(bill.getDate());
+ 			Label date = new Label("..."+counter);
 			customLayout.addComponent(date, "date_"+counter);
+			dates.add(date);
 
-			Label amount = new Label(bill.getAmount());
+			Label amount = new Label("....."+counter);
 			customLayout.addComponent(amount, "amount_"+counter);
-
-			Label link = new Label(bill.getId());
+			amounts.add(amount);
+			
+			Label link = new Label("....."+counter);
 			customLayout.addComponent(link, "view_"+counter);
+			billViews.add(link);
 			
 			counter++;
 			
 		}
-		
 
-		Label totalAmount = new Label("Ammount Due date: "+ 500 +" AED");
+		
+		
+		
+		Label totalAmount = new Label("Ammount Due date: "+ " ??? " +" AED");
 		customLayout.addComponent(totalAmount, "totalAmount");
 
 		//payButton
@@ -106,8 +120,52 @@ public class AccountOverview extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		System.out.println("get in account overview");
+		
+		Logger.debug(this, "Get in Edit Account Overview View");
 
+		String parametersString = event.getParameters();
+		Logger.debug(this, "Parameters=" + parametersString);
+
+		String[] parameters = parametersString.split("/");
+
+		if (parameters == null || parameters.length != 2) {
+			Logger.error(this, "No Paratemeres Passed to this user or Parameters are error ");
+			return;
+		}
+
+		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
+			Logger.error(this, "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+			return;
+		}
+
+		UserAccount userAccount = new UserAccount();
+		userAccount.setContractNo(parameters[0]);
+		userAccount.setCity(parameters[1]);
+		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
+
+		if (accountFromAccountID == null) {
+			Logger.error(this, "No Valid user with this parameter");
+			return;
+		}
+		user = accountFromAccountID;
+		
+		name.setValue(user.getName());
+		 
+
+		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo());
+		
+		int counter = 0;
+		for (Bill bill : list) {
+			
+			dates.get(counter).setValue(bill.getCurrentReadingDate().toString());
+			amounts.get(counter).setValue(bill.getTotalAmount());
+			billViews.get(counter).setValue(bill.getContractNo());
+			counter++;
+			if(counter>=3){
+				break;
+			}
+			
+		}
 	}
 
 }

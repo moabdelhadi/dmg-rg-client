@@ -27,7 +27,7 @@ public class UserManager {
 		return INSTANCE;
 	}
 
-	public boolean login(UserAccount user) {
+	public UserAccount login(UserAccount user) throws UserManagerException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.USER_ACCOUNT_EMAIL, user.getEmail());
@@ -37,12 +37,13 @@ public class UserManager {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
 		} catch (DataAccessLayerException e) {
 			Logger.error(this, "Email is incorrect", e);
-			return false;
+			throw new UserManagerException("Error in login Please try again later",e) ;
+			
 		}
 
 		if (list == null) {
 			Logger.warn(this, "Email is incorrect");
-			return false;
+			throw new UserManagerException("Error in login Please check you username or password") ;
 		}
 
 		if (list.size() > 1) {
@@ -52,11 +53,17 @@ public class UserManager {
 
 		UserAccount userAccount = list.get(0);
 		String password = userAccount.getPassword();
-		if (!StringUtils.isEmpty(user.getPassword()) && user.getPassword().equals(password)) {
+		if (StringUtils.isEmpty(user.getPassword()) || !user.getPassword().equals(password)) {
 			Logger.info(this, "Login Success");
-			return true;
+			throw new UserManagerException("Error in login Please check you username or password") ;
 		}
-		return false;
+		
+		if(userAccount.getStatus()!=UserStatus.ACTIVE.value()){
+			throw new UserManagerException("Error in login This user is in active") ;
+		}
+		
+		
+		return userAccount;
 
 	}
 

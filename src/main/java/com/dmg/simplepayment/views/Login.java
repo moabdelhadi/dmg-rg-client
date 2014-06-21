@@ -1,14 +1,19 @@
 package com.dmg.simplepayment.views;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
+import com.dmg.util.Logger;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.AbstractErrorMessage.ContentMode;
+import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractField;
@@ -42,6 +47,8 @@ public class Login extends VerticalLayout implements View {
 	private TextField buildingNo;
 	private TextField apartmentNo;
 	
+	private String[] loginResultMessages= {"Login Success","Invalid User Email Or Password","User not activated yet please register first"};
+
 	public Login(Navigator navigator) {
 		this.navigator = navigator;
 		init();
@@ -54,9 +61,14 @@ public class Login extends VerticalLayout implements View {
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
 		loginEmail.setInputPrompt("User Email");
+		loginEmail.setRequired(true);
+		loginEmail.setRequiredError("Email is required");
+		loginEmail.addValidator(new EmailValidator("Please Enter Valid Email"));
 		customLayout.addComponent(loginEmail, "userEmail");
 
 		loginPassword = new PasswordField("Password");
+		loginPassword.setRequired(true);
+		loginPassword.setRequiredError("Password is required");
 		loginPassword.setInputPrompt("Password");
 		customLayout.addComponent(loginPassword, "userPassword");
 
@@ -67,23 +79,32 @@ public class Login extends VerticalLayout implements View {
 
 		// customLayout.setWidth("20%");
 		accountId = new TextField("Account No.");
+		accountId.setRequired(true);
 		accountId.setInputPrompt("Account No.");
+		accountId.setRequiredError("This feild is required");
 		customLayout.addComponent(accountId, "accountId");
 
 		citySelect = new ComboBox("City");
+		citySelect.setCaption("Select City");
+		citySelect.setRequired(true);
+		citySelect.setRequiredError("This feild is required");
 		citySelect.addItem("DUBAI");
 		citySelect.addItem("ABUDHABI");
 		citySelect.setInputPrompt("City");
 		customLayout.addComponent(citySelect, "city");
-		
+
 		buildingNo = new TextField("Building No.");
 		buildingNo.setInputPrompt("Building Number");
+		buildingNo.setRequired(true);
+		buildingNo.setRequiredError("This feild is required");
 		customLayout.addComponent(buildingNo, "buildingNo");
-		
+
 		apartmentNo = new TextField("Apartment No.");
 		apartmentNo.setInputPrompt("Apartment Number");
+		apartmentNo.setRequired(true);
+		apartmentNo.setRequiredError("This feild is required");
 		customLayout.addComponent(apartmentNo, "apartmentNo");
-		
+
 		registerButton = new Button("Register");
 		// loginButton.addStyleName(Runo.BUTTON_BIG);
 		// loginButton.setClickShortcut(KeyCode.ENTER);
@@ -112,22 +133,45 @@ public class Login extends VerticalLayout implements View {
 	}
 
 	private void registerNewUser() {
-		
+
 		if (!vaildateRegister()) {
 			return;
 		}
 		UserAccount user = new UserAccount();
 		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
-		
-		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
-		if(userAccount!=null){
-			navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-		}else{
-			Notification.show("ERROR", "Erro in account id or City",Notification.Type.ERROR_MESSAGE);
-		}
-	}
+		Logger.info(this,
+				"try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue()
+						+ " ,  apartment=" + apartmentNo.getValue() + " , Building=" + buildingNo.getValue());
 
+		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
+		if (userAccount == null) {
+			Logger.warn(this, "No User With accountId = " + accountId.getValue());
+			Notification.show("ERROR", "The input Data does not match an exsisting account",
+					Notification.Type.HUMANIZED_MESSAGE);
+			return;
+		}
+
+		if (userAccount.getStatus()!=0) {
+			Notification.show("ERROR", "This User Already registered, Please Login", Notification.Type.HUMANIZED_MESSAGE);
+			return;
+		}
+		
+		
+		if (!apartmentNo.getValue().equals(userAccount.getAppartmentNumber())) {
+			Logger.warn(this, "Apartment Does not match");
+			Notification.show("ERROR", "The input Data does not match an exsisting account",
+					Notification.Type.HUMANIZED_MESSAGE);
+			return;
+		}
+
+		if (!buildingNo.getValue().equals(userAccount.getBuildingNumber())) {
+			Notification.show("ERROR", "Building Does not match", Notification.Type.HUMANIZED_MESSAGE);
+			return;
+		}
+
+		navigator.navigateTo(Views.EDIT_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
+	}
 
 	private boolean vaildateRegister() {
 
@@ -137,15 +181,36 @@ public class Login extends VerticalLayout implements View {
 		try {
 			accountId.validate();
 		} catch (InvalidValueException e) {
-			accountId.setComponentError(new UserError("This Field is required"));
+
+			String htmlMessage = e.getHtmlMessage();
+			accountId.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
 			citySelect.validate();
 		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			citySelect.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
+
+		try {
+			buildingNo.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			buildingNo.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+
+		try {
+			apartmentNo.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			apartmentNo.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+
 		return status;
 
 	}
@@ -158,14 +223,18 @@ public class Login extends VerticalLayout implements View {
 		try {
 			loginEmail.validate();
 		} catch (InvalidValueException e) {
-			loginEmail.setComponentError(new UserError("This Field is required"));
+			String htmlMessage = e.getHtmlMessage();
+			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
 			loginPassword.validate();
 		} catch (InvalidValueException e) {
-			loginPassword.setComponentError(new UserError("This Field is required"));
+			String htmlMessage = e.getHtmlMessage();
+			loginPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			// loginPassword.setComponentError(new
+			// UserError("This Field is required"));
 			status = false;
 		}
 		return status;
@@ -178,6 +247,8 @@ public class Login extends VerticalLayout implements View {
 
 		accountId.setComponentError(null);
 		citySelect.setComponentError(null);
+		apartmentNo.setComponentError(null);
+		buildingNo.setComponentError(null);
 
 	}
 
@@ -186,21 +257,30 @@ public class Login extends VerticalLayout implements View {
 		if (!validateLogin()) {
 			return;
 		}
-		
+
 		UserAccount user = new UserAccount(loginEmail.getValue(), loginPassword.getValue());
 
-		boolean result = UserManager.getInstance().login(user);
-		
-		if(result){
-			navigator.navigateTo(Views.USER_PAGE);
-		}else{
-			Notification.show("Error", "The User Email or Password is incorrect", Type.ERROR_MESSAGE);
+		try{
+			UserAccount result = UserManager.getInstance().login(user);
+			if (result!=null) {
+				navigator.navigateTo(Views.USER_PAGE+"/"+result.getContractNo()+"/"+result.getCity());
+			} 
+
+		}catch(Exception e){
+			Notification.show("Error", e.getMessage(), Type.HUMANIZED_MESSAGE);
 		}
+
+		
+		
+//		{
+//			Notification.show("Error", loginResultMessages[result], Type.HUMANIZED_MESSAGE);
+//		}
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		Logger.debug(this, "Get IN LOGIN VIEW");
 		System.out.println("get in login");
 
 	}

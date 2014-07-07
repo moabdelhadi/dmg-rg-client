@@ -1,6 +1,8 @@
 package com.dmg.simplepayment.views;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +18,8 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -44,13 +48,12 @@ public class AccountOverview extends VerticalLayout implements View {
 	private Button payButton;
 
 	private UserAccount user;
-	
+
 	private Label name;
-	List<Label> dates =  new ArrayList<Label>();
-	List<Label> amounts =  new ArrayList<Label>();
-	List<Label> billViews =  new ArrayList<Label>();
-	
-	
+	List<Label> dates = new ArrayList<Label>();
+	List<Label> amounts = new ArrayList<Label>();
+	List<Button> billViews = new ArrayList<Button>();
+
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
 		init();
@@ -61,49 +64,45 @@ public class AccountOverview extends VerticalLayout implements View {
 		setSizeFull();
 		CustomLayout customLayout = new CustomLayout("AccountOverview");
 		// customLayout.setWidth("20%");
-		
+
 		name = new Label("");
 		name.setStyleName("h1");
 		customLayout.addComponent(name, "welcomeName");
 
-
-		int counter =0;
+		int counter = 0;
 
 		dates.clear();
 		amounts.clear();
 		billViews.clear();
-		
-		for (int i=0; i<3; i++) {
-			
- 			Label date = new Label("..."+counter);
-			customLayout.addComponent(date, "date_"+counter);
+
+		for (int i = 0; i < 3; i++) {
+
+			Label date = new Label("..." + counter);
+			customLayout.addComponent(date, "date_" + counter);
 			dates.add(date);
 
-			Label amount = new Label("....."+counter);
-			customLayout.addComponent(amount, "amount_"+counter);
+			Label amount = new Label("....." + counter);
+			customLayout.addComponent(amount, "amount_" + counter);
 			amounts.add(amount);
-			
-			Label link = new Label("....."+counter);
-			customLayout.addComponent(link, "view_"+counter);
+
+			Button link = new Button();
+			link.setIcon(new ThemeResource("img/BillIcon.png"));
+			link.addStyleName("viewButton");
+			customLayout.addComponent(link, "view_" + counter);
 			billViews.add(link);
-			
+
 			counter++;
-			
+
 		}
 
-		
-		
-		
-		Label totalAmount = new Label("Ammount Due date: "+ " ??? " +" AED");
+		Label totalAmount = new Label("Ammount Due date: " + " ??? " + " AED");
 		customLayout.addComponent(totalAmount, "totalAmount");
 
-		//payButton
-		
-		
+		// payButton
+
 		payButton = new Button("Pay Online");
 		payButton.addStyleName(Runo.BUTTON_BIG);
 		customLayout.addComponent(payButton, "payButton");
-
 
 		addComponent(customLayout);
 
@@ -116,7 +115,6 @@ public class AccountOverview extends VerticalLayout implements View {
 		});
 
 	}
-
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -157,9 +155,17 @@ public class AccountOverview extends VerticalLayout implements View {
 		int counter = 0;
 		for (Bill bill : list) {
 			
-			dates.get(counter).setValue(bill.getCurrentReadingDate().toString());
+			Date currentReadingDate = bill.getCurrentReadingDate();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			dates.get(counter).setValue(dateFormat.format(currentReadingDate));
 			amounts.get(counter).setValue(bill.getTotalAmount());
-			billViews.get(counter).setValue(bill.getContractNo());
+			Button button = billViews.get(counter);
+			BrowserWindowOpener opener = new BrowserWindowOpener(BillPopupUI.class);
+			opener.setFeatures("height=200,width=300,resizable");
+			opener.setParameter("accountId", bill.getContractNo());
+			opener.setParameter("billId", bill.getId().toString());
+			opener.extend(button);
+			
 			counter++;
 			if(counter>=3){
 				break;
@@ -167,5 +173,4 @@ public class AccountOverview extends VerticalLayout implements View {
 			
 		}
 	}
-
 }

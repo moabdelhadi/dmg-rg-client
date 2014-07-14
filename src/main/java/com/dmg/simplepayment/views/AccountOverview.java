@@ -1,5 +1,6 @@
 package com.dmg.simplepayment.views;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,9 +51,10 @@ public class AccountOverview extends VerticalLayout implements View {
 	private UserAccount user;
 
 	private Label name;
-	List<Label> dates = new ArrayList<Label>();
-	List<Label> amounts = new ArrayList<Label>();
-	List<Button> billViews = new ArrayList<Button>();
+	private List<Label> dates = new ArrayList<Label>();
+	private List<Label> amounts = new ArrayList<Label>();
+	private List<Button> billViews = new ArrayList<Button>();
+	private Label totalAmount;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -95,7 +97,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		}
 
-		Label totalAmount = new Label("Ammount Due date: " + " ??? " + " AED");
+		totalAmount = new Label("Ammount Due date: " + " ??? " + " AED");
 		customLayout.addComponent(totalAmount, "totalAmount");
 
 		// payButton
@@ -151,6 +153,11 @@ public class AccountOverview extends VerticalLayout implements View {
 		 
 
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo());
+		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
+		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
+		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
+		
+		totalAmount.setValue(subtract.toString());
 		
 		int counter = 0;
 		for (Bill bill : list) {
@@ -158,10 +165,10 @@ public class AccountOverview extends VerticalLayout implements View {
 			Date currentReadingDate = bill.getCurrentReadingDate();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			dates.get(counter).setValue(dateFormat.format(currentReadingDate));
-			amounts.get(counter).setValue(bill.getTotalAmount());
+			amounts.get(counter).setValue(bill.getTotalAmount().toString());
 			Button button = billViews.get(counter);
 			BrowserWindowOpener opener = new BrowserWindowOpener(BillPopupUI.class);
-			opener.setFeatures("height=200,width=300,resizable");
+			opener.setFeatures("resizable");
 			opener.setParameter("accountId", bill.getContractNo());
 			opener.setParameter("billId", bill.getId().toString());
 			opener.extend(button);

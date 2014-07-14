@@ -1,10 +1,12 @@
 package com.dmg.simplepayment.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import com.dmg.core.bean.AbstractPojo;
 
 @Entity
@@ -39,13 +41,16 @@ public class Bill extends AbstractPojo{
 	private String unitPrice;
 	
 	@Column(name = "AMT")
-	private String amount;
+	private BigDecimal amount;
 	
 	@Column(name = "TOTALAMT")
-	private String totalAmount;
+	private BigDecimal totalAmount;
 	
 	@Column(name = "CONTRACT_NO")
 	private String contractNo;
+	
+	@Column(name = "RECEIVED_AMT")
+	private BigDecimal receivedAmmount;
 	
 	public Bill() {
 
@@ -123,19 +128,19 @@ public class Bill extends AbstractPojo{
 		this.unitPrice = unitPrice;
 	}
 
-	public String getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
-	public String getTotalAmount() {
+	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(String totalAmount) {
+	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
@@ -145,6 +150,14 @@ public class Bill extends AbstractPojo{
 
 	public void setContractNo(String contractNo) {
 		this.contractNo = contractNo;
+	}
+	
+	public BigDecimal getReceivedAmmount() {
+		return receivedAmmount;
+	}
+
+	public void setReceivedAmmount(BigDecimal receivedAmmount) {
+		this.receivedAmmount = receivedAmmount;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.dmg.simplepayment.beans.UserAccount;
 
+
 /**
  * Interface for listening to logout events.
  * 

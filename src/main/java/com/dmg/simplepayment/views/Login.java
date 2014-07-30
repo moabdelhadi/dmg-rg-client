@@ -48,8 +48,16 @@ public class Login extends VerticalLayout implements View {
 	private TextField apartmentNo;
 	
 	private String[] loginResultMessages= {"Login Success","Invalid User Email Or Password","User not activated yet please register first"};
+	private String fragmentAndParameters;
 
 	public Login(Navigator navigator) {
+		this.fragmentAndParameters=null;
+		this.navigator = navigator;
+		init();
+	}
+
+	public Login(Navigator navigator2, String fragmentAndParameters) {
+		this.fragmentAndParameters=fragmentAndParameters;
 		this.navigator = navigator;
 		init();
 	}

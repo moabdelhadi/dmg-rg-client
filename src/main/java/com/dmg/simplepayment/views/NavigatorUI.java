@@ -2,6 +2,7 @@ package com.dmg.simplepayment.views;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.dmg.client.auth.SessionHandler;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -30,7 +31,7 @@ public class NavigatorUI extends UI {
 
 
 	@Override
-	protected void init(VaadinRequest request) {
+	protected void init(final VaadinRequest request) {
 		
 		getPage().setTitle("Royal Gas");
 
@@ -49,8 +50,20 @@ public class NavigatorUI extends UI {
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
-				// TODO Auto-generated method stub
-				return true;
+				
+				if (SessionHandler.get() == null) {
+					String fragmentAndParameters = event.getViewName();
+					if (event.getParameters() != null) {
+						fragmentAndParameters += "/";
+						fragmentAndParameters += event.getParameters();
+					}
+					navigator.getDisplay().showView(new Login(navigator, fragmentAndParameters));
+					return false;
+
+				} else {
+					return true;
+
+				}
 			}
 			
 			@Override

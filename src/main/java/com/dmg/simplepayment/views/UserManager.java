@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.dmg.client.auth.SessionHandler;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.simplepayment.beans.Constants;
@@ -61,6 +62,8 @@ public class UserManager {
 		if(userAccount.getStatus()!=UserStatus.ACTIVE.value()){
 			throw new UserManagerException("Error in login This user is in active") ;
 		}
+		
+		SessionHandler.setUser(userAccount);
 		
 		
 		return userAccount;

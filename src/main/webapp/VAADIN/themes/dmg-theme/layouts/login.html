@@ -5,40 +5,51 @@
   background: #FFFFFF;
   font-family:"Trebuchet MS",tahoma;
   width:550px;
-  height: 557px;
+  height: 900px;
 }
 
 .container {
-  width: 350px;
+  width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
 
 /* Form */
 .register {
-  position: relative;
-  margin-top:20px;
-  padding: 20px 20px 20px;
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 0 200px rgba(218, 191, 236, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+	position: relative;
+	margin-top: 20px;
+	padding: 20px 20px 20px;
+	background: #fff;
+	border-radius: 32px;
+	box-shadow: 0 0 55px #777777, 0 1px 2px rgba(0, 0, 0, 0.3);
+	width: 500px;
 }
 
 .register h1 {
-  margin: -20px -20px 0;
-  line-height: 40px;
-  font-size: 15px;
-  font-weight: bold;
-  color:#3024BE;
-  text-align: center;
-  border-bottom:1px solid #EDEDED;
+	margin: -20px -20px 0;
+	line-height: 40px;
+	font-size: 26px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	border-bottom: 1px solid #EDEDED;
+	background-color: darkblue;
+	border-radius: 32px 32px 0 0;
 }
 
 .register input[type=text], .register input[type=password] ,.register select,.register textarea {
-  width: 278px;
+  width: 450px;
+  height:15px;
+  align:center;
+  padding-top: 20px;
 }
 .register .submit{
-	padding-top: 10px;
+	padding-top: 20px;
+}
+
+.register .reg_section .field{
+	padding-top: 20px;
+	align:center;
 }
 
 
@@ -48,20 +59,21 @@
     <section class="register">
       <h1>Login to your Account</h1>
 		  <div class="reg_section personal_info" >
-				<div location="userEmail"></div>
-				<div location="userPassword"></div>
+				<div class="field" location="userEmail"></div>
+				<div class="field" location="userPassword"></div>
 		  </div>
 		  <div class="submit" location="loginButton"></div>
     </section>
   </div>
+  <div style="height:80px"></div>
   <div class="container">
     <section class="register">
       <h1>New User? Please Register</h1>
 		  <div class="reg_section personal_info">
-		  		<div location="accountId"></div>
-				<div location="city"></div>
-				<div location="buildingNo"></div>
-				<div location="apartmentNo"></div>
+		  		<div class="field" location="accountId"></div>
+				<div class="field" location="city"></div>
+				<div class="field" location="buildingNo"></div>
+				<div class="field" location="apartmentNo"></div>
 		  </div>
 		  <div class="submit" location="registerButton"></div>
     </section>

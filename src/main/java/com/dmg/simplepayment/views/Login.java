@@ -1,10 +1,6 @@
 package com.dmg.simplepayment.views;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.dmg.simplepayment.beans.UserAccount;
-import com.dmg.simplepayment.beans.UserStatus;
-import com.dmg.util.EncryptionUtil;
 import com.dmg.util.Logger;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
@@ -15,22 +11,17 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.themes.Runo;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Runo;
 
 public class Login extends VerticalLayout implements View {
 
@@ -68,6 +59,8 @@ public class Login extends VerticalLayout implements View {
 		CustomLayout customLayout = new CustomLayout("login");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
+		loginEmail.setHeight("30px");
+		loginEmail.setStyleName("h2");
 		loginEmail.setInputPrompt("User Email");
 		loginEmail.setRequired(true);
 		loginEmail.setRequiredError("Email is required");
@@ -75,6 +68,8 @@ public class Login extends VerticalLayout implements View {
 		customLayout.addComponent(loginEmail, "userEmail");
 
 		loginPassword = new PasswordField("Password");
+		loginPassword.setHeight("30px");
+		loginPassword.setStyleName("h2");
 		loginPassword.setRequired(true);
 		loginPassword.setRequiredError("Password is required");
 		loginPassword.setInputPrompt("Password");
@@ -87,12 +82,16 @@ public class Login extends VerticalLayout implements View {
 
 		// customLayout.setWidth("20%");
 		accountId = new TextField("Account No.");
+		accountId.setHeight("30px");
+		accountId.setStyleName("h2");
 		accountId.setRequired(true);
 		accountId.setInputPrompt("Account No.");
 		accountId.setRequiredError("This feild is required");
 		customLayout.addComponent(accountId, "accountId");
 
 		citySelect = new ComboBox("City");
+		citySelect.setHeight("30px");
+		citySelect.setStyleName("h2");
 		citySelect.setCaption("Select City");
 		citySelect.setRequired(true);
 		citySelect.setRequiredError("This feild is required");
@@ -102,12 +101,16 @@ public class Login extends VerticalLayout implements View {
 		customLayout.addComponent(citySelect, "city");
 
 		buildingNo = new TextField("Building No.");
+		buildingNo.setHeight("30px");
+		buildingNo.setStyleName("h2");
 		buildingNo.setInputPrompt("Building Number");
 		buildingNo.setRequired(true);
 		buildingNo.setRequiredError("This feild is required");
 		customLayout.addComponent(buildingNo, "buildingNo");
 
 		apartmentNo = new TextField("Apartment No.");
+		apartmentNo.setHeight("30px");
+		apartmentNo.setStyleName("h2");
 		apartmentNo.setInputPrompt("Apartment Number");
 		apartmentNo.setRequired(true);
 		apartmentNo.setRequiredError("This feild is required");
@@ -275,6 +278,7 @@ public class Login extends VerticalLayout implements View {
 			} 
 
 		}catch(Exception e){
+			Logger.error(this, "Error in login" , e);
 			Notification.show("Error", e.getMessage(), Type.HUMANIZED_MESSAGE);
 		}
 

@@ -2,6 +2,8 @@ package com.dmg.simplepayment.views;
 
 import javax.servlet.annotation.WebServlet;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -51,13 +53,19 @@ public class NavigatorUI extends UI {
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				
+				String viewName = event.getViewName();
+				
+				if(StringUtils.equals(viewName, Views.LOGIN)){
+					return true;
+				}
+				
 				if (SessionHandler.get() == null) {
-					String fragmentAndParameters = event.getViewName();
+					String fragmentAndParameters = viewName;
 					if (event.getParameters() != null) {
 						fragmentAndParameters += "/";
 						fragmentAndParameters += event.getParameters();
 					}
-					navigator.getDisplay().showView(new Login(navigator, fragmentAndParameters));
+					navigator.navigateTo(Views.LOGIN);
 					return false;
 
 				} else {

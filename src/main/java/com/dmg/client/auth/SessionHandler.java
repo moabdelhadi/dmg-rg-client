@@ -41,6 +41,10 @@ public class SessionHandler implements Serializable {
 	 * @param user
 	 */
 	public static void setUser(UserAccount user) {
+		SessionHandler current = getCurrent();
+		if(current==null){
+			initialize();
+		}
 		getCurrent().user = user;
 	}
 
@@ -51,7 +55,12 @@ public class SessionHandler implements Serializable {
 	 * @return The currently inlogged user
 	 */
 	public static UserAccount get() {
-		return getCurrent().user;
+		
+		SessionHandler current = getCurrent();
+		if(current==null){
+			return null;
+		}
+		return current.user;
 	}
 
 	/**

@@ -12,6 +12,8 @@ import com.dmg.util.Logger;
 import com.vaadin.data.Validator;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.IntegerRangeValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -44,7 +46,9 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private Label buildingNumber;
 	private Label contractNo;
 	private TextField phone;
+	private TextField phonePrefix;
 	private TextField mobile;
+	private TextField mobilePrefix;
 	// private TextField status;
 	private UserAccount user;
 
@@ -57,62 +61,103 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		setSizeFull();
 		CustomLayout customLayout = new CustomLayout("register");
-		customLayout.setHeight("760px");
+//		customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
 		loginEmail.setInputPrompt("User Email");
 		loginEmail.setRequired(true);
+		loginEmail.setHeight("30px");
+		loginEmail.setStyleName("h2");
 		loginEmail.setRequiredError("This field is required");
 		loginEmail.addValidator(new EmailValidator("Please enter Valid Email"));
 		customLayout.addComponent(loginEmail, "userEmail");
 
 		name = new TextField("Full Name");
 		name.setInputPrompt("Full Name");
+		name.setEnabled(false);
 		name.setRequired(true);
+		name.setHeight("30px");
+		name.setStyleName("h2");
 		name.setRequiredError("This field is required");
 		customLayout.addComponent(name, "fullName");
 
 		poBox = new TextField("POBOX");
 		poBox.setInputPrompt("POBOX");
+		poBox.setHeight("30px");
+		poBox.setStyleName("h2");
 		customLayout.addComponent(poBox, "poBox");
 
 		poBoxCity = new TextField("POBOX CITY");
 		poBoxCity.setInputPrompt("POBOX CITY");
+		poBoxCity.setHeight("30px");
+		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");
 
 		newPassword = new PasswordField("New Password");
 		newPassword.setInputPrompt("New Password");
 		newPassword.setRequired(true);
+		newPassword.setHeight("30px");
+		newPassword.setStyleName("h2");
 		newPassword.setRequiredError("This field is required");
 		customLayout.addComponent(newPassword, "newPassword");
 
 		confirmPassword = new PasswordField("Confirm Password");
 		confirmPassword.setInputPrompt("Confirm Password");
 		confirmPassword.setRequired(true);
+		confirmPassword.setHeight("30px");
+		confirmPassword.setStyleName("h2");
 		confirmPassword.setRequiredError("This field is required");
 
 		customLayout.addComponent(confirmPassword, "confirmPassword");
 
 		city = new Label();
+		city.setHeight("30px");
+		city.setStyleName("h2");
 		customLayout.addComponent(city, "city");
 
 		appartmentNumber = new Label();
+		appartmentNumber.setHeight("30px");
+		appartmentNumber.setStyleName("h2");
 		customLayout.addComponent(appartmentNumber, "appartmentNumber");
 
 		buildingNumber = new Label("Building Number: 55");
+		buildingNumber.setHeight("30px");
+		buildingNumber.setStyleName("h2");
 		customLayout.addComponent(buildingNumber, "buildingNumber");
 
 		contractNo = new Label("Account No.: 123");
+		contractNo.setHeight("30px");
+		contractNo.setStyleName("h2");
 		customLayout.addComponent(contractNo, "accountId");
 
-		phone = new TextField("Phone No.");
-		phone.setInputPrompt("Phone No.");
+		phonePrefix = new TextField("Phone No.");
+		phonePrefix.setInputPrompt("04");
+		phonePrefix.setHeight("30px");
+		phonePrefix.setStyleName("h2");
+		customLayout.addComponent(phonePrefix, "phonePrefix");
+		
+		phone = new TextField("");
+		phone.setInputPrompt("1234567");
+		phone.setHeight("30px");
+		phone.setStyleName("h2");
 		customLayout.addComponent(phone, "phone");
 
-		mobile = new TextField("Mobile No.");
-		mobile.setInputPrompt("Mobile No.");
+		mobilePrefix = new TextField("Mobile No.");
+		mobilePrefix.setInputPrompt("050");
+		mobilePrefix.setRequired(true);
+		mobilePrefix.setHeight("30px");
+		mobilePrefix.setStyleName("h2");
+		mobilePrefix.setRequiredError("This field is required");
+		customLayout.addComponent(mobilePrefix, "mobilePrefix");
+
+		
+		mobile = new TextField("");
+		mobile.setInputPrompt("1234567");
 		mobile.setRequired(true);
+		mobile.setHeight("30px");
+		mobile.setStyleName("h2");
 		mobile.setRequiredError("This field is required");
+		mobile.setMaxLength(7);
 		customLayout.addComponent(mobile, "mobile");
 
 		registerButton = new Button("Register");
@@ -143,7 +188,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 			return;
 		}
 
-		user.setName(name.getValue());
+		//user.setName(name.getValue());
 		user.setStatus(UserStatus.ACTIVE.value());
 		user.setPobox(poBox.getValue());
 		user.setPoboxCity(poBoxCity.getValue());
@@ -179,13 +224,13 @@ public class EditUserProfile extends VerticalLayout implements View {
 			status = false;
 		}
 
-		try {
-			name.validate();
-		} catch (InvalidValueException e) {
-			String htmlMessage = e.getHtmlMessage();
-			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-			status = false;
-		}
+//		try {
+//			name.validate();
+//		} catch (InvalidValueException e) {
+//			String htmlMessage = e.getHtmlMessage();
+//			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+//			status = false;
+//		}
 
 		try {
 			poBox.validate();
@@ -233,12 +278,80 @@ public class EditUserProfile extends VerticalLayout implements View {
 			phone.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
+		
+		try{
+			if(phone!=null && phone.getValue()!=null && !phone.getValue().isEmpty()){
+				if(phone.getValue().trim().length()!=7){
+					phone.setComponentError(new UserError("Invalid Phone Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					status = false;
+				}
+				Integer.parseInt(phone.getValue());
+			}
+		}catch(Exception e){
+			phone.setComponentError(new UserError("Invalid Phone Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try {
+			phonePrefix.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			phonePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try{
+			if(phonePrefix!=null && phonePrefix.getValue()!=null && !phonePrefix.getValue().isEmpty()){
+				if(phonePrefix.getValue().trim().length()!=2){
+					phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					status = false;
+				}
+				Integer.parseInt(phonePrefix.getValue());
+			}
+		}catch(Exception e){
+			phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
 
 		try {
 			mobile.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
 			mobile.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try{
+			if(mobile!=null && mobile.getValue()!=null && !mobile.getValue().isEmpty()){
+				if(mobile.getValue().trim().length()!=7){
+					mobile.setComponentError(new UserError("Invalid mobile Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					status = false;
+				}
+				Integer.parseInt(mobile.getValue());
+			}
+		}catch(Exception e){
+			mobile.setComponentError(new UserError("Invalid mobile Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try {
+			mobilePrefix.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			mobilePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try{
+			if(mobilePrefix!=null && mobilePrefix.getValue()!=null && !mobilePrefix.getValue().isEmpty()){
+				if(mobilePrefix.getValue().trim().length()!=3){
+					mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					status = false;
+				}
+				Integer.parseInt(mobilePrefix.getValue());
+			}
+		}catch(Exception e){
+			mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -256,6 +369,10 @@ public class EditUserProfile extends VerticalLayout implements View {
 		buildingNumber.setComponentError(null);
 		city.setComponentError(null);
 		phone.setComponentError(null);
+		phonePrefix.setComponentError(null);
+		mobile.setComponentError(null);
+		mobilePrefix.setComponentError(null);
+		
 		// status.setComponentError(null);
 
 	}
@@ -293,48 +410,70 @@ public class EditUserProfile extends VerticalLayout implements View {
 		user = accountFromAccountID;
 
 		setUserValues();
+		resetFormValidation();
 
 	}
 
 	private void setUserValues() {
 
+		city.setValue("");
 		if (user.getCity() != null) {
 			city.setValue(user.getCity());
 		}
 
+		appartmentNumber.setValue("");
 		if (user.getAppartmentNumber() != null) {
 			appartmentNumber.setValue(user.getAppartmentNumber());
 		}
+		buildingNumber.setValue("");
 		if (user.getBuildingNumber() != null) {
 			buildingNumber.setValue(user.getBuildingNumber());
 		}
 
+		contractNo.setValue("");
 		if (user.getContractNo() != null) {
 			contractNo.setValue(user.getContractNo());
 		}
 
+		name.setValue("");
 		if (user.getName() != null) {
 			name.setValue(user.getName());
 		}
 
+		loginEmail.setValue("");
 		if (user.getEmail() != null) {
 			loginEmail.setValue(user.getEmail());
 		}
 
+		poBox.setValue("");
 		if (user.getPobox() != null) {
 			poBox.setValue(user.getPobox());
 		}
 
+		poBoxCity.setValue("");
 		if (user.getPoboxCity() != null) {
 			poBoxCity.setValue(user.getPoboxCity());
 		}
 
+		phone.setValue("");
+		phonePrefix.setValue("");
 		if (user.getPhone() != null) {
-			phone.setValue(user.getPhone());
+			String[] split = user.getPhone().split("/");
+			if(split.length==2){
+				phonePrefix.setValue(split[0]);
+				phone.setValue(split[1]);
+			}
+			
 		}
 
+		mobile.setValue("");
+		mobilePrefix.setValue("");
 		if (user.getMobile() != null) {
-			mobile.setValue(user.getMobile());
+			String[] split = user.getMobile().split("/");
+			if(split.length==2){
+				mobilePrefix.setValue(split[0]);
+				mobile.setValue(split[1]);
+			}
 		}
 
 	}

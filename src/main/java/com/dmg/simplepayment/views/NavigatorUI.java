@@ -55,7 +55,7 @@ public class NavigatorUI extends UI {
 				
 				String viewName = event.getViewName();
 				
-				if(StringUtils.equals(viewName, Views.LOGIN)){
+				if(StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName,  Views.EDIT_PROFILE_PAGE)){
 					return true;
 				}
 				

@@ -80,10 +80,12 @@ public class AccountOverview extends VerticalLayout implements View {
 		for (int i = 0; i < 3; i++) {
 
 			Label date = new Label("..." + counter);
+			date.setStyleName("table-td-font-size");
 			customLayout.addComponent(date, "date_" + counter);
 			dates.add(date);
 
 			Label amount = new Label("....." + counter);
+			amount.setStyleName("table-td-font-size");
 			customLayout.addComponent(amount, "amount_" + counter);
 			amounts.add(amount);
 

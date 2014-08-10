@@ -50,16 +50,16 @@ body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0,
 
 /* header */
 
-header { margin: 0 0 3em; }
-header:after { clear: both; content: ""; display: table; }
+.inv-header { margin: 0 0 3em; }
+.inv-header:after { clear: both; content: ""; display: table; }
 
-header h1 { background: #000; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; padding: 0.5em 0; }
-header address { float: left; font-size: 75%; font-style: normal; line-height: 1.25; margin: 0 1em 1em 0; }
-header address p { margin: 0 0 0.25em; }
-header span, header img { display: block; float: right; }
-header span { margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative; }
-header img { max-height: 100%; max-width: 100%; }
-header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
+.inv-header h1 { background: #000; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; padding: 0.5em 0; }
+.inv-header address { float: left; font-size: 75%; font-style: normal; line-height: 1.25; margin: 0 1em 1em 0; }
+.inv-header address p { margin: 0 0 0.25em; }
+.inv-header span, .inv-header img { display: block; float: right; }
+.inv-header span { margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative; }
+.inv-header img { max-height: 100%; max-width: 100%; }
+.inv-header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
 
 /* article */
 
@@ -149,8 +149,8 @@ tr:hover .cut { opacity: 1; }
 	
 	
 	</style>
-	<body>
-		<header>
+
+ 	<div class="inv-header">
 			<h1>Invoice</h1>
 			<address contenteditable>
 				<p>Jonathan Neal</p>
@@ -158,7 +158,7 @@ tr:hover .cut { opacity: 1; }
 				<p>(800) 555-1234</p>
 			</address>
 			<span><img alt="" src="logo.png"><input type="file" accept="image/*"></span>
-		</header>
+		</div>
 		<article>
 			<h1>Recipient</h1>
 			<address contenteditable>
@@ -198,7 +198,8 @@ tr:hover .cut { opacity: 1; }
 					</tr>
 				</tbody>
 			</table>
-			<a class="add">+</a>
+			
+			
 			<table class="balance">
 				<tr>
 					<th><span contenteditable>Total</span></th>

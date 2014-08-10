@@ -5,34 +5,66 @@
   background: #FFFFFF;
   font-family:"Trebuchet MS",tahoma;
   width:550px;
-  height: 557px;
+  height: 900px;
 }
 
 .container {
-  width: 350px;
+  width: 500px;
+  padding-top:50px;
   margin-left: auto;
   margin-right: auto;
 }
 
 /* Form */
 .register {
-  position: relative;
-  margin-top:20px;
-  padding: 20px 20px 20px;
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 0 200px rgba(218, 191, 236, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+	position: relative;
+	margin-top: 20px;
+	padding: 20px 20px 20px 20px;
+	background: #fff;
+	border-radius: 32px;
+	box-shadow: 0 0 55px #777777, 0 1px 2px rgba(0, 0, 0, 0.3);
+	width: 500px;
 }
 
 .register h1 {
-  margin: -20px -20px 0;
-  line-height: 40px;
-  font-size: 24px;
-  font-weight: bold;
-  color:#3024BE;
-  text-align: center;
-  border-bottom:1px solid #EDEDED;
+	margin: -20px -20px 0;
+	line-height: 40px;
+	font-size: 26px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	border-bottom: 1px solid #EDEDED;
+	background-color: darkblue;
+	border-radius: 32px 32px 0 0;
 }
+
+.welcome h2{
+	font-family: Helvetica, Arial, "Lucida Grande", Geneva, Tahoma, Verdana, sans-serif;
+	font-size: 24px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #44698b;
+	letter-spacing: -0.02em;
+	text-shadow: #fff 0 -1px 1px;
+	float:left;
+	margin-top: 0;
+}
+
+.welcome .welcomeName{
+	float:left;
+	margin-top: 0;
+	height: 30px;
+}
+
+.register .welcome{
+	padding-top: 30px;
+	
+}
+
+.register .welcomeMessage{
+	font-size: 17px;
+}
+
 
 .register input[type=text], .register input[type=password] ,.register select,.register textarea {
   width: 278px;
@@ -52,14 +84,30 @@
 .viewButton span {
 	 background-image: none !important;
  }
+ 
+.register .separatoe{
+	clear:both;
+}
+
+.condensed-table th{
+	font-size: 20px;
+	color: rgb(167, 65, 78);
+}
+
+.table-td-font-size{
+	font-size: 20px;
+}
 
 </style>
   <div class="container">
     <section class="register">
     <div></div>
       <h1>Account Overview</h1>
-      <h2> Welcome </h2><div location="welcomeName"></div>
-      <p class="">Now you can manage your account online, where you can manage your payments</p>
+      <div class="welcome">
+      	<div class="welcomeName"><h2 > Welcome:&nbsp; </h2></div><div class="welcomeName" location="welcomeName"></div>
+      </div>
+      <div class="separatoe"></div>
+      <p class="welcomeMessage">Now you can manage your account online, where you can manage your payments</p>
       <div class="separator">&nbsp;</div>
 		  
 		  <div class="reg_section personal_info">
@@ -120,8 +168,9 @@
 						<div style="float:left">Ammount Due date:&nbsp;&nbsp;</div><div style="float:left" location="totalAmount"></div>&nbsp;&nbsp; AED
 					</h4>
 				</div>
+				<div><p>Please Note that An on line Fees 10 AED Will Be Added to your bill</p></div>
 			</div>
-			 <p class="submit"><div location="payButton"></div></p>
+			<div location="payButton"></div>
 		  </div>
 		 
     </section>

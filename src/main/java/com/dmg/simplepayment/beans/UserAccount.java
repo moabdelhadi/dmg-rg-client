@@ -64,9 +64,10 @@ public class UserAccount extends AbstractPojo {
 
 	}
 
-	public UserAccount(String email, String password) {
-		this.email = email;
+	public UserAccount(String accountNo, String password, String city) {
+		this.contractNo = accountNo;
 		this.password = password;
+		this.city = city;
 	}
 
 	public String getEmail() {

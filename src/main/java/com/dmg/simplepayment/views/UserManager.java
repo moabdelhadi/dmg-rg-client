@@ -31,42 +31,52 @@ public class UserManager {
 	public UserAccount login(UserAccount user) throws UserManagerException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_EMAIL, user.getEmail());
+		
+		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
+		parameters.put(Constants.USER_CITY , user.getCity());
+		
 
 		List<UserAccount> list=null;
+
 		try {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
 		} catch (DataAccessLayerException e) {
-			Logger.error(this, "Email is incorrect", e);
+			Logger.error(this, "Account ID or City is incorrect", e);
 			throw new UserManagerException("Error in login Please try again later",e) ;
-			
 		}
 
 		if (list == null) {
-			Logger.warn(this, "Email is incorrect");
+			Logger.warn(this, "Account ID or City is incorrect");
 			throw new UserManagerException("Error in login Please check you username or password") ;
 		}
 
 		if (list.size() > 1) {
-			Logger.warn(this, "Email is dublicated Please Check");
-
+			Logger.warn(this, "Account ID or City dublicated Please Check, account=" + user.getContractNo() + " , city="+user.getCity());
 		}
 
-		UserAccount userAccount = list.get(0);
-		String password = userAccount.getPassword();
-		if (StringUtils.isEmpty(user.getPassword()) || !user.getPassword().equals(password)) {
-			Logger.info(this, "Login Success");
-			throw new UserManagerException("Error in login Please check you username or password") ;
+		
+		
+		
+		for (UserAccount userAccount : list) {
+			
+			String password = userAccount.getPassword();
+			
+			if (StringUtils.isNotEmpty(user.getPassword()) && user.getPassword().equals(password)) {
+			
+				Logger.info(this, "Login Success");
+
+				if(userAccount.getStatus()!=UserStatus.ACTIVE.value()){
+					Logger.warn(this, "Login Success, but user is not active");
+					throw new UserManagerException("Error in login This user is in active") ;
+				}
+				
+				SessionHandler.setUser(userAccount);
+				return userAccount;
+				
+			}
 		}
 		
-		if(userAccount.getStatus()!=UserStatus.ACTIVE.value()){
-			throw new UserManagerException("Error in login This user is in active") ;
-		}
-		
-		SessionHandler.setUser(userAccount);
-		
-		
-		return userAccount;
+		throw new UserManagerException("Error in login Please check you password") ;
 
 	}
 

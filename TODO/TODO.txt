@@ -1,7 +1,13 @@
+1- Forget Password Message
+1- Forget Password Button
 
-1- Register Design
+2- Invoice: Footer Message
+3- Invoice: Service , FEES
+
 2- Confirm Email
-3- Invoice
+
 4- Connector DB
+
 5- Connector Code
+
 6- Payment

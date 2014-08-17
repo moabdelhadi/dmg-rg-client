@@ -1,9 +1,14 @@
 package com.dmg.simplepayment.views;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
+import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -28,7 +33,8 @@ public class Login extends VerticalLayout implements View {
 	private Navigator navigator;
 
 	/** Login Fileds **/
-	private TextField loginEmail;
+	private TextField loginAccountId;
+	private ComboBox loginCitySelect;
 	private PasswordField loginPassword;
 	private Button loginButton;
 
@@ -58,14 +64,28 @@ public class Login extends VerticalLayout implements View {
 		setSizeFull();
 		CustomLayout customLayout = new CustomLayout("login");
 		// customLayout.setWidth("20%");
-		loginEmail = new TextField("User Email");
-		loginEmail.setHeight("30px");
-		loginEmail.setStyleName("h2");
-		loginEmail.setInputPrompt("User Email");
-		loginEmail.setRequired(true);
-		loginEmail.setRequiredError("Email is required");
-		loginEmail.addValidator(new EmailValidator("Please Enter Valid Email"));
-		customLayout.addComponent(loginEmail, "userEmail");
+		loginAccountId = new TextField("Account No.");
+		loginAccountId.setHeight("30px");
+		loginAccountId.setStyleName("h2");
+		loginAccountId.setInputPrompt("Account No.");
+		loginAccountId.setRequired(true);
+		loginAccountId.setRequiredError("Account Number is required");
+		customLayout.addComponent(loginAccountId, "userAccount");
+		
+		
+		loginCitySelect = new ComboBox("City");
+		loginCitySelect.setHeight("30px");
+		loginCitySelect.setWidth("200px");
+		loginCitySelect.setStyleName("h2");
+		loginCitySelect.setCaption("Select City");
+		loginCitySelect.setRequired(true);
+		loginCitySelect.setRequiredError("This feild is required");
+		loginCitySelect.setNullSelectionAllowed(false);
+		loginCitySelect.addItem("DUBAI");
+		loginCitySelect.addItem("ABUDHABI");
+		loginCitySelect.setInputPrompt("City");
+		customLayout.addComponent(loginCitySelect, "userCity");
+		
 
 		loginPassword = new PasswordField("Password");
 		loginPassword.setHeight("30px");
@@ -91,6 +111,7 @@ public class Login extends VerticalLayout implements View {
 
 		citySelect = new ComboBox("City");
 		citySelect.setHeight("30px");
+		citySelect.setWidth("200px");
 		citySelect.setStyleName("h2");
 		citySelect.setCaption("Select City");
 		citySelect.setRequired(true);
@@ -98,6 +119,7 @@ public class Login extends VerticalLayout implements View {
 		citySelect.addItem("DUBAI");
 		citySelect.addItem("ABUDHABI");
 		citySelect.setInputPrompt("City");
+		citySelect.setNullSelectionAllowed(false);
 		customLayout.addComponent(citySelect, "city");
 
 		buildingNo = new TextField("Building No.");
@@ -231,11 +253,20 @@ public class Login extends VerticalLayout implements View {
 		boolean status = true;
 		resetFormValidation();
 
+
 		try {
-			loginEmail.validate();
+			loginCitySelect.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			loginCitySelect.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
+		
+		try {
+			loginAccountId.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			loginAccountId.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -253,9 +284,10 @@ public class Login extends VerticalLayout implements View {
 
 	private void resetFormValidation() {
 
-		loginEmail.setComponentError(null);
+		loginAccountId.setComponentError(null);
 		loginPassword.setComponentError(null);
-
+		loginCitySelect.setComponentError(null);
+		
 		accountId.setComponentError(null);
 		citySelect.setComponentError(null);
 		apartmentNo.setComponentError(null);
@@ -269,7 +301,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		UserAccount user = new UserAccount(loginEmail.getValue(), loginPassword.getValue());
+		UserAccount user = new UserAccount(loginAccountId.getValue(), loginPassword.getValue(), loginCitySelect.getValue().toString());
 
 		try{
 			UserAccount result = UserManager.getInstance().login(user);

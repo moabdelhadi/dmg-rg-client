@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.dmg.client.auth.SessionHandler;
 import com.dmg.simplepayment.beans.Bill;
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.simplepayment.beans.UserStatus;
@@ -123,26 +124,15 @@ public class AccountOverview extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		
-		Logger.debug(this, "Get in Edit Account Overview View");
-
-		String parametersString = event.getParameters();
-		Logger.debug(this, "Parameters=" + parametersString);
-
-		String[] parameters = parametersString.split("/");
-
-		if (parameters == null || parameters.length != 2) {
-			Logger.error(this, "No Paratemeres Passed to this user or Parameters are error ");
+		UserAccount userAccount = SessionHandler.get();
+		
+		if(userAccount==null){
+			navigator.navigateTo(Views.LOGIN);
 			return;
 		}
+		
+		
 
-		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			Logger.error(this, "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
-			return;
-		}
-
-		UserAccount userAccount = new UserAccount();
-		userAccount.setContractNo(parameters[0]);
-		userAccount.setCity(parameters[1]);
 		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
 
 		if (accountFromAccountID == null) {
@@ -170,7 +160,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			amounts.get(counter).setValue(bill.getTotalAmount().toString());
 			Button button = billViews.get(counter);
 			BrowserWindowOpener opener = new BrowserWindowOpener(BillPopupUI.class);
-			opener.setFeatures("resizable");
+			opener.setFeatures("");
 			opener.setParameter("accountId", bill.getContractNo());
 			opener.setParameter("billId", bill.getId().toString());
 			opener.extend(button);

@@ -42,5 +42,18 @@ public class BillManager {
 		
 		return list;
 	}
+	
+	public Bill getBillById(Long id){
+		
+		Bill bill=null;
+		try {
+			bill = FacadeFactory.getFacade().find(Bill.class, id);
+		} catch (DataAccessLayerException e) {
+			Logger.error(this, "Error in get bill form id ="+id, e);
+			e.printStackTrace();
+		}
+		return bill;
+		
+	}
 
 }

@@ -1,7 +1,7 @@
-1- Forget Password Message
 1- Forget Password Button
 
 2- Invoice: Footer Message
+
 3- Invoice: Service , FEES
 
 2- Confirm Email
@@ -11,3 +11,4 @@
 5- Connector Code
 
 6- Payment
+

@@ -95,11 +95,6 @@ public class Bill extends AbstractPojo {
 	private BigDecimal receivedAmmount;
 
 	
-	
-	
-	
-	
-	
 	public Bill() {
 
 	}

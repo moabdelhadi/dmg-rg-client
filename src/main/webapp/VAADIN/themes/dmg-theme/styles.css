@@ -7032,6 +7032,29 @@ body .dmg-theme.v-app .v-app-loading {
 	font-size: 20px;
 }
 
-.dmg-theme .dmg-theme .v-widget {
+.dmg-theme .v-widget {
 	font-size: 18px;
+}
+
+.dmg-theme .v-button-optViewButton {
+	border: none;
+	background: transparent url(img/png/blueButton2.png) no-repeat;
+	width: 180px;
+	height: 72px;
+}
+
+.dmg-theme .v-button-optViewButton:hover, .dmg-theme .v-button-optViewButton:active, .dmg-theme .v-button-optViewButton:focus {
+	background: transparent url(img/png/blueButton1.png) no-repeat;
+}
+
+.dmg-theme .v-button-optViewButton .v-button-wrap, .dmg-theme .v-button-optViewButton .v-button-wrap:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:active, .dmg-theme .v-button-optViewButton .v-button-wrap:focus, .dmg-theme .v-button-optViewButton:focus .v-button-wrap {
+	background-image: none;
+}
+
+.dmg-theme .v-button-optViewButton .v-button-caption, .dmg-theme .v-button-optViewButton .v-button-caption:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:hover .v-button-caption, .dmg-theme .v-button-optViewButton .v-button-wrap:hover .v-button-caption {
+	color: #FFFFFF;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 16px;
+	font-family: cursive;
 }

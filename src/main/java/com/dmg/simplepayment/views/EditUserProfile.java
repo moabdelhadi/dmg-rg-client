@@ -206,7 +206,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 			FacadeFactory.getFacade().store(user);
 			navigator.navigateTo(Views.ACTIVATION_PAGE);
 		} catch (DataAccessLayerException e) {
-			navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
+			//navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
 		}
 
 	}

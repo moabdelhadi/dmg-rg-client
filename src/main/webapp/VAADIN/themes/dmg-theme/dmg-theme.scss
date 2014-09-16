@@ -14,10 +14,35 @@
 	   font-size: 20px;
    }
    
-   .dmg-theme .v-widget{
+   .v-widget{
    	 font-size: 18px;
    }
-  
+   
+	.v-button-optViewButton {
+		border: none;
+		background: transparent url(img/png/blueButton2.png) no-repeat;
+		width: 180px;
+		height: 72px;
+	}
+
+	.v-button-optViewButton:hover, .dmg-theme .v-button-optViewButton:active {
+		background: transparent url(img/png/blueButton1.png) no-repeat;
+	}
+	
+	.v-button-optViewButton .v-button-wrap, .dmg-theme .v-button-optViewButton .v-button-wrap:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:active{
+		background-image: none;
+		float:left;
+		padding-left: 10px;
+	    padding-top: 19px;
+	}
+	
+	.v-button-optViewButton .v-button-caption{
+		color: #FFFFFF;
+		font-weight: normal;
+		font-size: 15px;
+		line-height: 16px;
+		font-family: cursive;
+	}
   
   
 }

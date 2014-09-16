@@ -36,6 +36,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
@@ -65,12 +66,23 @@ public class AccountOverview extends VerticalLayout implements View {
 	private void init() {
 
 		setSizeFull();
+		
+		HorizontalLayout hsplit = new HorizontalLayout();
+		//hsplit.setWidth("900px");
+
+		CustomLayout optionLayout = createOptionLayout();
+		
+		
+		hsplit.addComponent(optionLayout);
+		
+		
 		CustomLayout customLayout = new CustomLayout("AccountOverview");
 		// customLayout.setWidth("20%");
 
 		name = new Label("");
 		name.setStyleName("h1");
 		customLayout.addComponent(name, "welcomeName");
+		customLayout.setWidth("750px");
 
 		int counter = 0;
 
@@ -109,7 +121,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		payButton.addStyleName(Runo.BUTTON_BIG);
 		customLayout.addComponent(payButton, "payButton");
 
-		addComponent(customLayout);
+		hsplit.addComponent(customLayout);
+		addComponent(hsplit);
 
 		payButton.addClickListener(new ClickListener() {
 
@@ -119,6 +132,58 @@ public class AccountOverview extends VerticalLayout implements View {
 			}
 		});
 
+	}
+
+	private CustomLayout createOptionLayout() {
+		
+		CustomLayout customLayout = new CustomLayout("options");
+		customLayout.setWidth("188px");
+		customLayout.setStyleName("optionLayout");
+		
+		Button summary = new Button("Account Summary");
+		summary.addStyleName("optViewButton");
+//		summary.setHeight("75px");
+		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
+		
+		
+		Button editProfile = new Button("Edit Proifile");
+//		editProfile.setHeight("75px");
+		editProfile.addStyleName("optViewButton");
+		
+		
+		Button changePassword = new Button("Change Password");
+//		changePassword.setHeight("75px");
+		changePassword.addStyleName("optViewButton");
+		
+		customLayout.addComponent(summary, "summary");
+		customLayout.addComponent(editProfile, "edit_profile");
+		customLayout.addComponent(changePassword, "change_password");
+		
+		summary.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				navigator.navigateTo(Views.USER_PAGE);
+			}
+		});
+		
+		editProfile.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
+			}
+		});
+		
+		changePassword.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				navigator.navigateTo(Views.CONFIRMATION);
+			}
+		});
+		
+		return customLayout;
 	}
 
 	@Override

@@ -1,14 +1,8 @@
 package com.dmg.simplepayment.views;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
 import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
-import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -84,6 +78,7 @@ public class Login extends VerticalLayout implements View {
 		loginCitySelect.addItem("DUBAI");
 		loginCitySelect.addItem("ABUDHABI");
 		loginCitySelect.setInputPrompt("City");
+		loginCitySelect.setTextInputAllowed(false);
 		customLayout.addComponent(loginCitySelect, "userCity");
 		
 
@@ -120,6 +115,7 @@ public class Login extends VerticalLayout implements View {
 		citySelect.addItem("ABUDHABI");
 		citySelect.setInputPrompt("City");
 		citySelect.setNullSelectionAllowed(false);
+		citySelect.setTextInputAllowed(false);
 		customLayout.addComponent(citySelect, "city");
 
 		buildingNo = new TextField("Building No.");
@@ -203,7 +199,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		navigator.navigateTo(Views.EDIT_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
+		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
 	}
 
 	private boolean vaildateRegister() {

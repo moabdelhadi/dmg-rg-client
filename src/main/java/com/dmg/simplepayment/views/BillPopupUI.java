@@ -52,6 +52,7 @@ public class BillPopupUI extends UI {
 		setSizeFull();
 		setHeight("1200px");
 		CustomLayout customLayout = new CustomLayout("billView");
+		customLayout.setHeight("1200px");
 		setContent(customLayout);
 
 		ThemeResource source = new ThemeResource("img/adlogo.jpg");

@@ -7043,15 +7043,18 @@ body .dmg-theme.v-app .v-app-loading {
 	height: 72px;
 }
 
-.dmg-theme .v-button-optViewButton:hover, .dmg-theme .v-button-optViewButton:active, .dmg-theme .v-button-optViewButton:focus {
+.dmg-theme .v-button-optViewButton:hover, .dmg-theme .dmg-theme .v-button-optViewButton:active {
 	background: transparent url(img/png/blueButton1.png) no-repeat;
 }
 
-.dmg-theme .v-button-optViewButton .v-button-wrap, .dmg-theme .v-button-optViewButton .v-button-wrap:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:active, .dmg-theme .v-button-optViewButton .v-button-wrap:focus, .dmg-theme .v-button-optViewButton:focus .v-button-wrap {
+.dmg-theme .v-button-optViewButton .v-button-wrap, .dmg-theme .dmg-theme .v-button-optViewButton .v-button-wrap:hover, .dmg-theme .dmg-theme .v-button-optViewButton .v-button-wrap:active {
 	background-image: none;
+	float: left;
+	padding-left: 10px;
+	padding-top: 19px;
 }
 
-.dmg-theme .v-button-optViewButton .v-button-caption, .dmg-theme .v-button-optViewButton .v-button-caption:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:hover .v-button-caption, .dmg-theme .v-button-optViewButton .v-button-wrap:hover .v-button-caption {
+.dmg-theme .v-button-optViewButton .v-button-caption {
 	color: #FFFFFF;
 	font-weight: normal;
 	font-size: 15px;

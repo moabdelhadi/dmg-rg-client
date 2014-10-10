@@ -1,7 +1,5 @@
 1- Forget Password Button
 
-- resetPassword
-
 2- Invoice: Footer Message
 
 3- Invoice: Service , FEES
@@ -14,10 +12,10 @@
 
 6- Payment
 
-- Edit User Profile
+8 - Increase the Page Hight From Abdelrahman
 
-- Increase the Page Hight From Abdelrahman
-- city only select no text
+7 - User Should not be registerd if he go to EditProfile using Params 
+
 
 
 

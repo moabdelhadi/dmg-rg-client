@@ -45,6 +45,7 @@ public class NavigatorUI extends UI {
 		navigator.addView(Views.USER_PAGE, new AccountOverview(navigator));
 		navigator.addView(Views.EDIT_PROFILE_PAGE, new EditUserProfile(navigator));
 		navigator.addView(Views.ACTIVATION_PAGE, new WelcomeAfterRegister(navigator));
+		navigator.addView(Views.CHANGE_PASSWORD, new ChangePassword(navigator));
 		
 		navigator.addViewChangeListener(new ViewChangeListener() {
 			

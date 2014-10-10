@@ -25,7 +25,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -33,7 +32,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class EditUserProfile extends VerticalLayout implements View {
+public class RegisterUserProfile extends VerticalLayout implements View {
 
 	private Navigator navigator;
 	private Button registerButton;
@@ -55,7 +54,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private UserAccount user;
 	private boolean edit;
 
-	public EditUserProfile(Navigator navigator) {
+	public RegisterUserProfile(Navigator navigator) {
 		this.navigator = navigator;
 		init();
 	}
@@ -63,11 +62,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private void init() {
 
 		setSizeFull();
-		
-		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = createOptionLayout();
-		hsplit.addComponent(optionLayout);
-
 		
 		CustomLayout customLayout = new CustomLayout("register");
 //		customLayout.setHeight("760px");
@@ -174,9 +168,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		// loginButton.setClickShortcut(KeyCode.ENTER);
 		customLayout.addComponent(registerButton, "registerButton");
 
-		
-		hsplit.addComponent(customLayout);
-		addComponent(hsplit);
+		addComponent(customLayout);
 
 		registerButton.addClickListener(new ClickListener() {
 
@@ -186,59 +178,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 			}
 		});
 
-	}
-	
-	
-	private CustomLayout createOptionLayout() {
-		
-		CustomLayout customLayout = new CustomLayout("options");
-		customLayout.setWidth("188px");
-		customLayout.setStyleName("optionLayout");
-		
-		Button summary = new Button("Account Summary");
-		summary.addStyleName("optViewButton");
-//		summary.setHeight("75px");
-		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
-		
-		
-		Button editProfile = new Button("Edit Proifile");
-//		editProfile.setHeight("75px");
-		editProfile.addStyleName("optViewButton");
-		
-		
-		Button changePassword = new Button("Change Password");
-//		changePassword.setHeight("75px");
-		changePassword.addStyleName("optViewButton");
-		
-		customLayout.addComponent(summary, "summary");
-		customLayout.addComponent(editProfile, "edit_profile");
-		customLayout.addComponent(changePassword, "change_password");
-		
-		summary.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.USER_PAGE);
-			}
-		});
-		
-		editProfile.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-			}
-		});
-		
-		changePassword.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.CHANGE_PASSWORD);
-			}
-		});
-		
-		return customLayout;
 	}
 
 	private void registerNewUser() {
@@ -287,14 +226,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-
-//		try {
-//			name.validate();
-//		} catch (InvalidValueException e) {
-//			String htmlMessage = e.getHtmlMessage();
-//			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-//			status = false;
-//		}
 
 		try {
 			poBox.validate();

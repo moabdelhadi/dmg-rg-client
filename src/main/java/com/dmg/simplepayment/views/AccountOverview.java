@@ -68,11 +68,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		setSizeFull();
 		
 		HorizontalLayout hsplit = new HorizontalLayout();
-		//hsplit.setWidth("900px");
-
 		CustomLayout optionLayout = createOptionLayout();
-		
-		
 		hsplit.addComponent(optionLayout);
 		
 		
@@ -179,7 +175,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.CONFIRMATION);
+				navigator.navigateTo(Views.CHANGE_PASSWORD);
 			}
 		});
 		
@@ -196,8 +192,6 @@ public class AccountOverview extends VerticalLayout implements View {
 			return;
 		}
 		
-		
-
 		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
 
 		if (accountFromAccountID == null) {

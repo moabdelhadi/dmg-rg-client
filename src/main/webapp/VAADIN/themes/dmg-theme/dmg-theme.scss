@@ -25,11 +25,17 @@
 		height: 72px;
 	}
 
-	.v-button-optViewButton:hover, .dmg-theme .v-button-optViewButton:active {
+	.v-button-optViewButton:hover, .v-button-optViewButton:active, .v-button-optViewButton:focus {
 		background: transparent url(img/png/blueButton1.png) no-repeat;
 	}
 	
-	.v-button-optViewButton .v-button-wrap, .dmg-theme .v-button-optViewButton .v-button-wrap:hover, .dmg-theme .v-button-optViewButton .v-button-wrap:active{
+	.v-button-optViewButton .v-button-wrap,
+.v-button-optViewButton .v-button-wrap:hover, 
+.v-button-optViewButton .v-button-wrap:active, 
+.v-button-optViewButton .v-button-wrap:focus,
+.v-button-optViewButton:hover .v-button-wrap, 
+.v-button-optViewButton:active .v-button-wrap, 
+.v-button-optViewButton:focus .v-button-wrap{
 		background-image: none;
 		float:left;
 		padding-left: 10px;

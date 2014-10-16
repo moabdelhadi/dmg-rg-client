@@ -69,7 +69,7 @@ public class ChangePassword extends VerticalLayout implements View {
 
 		
 		CustomLayout customLayout = new CustomLayout("changePassword");
-
+		customLayout.setWidth("750px");
 		name = new TextField("Full Name");
 		name.setInputPrompt("Full Name");
 		name.setEnabled(false);

@@ -16,10 +16,6 @@
 
 7 - User Should not be registerd if he go to EditProfile using Params 
 
-
-
-
 A- METER READING TABLE
 B- INCREASE SERVER SIZE
 C- BEAMS MEETING
-

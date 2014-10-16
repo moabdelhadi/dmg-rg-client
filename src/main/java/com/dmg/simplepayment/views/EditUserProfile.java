@@ -70,6 +70,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		
 		CustomLayout customLayout = new CustomLayout("register");
+		customLayout.setWidth("750px");
 //		customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");

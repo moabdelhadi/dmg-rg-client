@@ -481,6 +481,9 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private UserAccount getUserFromSession() {
 		
 		UserAccount userAccount = SessionHandler.get();
+		if(userAccount==null){
+			return null;
+		}
 		UserAccount accountFromAccountID= UserManager.getInstance().getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
 	}

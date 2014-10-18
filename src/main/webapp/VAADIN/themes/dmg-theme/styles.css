@@ -7054,10 +7054,19 @@ body .dmg-theme.v-app .v-app-loading {
 	padding-top: 19px;
 }
 
+.dmg-theme .v-button-wrap {
+	padding-top: 0px;
+	height: 25px;
+}
+
 .dmg-theme .v-button-optViewButton .v-button-caption {
 	color: #FFFFFF;
 	font-weight: normal;
 	font-size: 15px;
 	line-height: 16px;
 	font-family: cursive;
+}
+
+.dmg-theme table.meta td .v-widget {
+	font-size: 12px;
 }

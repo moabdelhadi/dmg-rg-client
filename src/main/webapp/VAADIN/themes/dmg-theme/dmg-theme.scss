@@ -30,16 +30,21 @@
 	}
 	
 	.v-button-optViewButton .v-button-wrap,
-.v-button-optViewButton .v-button-wrap:hover, 
-.v-button-optViewButton .v-button-wrap:active, 
-.v-button-optViewButton .v-button-wrap:focus,
-.v-button-optViewButton:hover .v-button-wrap, 
-.v-button-optViewButton:active .v-button-wrap, 
-.v-button-optViewButton:focus .v-button-wrap{
+	.v-button-optViewButton .v-button-wrap:hover, 
+	.v-button-optViewButton .v-button-wrap:active, 
+	.v-button-optViewButton .v-button-wrap:focus,
+	.v-button-optViewButton:hover .v-button-wrap, 
+	.v-button-optViewButton:active .v-button-wrap, 
+	.v-button-optViewButton:focus .v-button-wrap{
 		background-image: none;
 		float:left;
 		padding-left: 10px;
 	    padding-top: 19px;
+	}
+	
+	.v-button-wrap{
+	    padding-top:0px;
+	    height:25px;
 	}
 	
 	.v-button-optViewButton .v-button-caption{
@@ -49,6 +54,8 @@
 		line-height: 16px;
 		font-family: cursive;
 	}
+	
+	table.meta td .v-widget{ font-size:12px; }
   
   
 }

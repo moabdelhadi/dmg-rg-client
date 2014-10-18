@@ -47,6 +47,7 @@ public class NavigatorUI extends UI {
 		navigator.addView(Views.ACTIVATION_PAGE, new WelcomeAfterRegister(navigator));
 		navigator.addView(Views.CHANGE_PASSWORD, new ChangePassword(navigator));
 		
+		
 		navigator.addViewChangeListener(new ViewChangeListener() {
 			
 			private static final long serialVersionUID = 9119189310920723601L;

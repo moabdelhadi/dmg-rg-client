@@ -1,21 +1,18 @@
-1- Forget Password Button
+1- full work flow
+2- Payment:
 
-2- Invoice: Footer Message
+3- Connector 
+4 - User Should not be registerd if he go to EditProfile using Params 
 
-3- Invoice: Service , FEES
+5- Invoice: Service , FEES
+6- Confirm Email
+7- Forget Password Button
 
-2- Confirm Email
+8- Connector DB
 
-4- Connector DB
 
-5- Connector Code
+9- Payment
 
-6- Payment
 
-8 - Increase the Page Hight From Abdelrahman
-
-7 - User Should not be registerd if he go to EditProfile using Params 
-
-A- METER READING TABLE
-B- INCREASE SERVER SIZE
-C- BEAMS MEETING
+10- METER READING TABLE
+11- BEAMS MEETING

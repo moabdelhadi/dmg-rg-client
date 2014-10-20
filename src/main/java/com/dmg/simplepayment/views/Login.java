@@ -199,7 +199,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
+		navigator.navigateTo(Views.EDIT_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
 	}
 
 	private boolean vaildateRegister() {
@@ -290,6 +290,19 @@ public class Login extends VerticalLayout implements View {
 		buildingNo.setComponentError(null);
 
 	}
+	
+	private void resetFormValues() {
+
+		loginAccountId.setValue("");
+		loginPassword.setValue("");
+		loginCitySelect.setValue(null);
+		
+		accountId.setValue("");
+		citySelect.setValue(null);
+		apartmentNo.setValue("");
+		buildingNo.setValue("");
+		
+	}
 
 	private void loginUser() {
 
@@ -320,9 +333,15 @@ public class Login extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
+		resetFormValidation();
+		resetFormValues();
+		
 		Logger.debug(this, "Get IN LOGIN VIEW");
 		System.out.println("get in login");
 
 	}
+
+
 
 }

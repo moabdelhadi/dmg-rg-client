@@ -577,6 +577,13 @@ public class EditUserProfile extends VerticalLayout implements View {
 				mobile.setValue(split[1]);
 			}
 		}
+		
+		newPassword.setValue("");
+		confirmPassword.setValue("");
+		if(user.getPassword() !=null){
+			newPassword.setValue(user.getPassword());
+			confirmPassword.setValue(user.getPassword());
+		}
 
 	}
 

@@ -63,17 +63,18 @@ public class Login extends VerticalLayout implements View {
 		loginAccountId.setStyleName("h2");
 		loginAccountId.setInputPrompt("Account No.");
 		loginAccountId.setRequired(true);
-		loginAccountId.setRequiredError("Account Number is required");
+		loginAccountId.setRequiredError("Please enter account number");
+//		loginAccountId.setWidth("200px");
 		customLayout.addComponent(loginAccountId, "userAccount");
 		
 		
 		loginCitySelect = new ComboBox("City");
 		loginCitySelect.setHeight("30px");
-		loginCitySelect.setWidth("200px");
+//		loginCitySelect.setWidth("200px");
 		loginCitySelect.setStyleName("h2");
-		loginCitySelect.setCaption("Select City");
+		loginCitySelect.setCaption("City");
 		loginCitySelect.setRequired(true);
-		loginCitySelect.setRequiredError("This feild is required");
+		loginCitySelect.setRequiredError("Please select your city");
 		loginCitySelect.setNullSelectionAllowed(false);
 		loginCitySelect.addItem("DUBAI");
 		loginCitySelect.addItem("ABUDHABI");
@@ -84,9 +85,10 @@ public class Login extends VerticalLayout implements View {
 
 		loginPassword = new PasswordField("Password");
 		loginPassword.setHeight("30px");
+//		loginPassword.setWidth("200px");
 		loginPassword.setStyleName("h2");
 		loginPassword.setRequired(true);
-		loginPassword.setRequiredError("Password is required");
+		loginPassword.setRequiredError("please enter you passwords");
 		loginPassword.setInputPrompt("Password");
 		customLayout.addComponent(loginPassword, "userPassword");
 
@@ -106,9 +108,9 @@ public class Login extends VerticalLayout implements View {
 
 		citySelect = new ComboBox("City");
 		citySelect.setHeight("30px");
-		citySelect.setWidth("200px");
+//		citySelect.setWidth("200px");
 		citySelect.setStyleName("h2");
-		citySelect.setCaption("Select City");
+		citySelect.setCaption("City");
 		citySelect.setRequired(true);
 		citySelect.setRequiredError("This feild is required");
 		citySelect.addItem("DUBAI");

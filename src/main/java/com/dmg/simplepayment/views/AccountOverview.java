@@ -68,7 +68,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		setSizeFull();
 		
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = createOptionLayout();
+		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
 		
 		
@@ -130,57 +130,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 	}
 
-	private CustomLayout createOptionLayout() {
-		
-		CustomLayout customLayout = new CustomLayout("options");
-		customLayout.setWidth("188px");
-		customLayout.setStyleName("optionLayout");
-		
-		Button summary = new Button("Account Summary");
-		summary.addStyleName("optViewButton");
-//		summary.setHeight("75px");
-		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
-		
-		
-		Button editProfile = new Button("Edit Proifile");
-//		editProfile.setHeight("75px");
-		editProfile.addStyleName("optViewButton");
-		
-		
-		Button changePassword = new Button("Change Password");
-//		changePassword.setHeight("75px");
-		changePassword.addStyleName("optViewButton");
-		
-		customLayout.addComponent(summary, "summary");
-		customLayout.addComponent(editProfile, "edit_profile");
-		customLayout.addComponent(changePassword, "change_password");
-		
-		summary.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.USER_PAGE);
-			}
-		});
-		
-		editProfile.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-			}
-		});
-		
-		changePassword.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.CHANGE_PASSWORD);
-			}
-		});
-		
-		return customLayout;
-	}
+	
 
 	@Override
 	public void enter(ViewChangeEvent event) {

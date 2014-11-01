@@ -1,5 +1,6 @@
 package com.dmg.simplepayment.views;
 
+import com.dmg.client.auth.SessionHandler;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomLayout;
@@ -32,21 +33,20 @@ public class AccountOptions {
 
 		Button summary = new Button("Account Summary");
 		summary.addStyleName("optViewButton");
-		// summary.setHeight("75px");
-		// summary.setIcon(new ThemeResource("img/blueButton.png"),
-		// "Account Summary");
 
 		Button editProfile = new Button("Edit Proifile");
-		// editProfile.setHeight("75px");
 		editProfile.addStyleName("optViewButton");
 
 		Button changePassword = new Button("Change Password");
-		// changePassword.setHeight("75px");
 		changePassword.addStyleName("optViewButton");
+
+		Button logoutUser = new Button("Logout");
+		logoutUser.addStyleName("optViewButton");
 
 		customLayout.addComponent(summary, "summary");
 		customLayout.addComponent(editProfile, "edit_profile");
 		customLayout.addComponent(changePassword, "change_password");
+		customLayout.addComponent(logoutUser, "logout_user");
 
 		summary.addClickListener(new ClickListener() {
 
@@ -69,6 +69,16 @@ public class AccountOptions {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				navigator.navigateTo(Views.CHANGE_PASSWORD);
+			}
+		});
+		
+		
+		logoutUser.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				SessionHandler.logout();
+				navigator.navigateTo(Views.LOGIN);
 			}
 		});
 

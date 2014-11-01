@@ -1,7 +1,4 @@
 1- full work flow
-	- LogOut Form
-	- SQUER FORMS
-	- NO Shadow
 	- Field Hint
 	- ICONS
 	

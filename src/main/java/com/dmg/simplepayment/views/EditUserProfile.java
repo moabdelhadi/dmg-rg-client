@@ -65,7 +65,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		setSizeFull();
 		
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = createOptionLayout();
+		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
 		

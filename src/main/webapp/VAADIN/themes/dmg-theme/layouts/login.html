@@ -49,15 +49,45 @@
 	padding-top: 20px;
 }
 
-.register .reg_section .field{
+.register .reg_section .field, .register .reg_section .help {
 	padding-top: 20px;
 	align:center;
+	float:left;
+}
+
+.register .reg_section .help {
+	padding-top: 48px;
+	padding-left: 10px;
 }
 
 .container p{
 	padding-left: 30px;
 	font-size: large;
 }
+
+.help a:hover span{
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 170px;
+	width: 320px;
+	margin: 0px;
+	padding: 10px;
+	color: #335500;
+	font-weight: normal;
+	background: #e5e5e5;
+	text-align: left;
+	border: 1px solid #666;
+	}
+	
+.help span{
+	display: none;
+}
+
+.field-help{
+    float:left;
+}
+
 
 </style>
   <div class="container">
@@ -77,10 +107,10 @@
     <section class="register">
       <h1>New User? Please Register</h1>
 		  <div class="reg_section personal_info">
-		  		<div class="field" location="accountId"></div>
-				<div class="field" location="city"></div>
-				<div class="field" location="buildingNo"></div>
-				<div class="field" location="apartmentNo"></div>
+		  		<div class="field-help"><div class="field" location="accountId"></div><div class="help"><a>?<span><img src="http://www.wickham43.net/littleegret.jpg" alt="Little Egret"></span></a></div></div>
+		  		<div class="field-help"><div class="field" location="city"></div><div class="help"><a>?<span><img src="http://www.wickham43.net/littleegret.jpg" alt="Little Egret"></span></a></div></div>
+		  		<div class="field-help"><div class="field" location="buildingNo"></div><div class="help"><a>?<span><img src="http://www.wickham43.net/littleegret.jpg" alt="Little Egret"></span></a></div></div>
+		  		<div class="field-help"><div class="field" location="apartmentNo"></div><div class="help"><a>?<span><img src="http://www.wickham43.net/littleegret.jpg" alt="Little Egret"></span></a></div></div>
 		  </div>
 		  <div class="submit" location="registerButton"></div>
     </section>

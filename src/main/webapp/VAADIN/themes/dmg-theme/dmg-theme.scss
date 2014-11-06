@@ -56,6 +56,217 @@
 	}
 	
 	table.meta td .v-widget{ font-size:12px; }
+	
+	.v-customlayout {
+	  font-family:"Trebuchet MS",tahoma;
+	  width:550px;
+	  height: 900px;
+
+	}
+
+	.container {
+	  width: 500px;
+	  margin-left: auto;
+	  margin-right: auto;
+	  padding-top:50px;
+	 }
+ 
+
+	/* Form */
+	.register {
+		position: relative;
+		margin-top: 20px;
+		padding: 20px 20px 20px;
+		background: #fff;
+		/* box-shadow: 0 0 55px #777777, 0 1px 2px rgba(0, 0, 0, 0.3);*/
+		width: 500px;
+		border: solid 1px grey;
+	}
+
+	.register .reg_section{
+		overflow: hidden;
+	} 
+
+	.register h1 {
+		margin: -20px -20px 0;
+		padding-left:20px;
+		line-height: 40px;
+		font-size: 26px;
+		font-weight: bold;
+		color: #FFFFFF;
+		text-align: left;
+		border-bottom: 1px solid #EDEDED;
+		background-color: rgb(35, 35, 105);
+		
+	}
+	
+	.register .welcome h2{
+		font-family: Helvetica, Arial, "Lucida Grande", Geneva, Tahoma, Verdana, sans-serif;
+		font-size: 24px;
+		line-height: 30px;
+		font-weight: bold;
+		color: #44698b;
+		letter-spacing: -0.02em;
+		text-shadow: #fff 0 -1px 1px;
+		float:left;
+		margin-top: 0;
+	}
+	
+	.register .welcome .welcomeName{
+		float:left;
+		margin-top: 0;
+		height: 30px;
+	}
+	
+	.register .welcome{
+		padding-top: 30px;
+		
+	}
+	
+	.register .welcomeMessage{
+		font-size: 17px;
+	}
+
+	.register input[type=text], .register input[type=password] ,.register select,.register textarea {
+	  width: 330px;
+	}
+
+	.register .submit{
+		padding-top: 20px;
+	}
+	
+	.register .reg_section .field, .register .reg_section .help {
+		padding-top: 20px;
+		align:center;
+		float:left;
+	}
+	
+	.register .reg_section .help {
+		padding-top: 48px;
+		padding-left: 10px;
+	}
+	
+	.register .reg_section .lable{
+		float:left;
+	
+	}
+	
+	.register .reg_section h2{
+		float:left;
+		font-size:16px;
+		margin:0;
+		font-weight: bold;
+		color: #44698b;
+	}
+	
+	.register .reg_section .field.mobilePrefix{
+		width:30px;
+		clear: left;
+	}
+	
+	
+	.register .mobilePrefix input[type=text]{
+		width:30px;
+		
+	}
+	
+	.register .mobile input[type=text]{
+		width:100px;
+	}
+	
+	.register .mobilePrefix{
+		float:left;
+		padding-right:20px;
+	}
+	
+	.register .mobile{
+		float:left;
+		padding-right:20px;
+	}
+	
+	.register .mobile .v-required-field-indicator{
+		display:none;
+	}
+	
+	.reg_section{
+		padding-top:10px;
+	}
+	
+	
+	.reg_section .separator{
+		clear:both;
+	}
+	
+	
+	.container p{
+		padding-left: 30px;
+		font-size: large;
+	}
+	
+	.help a:hover span{
+		display: block;
+		position: absolute;
+		top: 0px;
+		left: 170px;
+		width: 320px;
+		margin: 0px;
+		padding: 10px;
+		color: #335500;
+		font-weight: normal;
+		background: #e5e5e5;
+		text-align: left;
+		border: 1px solid #666;
+		}
+		
+	.help span{
+		display: none;
+	}
+	
+	.field-help{
+	    float:left;
+	}
+	
+	.condensed-table{
+	  font-size: 15px;
+	}
+	
+	.viewButton{
+	      background-image: none !important;
+	}
+	 
+	.viewButton span {
+		 background-image: none !important;
+	 }
+	 
+	.register .separatoe{
+		clear:both;
+	}
+	
+	.condensed-table th{
+		font-size: 20px;
+		color: rgb(167, 65, 78);
+	}
+	
+	.table-td-font-size{
+		font-size: 20px;
+	}
+	
+	
+	.options{
+		width:183px;
+		border-right-style: solid;
+		border-right-color: #BBBBBB;
+		height:100%
+	}
+	
+	.opt-header{
+		padding-top:40px;
+	}
+	
+	.options .opltion-list .opt-btn{
+		padding-top:8px;
+	}
+	
   
   
 }

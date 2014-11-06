@@ -1,5 +1,7 @@
 package com.dmg.simplepayment.views;
 
+import java.io.Serializable;
+
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -9,7 +11,7 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class AccountOptions implements View{
+public class AccountOptions implements Serializable{
 
 	/**
 	 * 
@@ -109,11 +111,6 @@ public class AccountOptions implements View{
 		});
 
 		return customLayout;
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-				
 	}
 
 }

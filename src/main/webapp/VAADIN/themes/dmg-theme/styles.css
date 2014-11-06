@@ -7072,3 +7072,201 @@ body .dmg-theme.v-app .v-app-loading {
 .dmg-theme table.meta td .v-widget {
 	font-size: 12px;
 }
+
+.dmg-theme .v-customlayout {
+	font-family: "Trebuchet MS", tahoma;
+	width: 550px;
+	height: 900px;
+}
+
+.dmg-theme .container {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 50px;
+}
+
+.dmg-theme .register {
+	position: relative;
+	margin-top: 20px;
+	padding: 20px 20px 20px;
+	background: #fff;
+	width: 500px;
+	border: solid 1px grey;
+}
+
+.dmg-theme .register .reg_section {
+	overflow: hidden;
+}
+
+.dmg-theme .register h1 {
+	margin: -20px -20px 0;
+	padding-left: 20px;
+	line-height: 40px;
+	font-size: 26px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: left;
+	border-bottom: 1px solid #EDEDED;
+	background-color: rgb(35, 35, 105);
+}
+
+.dmg-theme .register .welcome h2 {
+	font-family: Helvetica, Arial, "Lucida Grande", Geneva, Tahoma, Verdana, sans-serif;
+	font-size: 24px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #44698b;
+	letter-spacing: -0.02em;
+	text-shadow: #fff 0 -1px 1px;
+	float: left;
+	margin-top: 0;
+}
+
+.dmg-theme .register .welcome .welcomeName {
+	float: left;
+	margin-top: 0;
+	height: 30px;
+}
+
+.dmg-theme .register .welcome {
+	padding-top: 30px;
+}
+
+.dmg-theme .register .welcomeMessage {
+	font-size: 17px;
+}
+
+.dmg-theme .register input[type=text], .dmg-theme .register input[type=password], .dmg-theme .register select, .dmg-theme .register textarea {
+	width: 330px;
+}
+
+.dmg-theme .register .submit {
+	padding-top: 20px;
+}
+
+.dmg-theme .register .reg_section .field, .dmg-theme .register .reg_section .help {
+	padding-top: 20px;
+	align: center;
+	float: left;
+}
+
+.dmg-theme .register .reg_section .help {
+	padding-top: 48px;
+	padding-left: 10px;
+}
+
+.dmg-theme .register .reg_section .lable {
+	float: left;
+}
+
+.dmg-theme .register .reg_section h2 {
+	float: left;
+	font-size: 16px;
+	margin: 0;
+	font-weight: bold;
+	color: #44698b;
+}
+
+.dmg-theme .register .reg_section .field.mobilePrefix {
+	width: 30px;
+	clear: left;
+}
+
+.dmg-theme .register .mobilePrefix input[type=text] {
+	width: 30px;
+}
+
+.dmg-theme .register .mobile input[type=text] {
+	width: 100px;
+}
+
+.dmg-theme .register .mobilePrefix {
+	float: left;
+	padding-right: 20px;
+}
+
+.dmg-theme .register .mobile {
+	float: left;
+	padding-right: 20px;
+}
+
+.dmg-theme .register .mobile .v-required-field-indicator {
+	display: none;
+}
+
+.dmg-theme .reg_section {
+	padding-top: 10px;
+}
+
+.dmg-theme .reg_section .separator {
+	clear: both;
+}
+
+.dmg-theme .container p {
+	padding-left: 30px;
+	font-size: large;
+}
+
+.dmg-theme .help a:hover span {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 170px;
+	width: 320px;
+	margin: 0px;
+	padding: 10px;
+	color: #335500;
+	font-weight: normal;
+	background: #e5e5e5;
+	text-align: left;
+	border: 1px solid #666;
+}
+
+.dmg-theme .help span {
+	display: none;
+}
+
+.dmg-theme .field-help {
+	float: left;
+}
+
+.dmg-theme .condensed-table {
+	font-size: 15px;
+}
+
+.dmg-theme .viewButton {
+	background-image: none !important;
+}
+
+.dmg-theme .viewButton span {
+	background-image: none !important;
+}
+
+.dmg-theme .register .separatoe {
+	clear: both;
+}
+
+.dmg-theme .condensed-table th {
+	font-size: 20px;
+	color: rgb(167, 65, 78);
+}
+
+.dmg-theme .table-td-font-size {
+	font-size: 20px;
+}
+
+.dmg-theme .options {
+	width: 183px;
+	border-right-style: solid;
+	border-right-color: #BBBBBB;
+	height: 100%;
+}
+
+.dmg-theme .opt-header {
+	padding-top: 40px;
+}
+
+.dmg-theme .options .opltion-list .opt-btn {
+	padding-top: 8px;
+}

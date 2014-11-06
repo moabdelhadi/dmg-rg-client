@@ -6,44 +6,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.simplepayment.beans.Bill;
 import com.dmg.simplepayment.beans.UserAccount;
-import com.dmg.simplepayment.beans.UserStatus;
-import com.dmg.util.EncryptionUtil;
 import com.dmg.util.Logger;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.themes.Runo;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Runo;
 
 public class AccountOverview extends VerticalLayout implements View {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Navigator navigator;
 

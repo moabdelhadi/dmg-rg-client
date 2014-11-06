@@ -140,8 +140,10 @@ public class Login extends VerticalLayout implements View {
 		// loginButton.addStyleName(Runo.BUTTON_BIG);
 		// loginButton.setClickShortcut(KeyCode.ENTER);
 		customLayout.addComponent(registerButton, "registerButton");
+		
 
 		addComponent(customLayout);
+		
 
 		loginButton.addClickListener(new ClickListener() {
 

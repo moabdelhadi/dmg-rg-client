@@ -1,5 +1,4 @@
 1- full work flow
-	- Field Hint
 	- ICONS
 	
 2- Payment:

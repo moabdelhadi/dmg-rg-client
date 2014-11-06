@@ -2,13 +2,19 @@ package com.dmg.simplepayment.views;
 
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class AccountOptions {
+public class AccountOptions implements View{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static AccountOptions INSTANCE;
 	private Navigator navigator;
 
@@ -50,6 +56,11 @@ public class AccountOptions {
 
 		summary.addClickListener(new ClickListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				navigator.navigateTo(Views.USER_PAGE);
@@ -58,6 +69,11 @@ public class AccountOptions {
 
 		editProfile.addClickListener(new ClickListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
@@ -65,6 +81,11 @@ public class AccountOptions {
 		});
 
 		changePassword.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -75,6 +96,11 @@ public class AccountOptions {
 		
 		logoutUser.addClickListener(new ClickListener() {
 			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				SessionHandler.logout();
@@ -83,6 +109,11 @@ public class AccountOptions {
 		});
 
 		return customLayout;
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+				
 	}
 
 }

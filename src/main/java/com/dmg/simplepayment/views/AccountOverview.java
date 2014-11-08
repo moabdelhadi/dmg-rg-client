@@ -14,13 +14,16 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinServletService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
@@ -35,7 +38,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 	/** Login Fileds **/
 	private Button payButton;
-
+	
 	private UserAccount user;
 
 	private Label name;
@@ -111,6 +114,11 @@ public class AccountOverview extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Logger.info(this, "Pay on process");
+				VaadinServletService.getCurrentServletRequest();
+				
+//				Link open = new Link("Click to Show the Page",
+//					    new ExternalResource(servletPath + "/rhexample"),
+//					    "_blank", 500, 350, BorderStyle.DEFAULT);
 			}
 		});
 

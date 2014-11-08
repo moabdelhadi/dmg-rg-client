@@ -1,6 +1,41 @@
 1- full work flow
 	- ICONS
 	
+	fields: 
+	- city: 
+	Dubai & North Emirates
+	Abu Dhabi, Al Ain, & Western Region.
+	
+	due adate >> due 
+	
+	- as an online service fee
+	
+	- spilling
+	
+	- main page layout
+	
+	- parial payment to be allowed. 
+	
+	- change question mark to be small bill icon,
+	   write : for more detail please refere to bill photo.
+	   
+	 - phone number, email, mobile  example.
+	 
+	 - passwords rule.
+	 
+	 - note you will recieve sms on this mobile number.
+	 
+	 -spilling. 
+	 
+	 - enable edit names,
+	 please write your name as in you passport copy.
+	 
+	 
+	 - 
+	
+	
+	
+	
 2- Payment:
 3- Connector 
 4 - User Should not be registerd if he go to EditProfile using Params 

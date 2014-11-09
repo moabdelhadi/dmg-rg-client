@@ -39,7 +39,7 @@ public class AccountOptions implements Serializable{
 		customLayout.setWidth("188px");
 		customLayout.setStyleName("optionLayout");
 
-		Button summary = new Button("Account Summary");
+		Button summary = new Button("Account Overview");
 		summary.addStyleName("optViewButton");
 
 		Button editProfile = new Button("Edit Proifile");

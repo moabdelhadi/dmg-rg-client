@@ -2,19 +2,13 @@
 	- ICONS
 	
 	fields: 
-	- city: 
-	Dubai & North Emirates
-	Abu Dhabi, Al Ain, & Western Region.
 	
-	due adate >> due 
-	
-	- as an online service fee
 	
 	- spilling
 	
 	- main page layout
 	
-	- parial payment to be allowed. 
+	- partial payment to be allowed. 
 	
 	- change question mark to be small bill icon,
 	   write : for more detail please refere to bill photo.
@@ -56,3 +50,14 @@
 
 - art ascii
 
+
+DONE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+	- city: 
+	Dubai & Northern Emirates
+	Abu Dhabi, Alain & Western region
+	Abu Dhabi, Al Ain, & Western Region.
+	
+	due adate >> due 
+	- as an online service fee
+	

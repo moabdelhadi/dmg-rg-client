@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.13</vaadin.version>
+		<vaadin.version>7.3.2</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 	<repositories>
@@ -56,11 +56,8 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>fop</artifactId>
-			<version>0.93</version>
-		</dependency>
+
+
 
 		<!-- Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory). 
 			For widgetset compilation, vaadin-client-compiler is automatically added 
@@ -110,8 +107,23 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.3</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>0.93</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>formsender</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>ckeditor-wrapper-for-vaadin</artifactId>
+			<version>7.9.1</version>
+		</dependency>
 
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -211,7 +223,7 @@
 											vaadin-maven-plugin
 										</artifactId>
 										<versionRange>
-											[7.1.13,)
+											[7.3.2,)
 										</versionRange>
 										<goals>
 											<goal>resources</goal>

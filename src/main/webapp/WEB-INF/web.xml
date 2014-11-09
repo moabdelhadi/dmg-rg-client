@@ -29,8 +29,7 @@
 		<init-param>
 			<param-name>closeIdleSessions</param-name>
 			<param-value>true</param-value>
-		</init-param>	 
-		 
+		</init-param>
 	</servlet>
 
 	<servlet-mapping>

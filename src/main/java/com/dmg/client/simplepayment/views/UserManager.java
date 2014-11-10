@@ -1,4 +1,4 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,18 +7,18 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.dmg.client.auth.SessionHandler;
+import com.dmg.client.simplepayment.beans.Constants;
+import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.simplepayment.beans.Constants;
-import com.dmg.simplepayment.beans.UserAccount;
-import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.EncryptionUtil;
 import com.dmg.util.Logger;
-import com.dmg.util.PropertiesManager;
+//import com.dmg.util.PropertiesManager;
 
 public class UserManager {
 
-	private final String CONFIRMATION_BASE_PATH = PropertiesManager.getInstance().getProperty("confirmation_base_path");
+//	private final String CONFIRMATION_BASE_PATH = PropertiesManager.getInstance().getProperty("confirmation_base_path");
 	private static final UserManager INSTANCE = new UserManager();
 
 	private UserManager() {

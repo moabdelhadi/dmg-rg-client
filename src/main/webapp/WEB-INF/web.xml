@@ -15,7 +15,7 @@
 		<init-param>
 			<description>Vaadin UI class to use</description>
 			<param-name>UI</param-name>
-			<param-value>com.dmg.simplepayment.views.NavigatorUI</param-value>
+			<param-value>com.dmg.client.simplepayment.views.NavigatorUI</param-value>
 		</init-param>
 		<init-param>
 			<description>Application widgetset</description>

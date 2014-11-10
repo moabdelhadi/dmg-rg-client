@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dmg.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserAccount;
 import com.vaadin.server.VaadinService;
 
 /**

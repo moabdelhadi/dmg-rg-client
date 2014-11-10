@@ -1,4 +1,4 @@
-package com.dmg.simplepayment.beans;
+package com.dmg.client.simplepayment.beans;
 
 import java.math.BigDecimal;
 import java.util.Date;

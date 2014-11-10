@@ -1,4 +1,4 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -11,12 +11,17 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * This Can bee mereged with Confirmation Page.
+ *  This Should be a pop up to enter the email
  * @author mabdelhadi
  *
  */
-public class ResetPassword extends VerticalLayout implements View{ 
+public class ForgetPassword extends VerticalLayout implements View{ 
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private FormLayout form = new FormLayout();
 
@@ -24,7 +29,7 @@ public class ResetPassword extends VerticalLayout implements View{
 	private Label name;
 	private Button action;
 
-	public ResetPassword() {
+	public ForgetPassword() {
 
 		setWidth(600, Unit.PIXELS);
 		init();

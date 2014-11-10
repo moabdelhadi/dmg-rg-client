@@ -32,5 +32,5 @@
 
     <inherits name="org.vaadin.risto.formsender.widgetset.FormSenderWidgetset" />
 
-    <inherits name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
+    
 </module>

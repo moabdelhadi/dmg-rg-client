@@ -1,39 +1,39 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.dmg.client.auth.SessionHandler;
+import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.simplepayment.beans.UserAccount;
-import com.dmg.simplepayment.beans.UserStatus;
 import com.dmg.util.Logger;
-import com.vaadin.data.Validator;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.data.validator.IntegerRangeValidator;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.UserError;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class RegisterUserProfile extends VerticalLayout implements View {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Navigator navigator;
 	private Button registerButton;
 	private TextField loginEmail;

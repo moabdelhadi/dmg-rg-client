@@ -1,15 +1,13 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.io.Serializable;
 
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CustomLayout;
 
 public class AccountOptions implements Serializable{
 

@@ -1,4 +1,4 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 public class Views {
 	

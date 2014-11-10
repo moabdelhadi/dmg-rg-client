@@ -1,18 +1,14 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.dmg.client.auth.SessionHandler;
-import com.dmg.simplepayment.beans.Bill;
-import com.dmg.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.Bill;
+import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CustomLayout;
@@ -22,6 +18,11 @@ import com.vaadin.ui.UI;
 
 @Theme("dmg-theme")
 public class BillPopupUI extends UI {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void init(VaadinRequest request) {

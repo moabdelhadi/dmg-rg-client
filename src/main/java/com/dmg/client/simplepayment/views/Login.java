@@ -1,11 +1,10 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
-import com.dmg.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
-import com.vaadin.client.ui.VFilterSelect.Select;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
@@ -27,6 +26,11 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
 public class Login extends VerticalLayout implements View {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Navigator navigator;
 

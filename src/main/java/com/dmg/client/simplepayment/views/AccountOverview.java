@@ -1,4 +1,4 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -10,22 +10,20 @@ import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.dmg.client.auth.SessionHandler;
-import com.dmg.simplepayment.beans.Bill;
-import com.dmg.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.Bill;
+import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.shared.ui.Connect;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 

@@ -32,5 +32,4 @@
 
     <inherits name="org.vaadin.risto.formsender.widgetset.FormSenderWidgetset" />
 
-    
 </module>

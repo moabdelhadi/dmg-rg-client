@@ -7,7 +7,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ImageUtil {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ImageUtil.class);
 
 //	private static final int SIZE1_WIDTH = 600;
 //	private static final int SIZE2_WIDTH = 395;
@@ -39,7 +44,7 @@ public class ImageUtil {
 		File image = new File(filePath);
 		if(!image.exists()){
 	
-			Logger.error(ImageUtil.class, "Image does not exist in the path location:"+filePath);
+			logger.error("Image does not exist in the path location:"+filePath);
 			return null;
 //			throw new UtilException("Image does not exist in the path location:"+filePath);
 		}
@@ -74,11 +79,11 @@ public class ImageUtil {
 	public static BufferedImage overlayImage(BufferedImage layout, BufferedImage image, int x1, int y1,int desWidth, int desHeight  ){
 		
 		if(layout==null ){
-			Logger.error(ImageUtil.class, " Layout is null " );
+			logger.error(" Layout is null " );
 		}
 		
 		if(image==null){
-			Logger.error(ImageUtil.class, " Image is null " );
+			logger.error(" Image is null " );
 		}
 		
 		BufferedImage newImage = layout;

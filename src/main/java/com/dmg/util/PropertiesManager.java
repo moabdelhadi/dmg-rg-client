@@ -6,10 +6,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.dmg.client.servlet.HibernateListener;
+
 public class PropertiesManager {
 
 	private static PropertiesManager manager = null;
 	private static Properties properties = null;
+	private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
 	
 
 	private static final String PROPERTY_FILE = "conf.properties";
@@ -43,11 +49,11 @@ public class PropertiesManager {
 			properties.load(reader);
 
 		} catch (FileNotFoundException e) {
-			Logger.error(this, "Error in loading property file", e);
+			log.error( "Error in loading property file", e);
 			e.printStackTrace();
 
 		} catch (IOException e) {
-			Logger.error(this, "Error in loading property file", e);
+			log.error( "Error in loading property file", e);
 			e.printStackTrace();
 		}
 

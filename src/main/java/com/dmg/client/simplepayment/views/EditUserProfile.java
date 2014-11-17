@@ -1,15 +1,18 @@
 package com.dmg.client.simplepayment.views;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.util.Logger;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.Navigator;
@@ -34,7 +37,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final Logger logger = LoggerFactory.getLogger(EditUserProfile.class);
+
 	private Navigator navigator;
 	private Button registerButton;
 	private TextField loginEmail;
@@ -54,6 +58,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 	// private TextField status;
 	private UserAccount user;
 	private boolean edit;
+	private Map<String, String> cityMap = new HashMap<String, String>();
 
 	public EditUserProfile(Navigator navigator) {
 		this.navigator = navigator;
@@ -63,7 +68,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private void init() {
 
 		setSizeFull();
-		
+		cityMap.put("DUBAI", "Dubai & Northern Emirates");
+		cityMap.put("ABUDHABI", "Abu dhabi, Alain & Western Region");
 		HorizontalLayout hsplit = new HorizontalLayout();
 		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
@@ -181,6 +187,11 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		registerButton.addClickListener(new ClickListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				registerNewUser();
@@ -190,57 +201,67 @@ public class EditUserProfile extends VerticalLayout implements View {
 	}
 	
 	
-	private CustomLayout createOptionLayout() {
-		
-		CustomLayout customLayout = new CustomLayout("options");
-		customLayout.setWidth("188px");
-		customLayout.setStyleName("optionLayout");
-		
-		Button summary = new Button("Account Summary");
-		summary.addStyleName("optViewButton");
-//		summary.setHeight("75px");
-		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
-		
-		
-		Button editProfile = new Button("Edit Proifile");
-//		editProfile.setHeight("75px");
-		editProfile.addStyleName("optViewButton");
-		
-		
-		Button changePassword = new Button("Change Password");
-//		changePassword.setHeight("75px");
-		changePassword.addStyleName("optViewButton");
-		
-		customLayout.addComponent(summary, "summary");
-		customLayout.addComponent(editProfile, "edit_profile");
-		customLayout.addComponent(changePassword, "change_password");
-		
-		summary.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.USER_PAGE);
-			}
-		});
-		
-		editProfile.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-			}
-		});
-		
-		changePassword.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.CHANGE_PASSWORD);
-			}
-		});
-		
-		return customLayout;
-	}
+//	private CustomLayout createOptionLayout() {
+//		
+//		CustomLayout customLayout = new CustomLayout("options");
+//		customLayout.setWidth("188px");
+//		customLayout.setStyleName("optionLayout");
+//		
+//		Button summary = new Button("Account Summary");
+//		summary.addStyleName("optViewButton");
+////		summary.setHeight("75px");
+//		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
+//		
+//		
+//		Button editProfile = new Button("Edit Proifile");
+////		editProfile.setHeight("75px");
+//		editProfile.addStyleName("optViewButton");
+//		
+//		
+//		Button changePassword = new Button("Change Password");
+////		changePassword.setHeight("75px");
+//		changePassword.addStyleName("optViewButton");
+//		
+//		customLayout.addComponent(summary, "summary");
+//		customLayout.addComponent(editProfile, "edit_profile");
+//		customLayout.addComponent(changePassword, "change_password");
+//		
+//		summary.addClickListener(new ClickListener() {
+//			
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				navigator.navigateTo(Views.USER_PAGE);
+//			}
+//		});
+//		
+//		editProfile.addClickListener(new ClickListener() {
+//			
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
+//			}
+//		});
+//		
+//		changePassword.addClickListener(new ClickListener() {
+//			
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				navigator.navigateTo(Views.CHANGE_PASSWORD);
+//			}
+//		});
+//		
+//		return customLayout;
+//	}
 
 	private void registerNewUser() {
 
@@ -249,7 +270,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		}
 
 		if (user == null) {
-			Logger.error(this, "There is no User Values");
+			logger.error("There is no User Values");
 			return;
 		}
 
@@ -445,28 +466,28 @@ public class EditUserProfile extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		
-		Logger.debug(this, "Get in Edit User Profile Entree");
+		logger.debug("Get in Edit User Profile Entree");
 		
 		UserAccount accountFromAccountID = null;
 		accountFromAccountID = getuserFromParam(event.getParameters());
 		
 		if(accountFromAccountID!=null){
-			Logger.info(this, "Find User From Params");
+			logger.info("Find User From Params");
 			user = accountFromAccountID;
 			setEdit(false);
 		}else{
-			Logger.info(this, "No User From Params , try to find from session");
+			logger.info("No User From Params , try to find from session");
 			accountFromAccountID = getUserFromSession();
 			if(accountFromAccountID !=null){
 				user = accountFromAccountID;
 				setEdit(true);
-				Logger.info(this, "Find User From Session");
+				logger.info("Find User From Session");
 			}
 		}
 		
 
 		if(accountFromAccountID==null){
-			Logger.error(this,"No User Available");
+			logger.error("No User Available");
 			navigator.navigateTo(Views.LOGIN);
 			return ;
 		}
@@ -494,17 +515,17 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private UserAccount getuserFromParam(String parametersString) {
 		
 		
-		Logger.debug(this, "Parameters=" + parametersString);
+		logger.debug("Parameters=" + parametersString);
 
 		String[] parameters = parametersString.split("/");
 
 		if (parameters == null || parameters.length != 2) {
-			Logger.error(this, "No Paratemeres Passed to this user or Parameters are error ");
+			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
 			return null;
 		}
 
 		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			Logger.error(this, "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
 			return null;
 		}
 
@@ -520,7 +541,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		city.setValue("");
 		if (user.getCity() != null) {
-			city.setValue(user.getCity());
+			city.setValue(cityMap.get(user.getCity()));
 		}
 
 		appartmentNumber.setValue("");

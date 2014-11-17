@@ -14,8 +14,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class FileUtil {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
 	private static FileUtil fileUtil = new FileUtil();
 
@@ -29,7 +34,7 @@ public class FileUtil {
 				System.out.println("Delete faild for the file" + sourceFile.getName());
 			}
 		} catch (Exception e) {
-			Logger.error(fileUtil, "Error in moving file:" + sourceFile.getPath(), e);
+			logger.error("Error in moving file:" + sourceFile.getPath(), e);
 		}
 
 	}
@@ -45,7 +50,7 @@ public class FileUtil {
 	public static boolean copyFile(File sourceFile, File destFile) {
 
 		if (!sourceFile.exists()) {
-			Logger.warn("COPYFILE", "Error in copyFile: file does not exsist: " + sourceFile.getAbsolutePath());
+			logger.warn("Error in copyFile: file does not exsist: " + sourceFile.getAbsolutePath());
 			return false;
 		}
 
@@ -62,17 +67,17 @@ public class FileUtil {
 			destination.transferFrom(source, 0, source.size());
 			return true;
 		} catch (FileNotFoundException e) {
-			Logger.error(fileUtil, "Error in Copieing file:" + sourceFile.getPath(), e);
+			logger.error("Error in Copieing file:" + sourceFile.getPath(), e);
 			return false;
 		} catch (IOException e) {
-			Logger.error(fileUtil, "Error in Copieing file:" + sourceFile.getPath(), e);
+			logger.error("Error in Copieing file:" + sourceFile.getPath(), e);
 			return false;
 		} finally {
 			if (source != null) {
 				try {
 					source.close();
 				} catch (IOException e) {
-					Logger.error(fileUtil, "Error in moving file:" + sourceFile.getPath(), e);
+					logger.error("Error in moving file:" + sourceFile.getPath(), e);
 					throw new UtilException(e);
 				}
 			}
@@ -80,7 +85,7 @@ public class FileUtil {
 				try {
 					destination.close();
 				} catch (IOException e) {
-					Logger.error(fileUtil, "Error in moving file:" + sourceFile.getPath(), e);
+					logger.error( "Error in moving file:" + sourceFile.getPath(), e);
 					throw new UtilException(e);
 				}
 			}
@@ -119,10 +124,10 @@ public class FileUtil {
 			reader.close();
 			return true;
 		} catch (MalformedURLException e) {
-			Logger.error(fileUtil,"Error on loading file from: " +urlPath + "  to: "+ des, e);
+			logger.error("Error on loading file from: " +urlPath + "  to: "+ des, e);
 			return false;
 		} catch (IOException e) {
-			Logger.error(fileUtil,"Error on loading file from: " +urlPath + "  to: "+ des, e);
+			logger.error("Error on loading file from: " +urlPath + "  to: "+ des, e);
 			return false;
 		}
 

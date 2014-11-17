@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.Bill;
 import com.dmg.client.simplepayment.beans.UserAccount;
-import com.dmg.util.Logger;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -33,6 +34,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Logger log = LoggerFactory.getLogger(AccountOverview.class);
 
 	private Navigator navigator;
 
@@ -113,7 +115,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				Logger.info(this, "Pay on process");
+				log.info( "Pay on process");
 
 				FormSenderBuilder.create().withUI(getUI())
                 .withAction("sadasdas")
@@ -140,7 +142,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
 
 		if (accountFromAccountID == null) {
-			Logger.error(this, "No Valid user with this parameter");
+			log.error("No Valid user with this parameter");
 			return;
 		}
 		user = accountFromAccountID;

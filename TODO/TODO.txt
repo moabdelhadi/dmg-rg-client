@@ -2,13 +2,9 @@
 	- ICONS
 	
 	fields: 
+
+	- spelling
 	
-	- CITY
-	
-	- spilling
-	
-	- main page layout
-		
 	- change question mark to be small bill icon,
 	   write : for more detail please refere to bill photo.
 	   
@@ -18,14 +14,13 @@
 	 
 	 - note you will recieve sms on this mobile number.
 	 
-	 - enable edit names,
 	 please write your name as in you passport copy.
 	 
 	 
 	- partial payment to be allowed. 
 	
 	
-	
+	Logging config File Path
 	
 2- Payment:
 
@@ -53,10 +48,13 @@
 11- BEAMS MEETING
 
 
-- art ascii
+
 
 
 DONE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+- art ascii
+
 
 	- city: 
 	Dubai & Northern Emirates
@@ -65,4 +63,7 @@ DONE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	due adate >> due 
 	- as an online service fee
+	
+	- enable edit names,
+	
 	

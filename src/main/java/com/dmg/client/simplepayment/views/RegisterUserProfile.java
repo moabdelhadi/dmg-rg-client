@@ -3,13 +3,14 @@ package com.dmg.client.simplepayment.views;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.util.Logger;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.Navigator;
@@ -33,6 +34,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(RegisterUserProfile.class);
 	
 	private Navigator navigator;
 	private Button registerButton;
@@ -187,7 +190,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		}
 
 		if (user == null) {
-			Logger.error(this, "There is no User Values");
+			logger.error( "There is no User Values");
 			return;
 		}
 
@@ -375,28 +378,28 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		
-		Logger.debug(this, "Get in Edit User Profile Entree");
+		logger.debug("Get in Edit User Profile Entree");
 		
 		UserAccount accountFromAccountID = null;
 		accountFromAccountID = getuserFromParam(event.getParameters());
 		
 		if(accountFromAccountID!=null){
-			Logger.info(this, "Find User From Params");
+			logger.info("Find User From Params");
 			user = accountFromAccountID;
 			setEdit(false);
 		}else{
-			Logger.info(this, "No User From Params , try to find from session");
+			logger.info("No User From Params , try to find from session");
 			accountFromAccountID = getUserFromSession();
 			if(accountFromAccountID !=null){
 				user = accountFromAccountID;
 				setEdit(true);
-				Logger.info(this, "Find User From Session");
+				logger.info("Find User From Session");
 			}
 		}
 		
 
 		if(accountFromAccountID==null){
-			Logger.error(this,"No User Available");
+			logger.error("No User Available");
 			navigator.navigateTo(Views.LOGIN);
 			return ;
 		}
@@ -421,17 +424,17 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private UserAccount getuserFromParam(String parametersString) {
 		
 		
-		Logger.debug(this, "Parameters=" + parametersString);
+		logger.debug("Parameters=" + parametersString);
 
 		String[] parameters = parametersString.split("/");
 
 		if (parameters == null || parameters.length != 2) {
-			Logger.error(this, "No Paratemeres Passed to this user or Parameters are error ");
+			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
 			return null;
 		}
 
 		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			Logger.error(this, "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+			logger.error( "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
 			return null;
 		}
 

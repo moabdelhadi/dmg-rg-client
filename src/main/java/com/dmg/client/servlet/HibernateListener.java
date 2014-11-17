@@ -22,7 +22,8 @@ public class HibernateListener implements ServletContextListener {
 		logger.warn("SERVER IS GOING DOWN -> shutting down hibernate");
 		FacadeFactory.clear();
 		@SuppressWarnings("unchecked")
-		Set<PooledDataSource> pooledDataSourceSet = C3P0Registry.getPooledDataSources();
+		Set<PooledDataSource> pooledDataSourceSet = C3P0Registry
+				.getPooledDataSources();
 		for (PooledDataSource pooledDataSource : pooledDataSourceSet) {
 			try {
 				logger.warn("!!!CLOSING!!! the pooledDataSource");
@@ -37,24 +38,21 @@ public class HibernateListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		// http://www.network-science.de/ascii/ :: rectangles
+
 		logger.warn("Starting DMG-RG-ADMIN application DB session creation");
-		logger.warn("        db         88888888ba,    88b           d88  88  888b      88");
-		logger.warn("       d88b        88      `'8b   888b         d888  88  8888b     88");
-		logger.warn("      d8'`8b       88        `8b  88`8b       d8'88  88  88 `8b    88");
-		logger.warn("	  d8'  `8b      88         88  88 `8b     d8' 88  88  88  `8b   88");
-		logger.warn("	 d8YaaaaY8b     88         88  88  `8b   d8'  88  88  88   `8b  88");
-		logger.warn("   d8''''''''8b    88         8P  88   `8b d8'   88  88  88    `8b 88");
-		logger.warn("  d8'        `8b   88      .a8P   88    `888'    88  88  88     `8888");
-		logger.warn(" d8'          `8b  88888888Y''    88     `8'     88  88  88      `888");
+		logger.warn("   ___     _       ___     ___    _  _    _____");
+		logger.warn("   / __|   | |     |_ _|   | __|  | \\| |  |_   _|");
+		logger.warn("| (__    | |__    | |    | _|   | .` |    | |");
+		logger.warn("\\___|   |____|  |___|   |___|  |_|\\_|   _|_|_");
+		logger.warn("_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|");
+		logger.warn("\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'");
+
 		try {
 			FacadeFactory.registerFacade("dmg-rg-client", true);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("error in inialize the contextInitialized", e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("error in inialize the contextInitialized", e);
 		}
 
 	}

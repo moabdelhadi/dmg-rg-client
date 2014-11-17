@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.Bill;
 import com.dmg.client.simplepayment.beans.UserAccount;
-import com.dmg.util.Logger;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
@@ -23,6 +25,9 @@ public class BillPopupUI extends UI {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Logger log = LoggerFactory
+			.getLogger(BillManager.class);
+
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -32,7 +37,7 @@ public class BillPopupUI extends UI {
 		String billId = request.getParameter("billId");
 
 		if (userAccount == null) {
-			Logger.error(this, "User Not Available");
+			log.error("User Not Available");
 			return;
 		}
 
@@ -40,13 +45,13 @@ public class BillPopupUI extends UI {
 		try {
 			billIdValue = Long.parseLong(billId);
 		} catch (Exception e) {
-			Logger.error(this, "Invalis billId" + billId);
+			log.error("Invalis billId" + billId);
 			return;
 		}
 
 		Bill bill = BillManager.getInstance().getBillById(billIdValue);
 		if(bill==null){
-			Logger.error(this, "Invalis bill ID" + billId);
+			log.error( "Invalis bill ID" + billId);
 			return;
 		}
 		
@@ -98,7 +103,7 @@ public class BillPopupUI extends UI {
 		try {
 			value = label.toString();
 		} catch (Exception e) {
-			Logger.error(this, "error in convert decimal value");
+			log.error("error in convert decimal value",e);
 		}
 
 		Label lbl = new Label(value);
@@ -113,7 +118,7 @@ public class BillPopupUI extends UI {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			value= dateFormat.format(label);
 		} catch (Exception e) {
-			Logger.error(this, "error in convert decimal value");
+			log.error("error in convert decimal value");
 		}
 
 		Label lbl = new Label(value);

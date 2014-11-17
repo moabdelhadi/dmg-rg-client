@@ -1,10 +1,9 @@
 package com.dmg.client.simplepayment.views;
 
-import org.vaadin.risto.formsender.FormSenderBuilder;
-import org.vaadin.risto.formsender.widgetset.client.shared.Method;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dmg.client.simplepayment.beans.UserAccount;
-import com.dmg.util.Logger;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
@@ -31,6 +30,8 @@ public class Login extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
 	private Navigator navigator;
 
@@ -159,11 +160,11 @@ public class Login extends VerticalLayout implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// loginUser();
-				System.out.println("dfsfdsdfsdf");
-				FormSenderBuilder.create().withUI(getUI()).withAction("http://alarabiya.net").withMethod(Method.POST).withTarget("_blank").withValue("name", "asdasdasd")
-						.withValue("password", "asdasdasd").submit();
-				System.out.println("zzzzzz");
+				 loginUser();
+//				System.out.println("dfsfdsdfsdf");
+//				FormSenderBuilder.create().withUI(getUI()).withAction("http://alarabiya.net").withMethod(Method.POST).withTarget("_blank").withValue("name", "asdasdasd")
+//						.withValue("password", "asdasdasd").submit();
+//				System.out.println("zzzzzz");
 			}
 		});
 
@@ -187,12 +188,12 @@ public class Login extends VerticalLayout implements View {
 		UserAccount user = new UserAccount();
 		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
-		Logger.info(this, "try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue()
+		logger.info("try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue()
 				+ " , Building=" + buildingNo.getValue());
 
 		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
 		if (userAccount == null) {
-			Logger.warn(this, "No User With accountId = " + accountId.getValue());
+			logger.warn("No User With accountId = " + accountId.getValue());
 			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
@@ -203,7 +204,7 @@ public class Login extends VerticalLayout implements View {
 		}
 
 		if (!apartmentNo.getValue().equals(userAccount.getAppartmentNumber())) {
-			Logger.warn(this, "Apartment Does not match");
+			logger.warn("Apartment Does not match");
 			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
@@ -332,7 +333,7 @@ public class Login extends VerticalLayout implements View {
 			}
 
 		} catch (Exception e) {
-			Logger.error(this, "Error in login", e);
+			logger.error("Error in login", e);
 			Notification.show("Error", e.getMessage(), Type.HUMANIZED_MESSAGE);
 		}
 
@@ -349,7 +350,7 @@ public class Login extends VerticalLayout implements View {
 		resetFormValidation();
 		resetFormValues();
 
-		Logger.debug(this, "Get IN LOGIN VIEW");
+		logger.debug("Get IN LOGIN VIEW");
 		System.out.println("get in login");
 
 	}

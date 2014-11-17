@@ -1,12 +1,9 @@
-package com.dmg.simplepayment.views;
-
-import javax.servlet.annotation.WebServlet;
+package com.dmg.client.simplepayment.views;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
@@ -20,8 +17,8 @@ public class NavigatorUI extends UI {
 	Navigator navigator;
 
 
-	@WebServlet(value = { "/client/*", "/VAADIN/*" }, asyncSupported = true)
-	@VaadinServletConfiguration(productionMode = false, ui = NavigatorUI.class)
+//	@WebServlet(value = { "/client/*", "/VAADIN/*" }, asyncSupported = true)
+//	@VaadinServletConfiguration(productionMode = false, ui = NavigatorUI.class)
 	public static class Servlet extends VaadinServlet {
 
 		/**

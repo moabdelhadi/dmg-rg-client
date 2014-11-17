@@ -1,15 +1,14 @@
-package com.dmg.simplepayment.views;
+package com.dmg.client.simplepayment.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dmg.client.simplepayment.beans.Bill;
+import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.simplepayment.beans.Bill;
-import com.dmg.simplepayment.beans.Constants;
-import com.dmg.simplepayment.beans.UserAccount;
 import com.dmg.util.Logger;
 
 public class BillManager {

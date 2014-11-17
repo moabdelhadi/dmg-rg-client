@@ -2,7 +2,7 @@ package com.dmg.client.auth;
 
 import java.io.Serializable;
 
-import com.dmg.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserAccount;
 
 
 /**

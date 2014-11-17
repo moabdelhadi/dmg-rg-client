@@ -2,7 +2,7 @@
 	- ICONS
 	
 	fields: 
-	- city: 
+	- city: in all Forms 
 	Dubai & North Emirates
 	Abu Dhabi, Al Ain, & Western Region.
 	

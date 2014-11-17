@@ -3,13 +3,12 @@
 	
 	fields: 
 	
+	- CITY
 	
 	- spilling
 	
 	- main page layout
-	
-	- partial payment to be allowed. 
-	
+		
 	- change question mark to be small bill icon,
 	   write : for more detail please refere to bill photo.
 	   
@@ -19,19 +18,25 @@
 	 
 	 - note you will recieve sms on this mobile number.
 	 
-	 -spilling. 
-	 
 	 - enable edit names,
 	 please write your name as in you passport copy.
 	 
 	 
-	 - 
+	- partial payment to be allowed. 
 	
 	
 	
 	
 2- Payment:
-3- Connector 
+
+	-submitForm When you click
+	Accept Request When Responce Retrieved.
+
+3- Connector:
+- istallation MSSQL
+- Install Power Builder Client
+- Run Schemas
+
 4 - User Should not be registerd if he go to EditProfile using Params 
 
 5- Invoice: Service , FEES

@@ -84,7 +84,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		name = new TextField("Full Name");
 		name.setInputPrompt("Full Name");
-		name.setEnabled(false);
+		//name.setEnabled(false);
 		name.setRequired(true);
 		name.setHeight("30px");
 		name.setStyleName("h2");

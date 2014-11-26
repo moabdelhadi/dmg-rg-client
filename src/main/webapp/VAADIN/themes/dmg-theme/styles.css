@@ -6897,7 +6897,6 @@ body .dmg-theme.v-app .v-app-loading {
 .dmg-theme .v-customlayout {
 	font-family: "Trebuchet MS", tahoma;
 	width: 550px;
-	height: 900px;
 }
 
 .dmg-theme .container {
@@ -6971,6 +6970,11 @@ body .dmg-theme.v-app .v-app-loading {
 	align: center;
 	float: left;
 }
+
+.dmg-theme .register .reg_section .field-note{
+		float:left;
+		font-size:13px;
+	}
 
 .dmg-theme .register .reg_section .help {
 	padding-top: 48px;

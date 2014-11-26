@@ -60,8 +60,6 @@
 	.v-customlayout {
 	  font-family:"Trebuchet MS",tahoma;
 	  width:550px;
-	  height: 900px;
-
 	}
 
 	.container {
@@ -139,6 +137,11 @@
 		padding-top: 20px;
 		align:center;
 		float:left;
+	}
+	
+	.register .reg_section .field-note{
+		float:left;
+		font-size:13px;
 	}
 	
 	.register .reg_section .help {

@@ -15,7 +15,8 @@ import com.mchange.v2.c3p0.PooledDataSource;
 
 public class HibernateListener implements ServletContextListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(HibernateListener.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(HibernateListener.class);
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -39,13 +40,13 @@ public class HibernateListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 
-		logger.warn("Starting DMG-RG-ADMIN application DB session creation");
-		logger.warn("   ___     _       ___     ___    _  _    _____");
-		logger.warn("   / __|   | |     |_ _|   | __|  | \\| |  |_   _|");
-		logger.warn("| (__    | |__    | |    | _|   | .` |    | |");
-		logger.warn("\\___|   |____|  |___|   |___|  |_|\\_|   _|_|_");
-		logger.warn("_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|");
-		logger.warn("\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'");
+		logger.warn("Starting DMG-RG-CLIENT application DB session creation");
+		logger.warn("		   _____ _      _____ ______ _   _ _______");
+		logger.warn("		   / ____| |    |_   _|  ____| \\ | |__   __|");
+		logger.warn("		  | |    | |      | | | |__  |  \\| |  | |");
+		logger.warn("		  | |    | |      | | |  __| | . ` |  | |");
+		logger.warn("		  | |____| |____ _| |_| |____| |\\  |  | |");
+		logger.warn("		   \\_____|______|_____|______|_| \\_|  |_|");
 
 		try {
 			FacadeFactory.registerFacade("dmg-rg-client", true);

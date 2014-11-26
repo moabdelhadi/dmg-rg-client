@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
@@ -117,17 +118,45 @@ public class AccountOverview extends VerticalLayout implements View {
 
 				log.info( "Pay on process");
 
-				FormSenderBuilder.create().withUI(getUI())
-                .withAction("sadasdas")
-                .withMethod(Method.POST)
-                .withValue("name", "asdasdasd")
-                .withValue("password", "asdasdasd")
-                .submit();
+				FormSender sender = new FormSender();
+				sender.setFormMethod(Method.POST);
+				sender.setFormAction("https://migs.mastercard.com.au/vpcpay");
+				sender.setFormTarget("_self");
+				
+				
+//				FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI());
+//				.withAction("sadasdas")
+//                .withMethod(Method.POST)
+//                .withValue("name", "asdasdasd")
+//                .withValue("password", "asdasdasd")
+//                .submit();
 
 			}
 		});
 
 	}
+	
+	
+	
+	/*
+	 * 
+	 * 
+vpc_AccessCode: 	sdsds
+vpc_Version: 	1
+submit: 	Continue
+vpc_Command: 	pay
+vpc_OrderInfo: 	sdsdsd
+vpc_Locale: 	en
+vpc_Merchant: 	sdsd
+vpc_Amount: 	100
+vpc_SecureHash: 	FFC6B9FFFD5EEB7BBA51B5C58CD739C8
+vpc_ReturnURL: 	http://162.243.46.82:8080/code/vpc_jsp_authenticate_and_pay_merchanthost_dr.jsp
+vpc_MerchTxnRef: 	sdsdsdsd
+
+	 * 
+	 * 
+	 * 
+	 * */
 
 	@Override
 	public void enter(ViewChangeEvent event) {

@@ -4,25 +4,14 @@
 	fields: 
 
 	- spelling
-	
-	- change question mark to be small bill icon,
-	   write : for more detail please refere to bill photo.
-	   
-	 - phone number, email, mobile  example.
-	 
-	 - passwords rule.
-	 
-	 - note you will recieve sms on this mobile number.
-	 
-	 please write your name as in you passport copy.
-	 
-	 
 	- partial payment to be allowed. 
 	
+	separate Register from editprofile
 	
-	Logging config File Path
 	
 2- Payment:
+
+create payment Database
 
 	-submitForm When you click
 	Accept Request When Responce Retrieved.
@@ -66,4 +55,20 @@ DONE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	- enable edit names,
 	
+	- change question mark to be small bill icon,
+	   write : for more detail please press on help button.
+	   
+	   
+	   	   
+	 - phone number, email, mobile  example.
+	 
+	 - passwords rule.
+	 
+	 - note you will recieve sms on this mobile number.
+
+	 please write your name as in you passport copy.
+	 
+	 	Logging config File Path
+	 
+	 
 	

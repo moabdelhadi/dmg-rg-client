@@ -27,7 +27,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -45,8 +44,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private TextField name;
 	private TextField poBox;
 	private TextField poBoxCity;
-	private PasswordField newPassword;
-	private PasswordField confirmPassword;
+//	private PasswordField newPassword;
+//	private PasswordField confirmPassword;
 	private Label city;
 	private Label appartmentNumber;
 	private Label buildingNumber;
@@ -75,7 +74,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		hsplit.addComponent(optionLayout);
 
 		
-		CustomLayout customLayout = new CustomLayout("register");
+		CustomLayout customLayout = new CustomLayout("editProfile");
 		customLayout.setWidth("750px");
 //		customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
@@ -109,22 +108,22 @@ public class EditUserProfile extends VerticalLayout implements View {
 		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");
 
-		newPassword = new PasswordField("New Password");
-		newPassword.setInputPrompt("New Password");
-		newPassword.setRequired(true);
-		newPassword.setHeight("30px");
-		newPassword.setStyleName("h2");
-		newPassword.setRequiredError("This field is required");
-		customLayout.addComponent(newPassword, "newPassword");
-
-		confirmPassword = new PasswordField("Confirm Password");
-		confirmPassword.setInputPrompt("Confirm Password");
-		confirmPassword.setRequired(true);
-		confirmPassword.setHeight("30px");
-		confirmPassword.setStyleName("h2");
-		confirmPassword.setRequiredError("This field is required");
-
-		customLayout.addComponent(confirmPassword, "confirmPassword");
+//		newPassword = new PasswordField("New Password");
+//		newPassword.setInputPrompt("New Password");
+//		newPassword.setRequired(true);
+//		newPassword.setHeight("30px");
+//		newPassword.setStyleName("h2");
+//		newPassword.setRequiredError("This field is required");
+//		customLayout.addComponent(newPassword, "newPassword");
+//
+//		confirmPassword = new PasswordField("Confirm Password");
+//		confirmPassword.setInputPrompt("Confirm Password");
+//		confirmPassword.setRequired(true);
+//		confirmPassword.setHeight("30px");
+//		confirmPassword.setStyleName("h2");
+//		confirmPassword.setRequiredError("This field is required");
+//
+//		customLayout.addComponent(confirmPassword, "confirmPassword");
 
 		city = new Label();
 		city.setHeight("30px");
@@ -283,16 +282,16 @@ public class EditUserProfile extends VerticalLayout implements View {
 		user.setActivationString("");
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPassword(newPassword.getValue());
+//		user.setPassword(newPassword.getValue());
 		user.setPhone(phone.getValue());
 		user.setMobile(mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {
 			FacadeFactory.getFacade().store(user);
-			navigator.navigateTo(Views.ACTIVATION_PAGE);
+			navigator.navigateTo(Views.USER_PAGE);
 		} catch (DataAccessLayerException e) {
-			//navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
+			logger.error("Error in edit user page", e);
 		}
 
 	}
@@ -334,28 +333,28 @@ public class EditUserProfile extends VerticalLayout implements View {
 			status = false;
 		}
 
-		try {
-			newPassword.validate();
-		} catch (InvalidValueException e) {
-			String htmlMessage = e.getHtmlMessage();
-			newPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-			status = false;
-		}
-
-		try {
-			confirmPassword.validate();
-		} catch (InvalidValueException e) {
-			String htmlMessage = e.getHtmlMessage();
-			confirmPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-			status = false;
-		}
-
-		if (newPassword.getValue() != null && !newPassword.getValue().trim().isEmpty() && confirmPassword != null) {
-			if (!newPassword.getValue().equals(confirmPassword.getValue())) {
-				confirmPassword.setComponentError(new UserError("Password must match"));
-				status = false;
-			}
-		}
+//		try {
+//			newPassword.validate();
+//		} catch (InvalidValueException e) {
+//			String htmlMessage = e.getHtmlMessage();
+//			newPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+//			status = false;
+//		}
+//
+//		try {
+//			confirmPassword.validate();
+//		} catch (InvalidValueException e) {
+//			String htmlMessage = e.getHtmlMessage();
+//			confirmPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+//			status = false;
+//		}
+//
+//		if (newPassword.getValue() != null && !newPassword.getValue().trim().isEmpty() && confirmPassword != null) {
+//			if (!newPassword.getValue().equals(confirmPassword.getValue())) {
+//				confirmPassword.setComponentError(new UserError("Password must match"));
+//				status = false;
+//			}
+//		}
 
 		try {
 			phone.validate();
@@ -448,8 +447,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private void resetFormValidation() {
 
 		loginEmail.setComponentError(null);
-		newPassword.setComponentError(null);
-		confirmPassword.setComponentError(null);
+//		newPassword.setComponentError(null);
+//		confirmPassword.setComponentError(null);
 		contractNo.setComponentError(null);
 		appartmentNumber.setComponentError(null);
 		buildingNumber.setComponentError(null);
@@ -599,12 +598,12 @@ public class EditUserProfile extends VerticalLayout implements View {
 			}
 		}
 		
-		newPassword.setValue("");
-		confirmPassword.setValue("");
-		if(user.getPassword() !=null){
-			newPassword.setValue(user.getPassword());
-			confirmPassword.setValue(user.getPassword());
-		}
+//		newPassword.setValue("");
+//		confirmPassword.setValue("");
+//		if(user.getPassword() !=null){
+//			newPassword.setValue(user.getPassword());
+//			confirmPassword.setValue(user.getPassword());
+//		}
 
 	}
 

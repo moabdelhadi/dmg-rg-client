@@ -1,6 +1,8 @@
 package com.dmg.client.simplepayment.views;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.annotations.Theme;
@@ -12,7 +14,9 @@ import com.vaadin.ui.UI;
 
 @Theme("dmg-theme")
 public class NavigatorUI extends UI {
+	
 	private static final long serialVersionUID = 511085335415683713L;
+	private static final Logger logger = LoggerFactory.getLogger(NavigatorUI.class);
 
 	Navigator navigator;
 
@@ -21,9 +25,6 @@ public class NavigatorUI extends UI {
 //	@VaadinServletConfiguration(productionMode = false, ui = NavigatorUI.class)
 	public static class Servlet extends VaadinServlet {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 	}
@@ -41,6 +42,7 @@ public class NavigatorUI extends UI {
 		navigator.addView(Views.LOGIN, new Login(navigator));
 		navigator.addView(Views.USER_PAGE, new AccountOverview(navigator));
 		navigator.addView(Views.EDIT_PROFILE_PAGE, new EditUserProfile(navigator));
+		navigator.addView(Views.RIGISTER_PROFILE_PAGE, new RegisterUserProfile(navigator));
 		navigator.addView(Views.ACTIVATION_PAGE, new WelcomeAfterRegister(navigator));
 		navigator.addView(Views.CHANGE_PASSWORD, new ChangePassword(navigator));
 		
@@ -53,17 +55,19 @@ public class NavigatorUI extends UI {
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				
 				String viewName = event.getViewName();
-				
-				if(StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName,  Views.EDIT_PROFILE_PAGE)){
+				logger.info("redirect to non authorized Page");
+				if(StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName,  Views.EDIT_PROFILE_PAGE)|| StringUtils.equals(viewName,  Views.RIGISTER_PROFILE_PAGE)){
+					logger.info("redirect to non authorized Page");
 					return true;
 				}
 				
 				if (SessionHandler.get() == null) {
-					String fragmentAndParameters = viewName;
-					if (event.getParameters() != null) {
-						fragmentAndParameters += "/";
-						fragmentAndParameters += event.getParameters();
-					}
+					logger.info("non authorized user");
+//					String fragmentAndParameters = viewName;
+//					if (event.getParameters() != null) {
+//						fragmentAndParameters += "/";
+//						fragmentAndParameters += event.getParameters();
+//					}
 					navigator.navigateTo(Views.LOGIN);
 					return false;
 

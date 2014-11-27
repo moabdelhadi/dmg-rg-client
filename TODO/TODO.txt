@@ -6,7 +6,7 @@
 	- spelling
 	- partial payment to be allowed. 
 	
-	separate Register from editprofile
+	problem in navigator
 	
 	
 2- Payment:
@@ -14,10 +14,10 @@
 create payment Database
 
 	-submitForm When you click
-	Accept Request When Responce Retrieved.
+	Accept Request When Response Retrieved.
 
 3- Connector:
-- istallation MSSQL
+- installation MSSQL
 - Install Power Builder Client
 - Run Schemas
 

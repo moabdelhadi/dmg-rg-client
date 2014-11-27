@@ -232,7 +232,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		navigator.navigateTo(Views.EDIT_PROFILE_PAGE + "/"
+		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/"
 				+ userAccount.getContractNo() + "/" + userAccount.getCity());
 	}
 

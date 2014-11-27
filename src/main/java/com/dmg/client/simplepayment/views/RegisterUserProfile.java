@@ -1,12 +1,13 @@
 package com.dmg.client.simplepayment.views;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
@@ -34,9 +35,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private static final Logger logger = LoggerFactory.getLogger(RegisterUserProfile.class);
-	
+
 	private Navigator navigator;
 	private Button registerButton;
 	private TextField loginEmail;
@@ -53,9 +53,9 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private TextField phonePrefix;
 	private TextField mobile;
 	private TextField mobilePrefix;
-	// private TextField status;
 	private UserAccount user;
 	private boolean edit;
+	private Map<String, String> cityMap = new HashMap<String, String>();
 
 	public RegisterUserProfile(Navigator navigator) {
 		this.navigator = navigator;
@@ -64,13 +64,21 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	private void init() {
 
+		logger.debug("init()");
 		setSizeFull();
-		
+		cityMap.put("DUBAI", "Dubai & Northern Emirates");
+		cityMap.put("ABUDHABI", "Abu dhabi, Alain & Western Region");
+		// HorizontalLayout hsplit = new HorizontalLayout();
+		// CustomLayout optionLayout =
+		// AccountOptions.getInstance(navigator).createOptionLayout();
+		// hsplit.addComponent(optionLayout);
+
 		CustomLayout customLayout = new CustomLayout("register");
-//		customLayout.setHeight("760px");
+		customLayout.setWidth("750px");
+		// customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
-		loginEmail.setInputPrompt("User Email");
+		loginEmail.setInputPrompt("Please enter valed email");
 		loginEmail.setRequired(true);
 		loginEmail.setHeight("30px");
 		loginEmail.setStyleName("h2");
@@ -80,7 +88,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 		name = new TextField("Full Name");
 		name.setInputPrompt("Full Name");
-		name.setEnabled(false);
+		// name.setEnabled(false);
 		name.setRequired(true);
 		name.setHeight("30px");
 		name.setStyleName("h2");
@@ -99,22 +107,22 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");
 
-		newPassword = new PasswordField("New Password");
-		newPassword.setInputPrompt("New Password");
-		newPassword.setRequired(true);
-		newPassword.setHeight("30px");
-		newPassword.setStyleName("h2");
-		newPassword.setRequiredError("This field is required");
-		customLayout.addComponent(newPassword, "newPassword");
-
-		confirmPassword = new PasswordField("Confirm Password");
-		confirmPassword.setInputPrompt("Confirm Password");
-		confirmPassword.setRequired(true);
-		confirmPassword.setHeight("30px");
-		confirmPassword.setStyleName("h2");
-		confirmPassword.setRequiredError("This field is required");
-
-		customLayout.addComponent(confirmPassword, "confirmPassword");
+		 newPassword = new PasswordField("New Password");
+		 newPassword.setInputPrompt("New Password");
+		 newPassword.setRequired(true);
+		 newPassword.setHeight("30px");
+		 newPassword.setStyleName("h2");
+		 newPassword.setRequiredError("This field is required");
+		 customLayout.addComponent(newPassword, "newPassword");
+		
+		 confirmPassword = new PasswordField("Confirm Password");
+		 confirmPassword.setInputPrompt("Confirm Password");
+		 confirmPassword.setRequired(true);
+		 confirmPassword.setHeight("30px");
+		 confirmPassword.setStyleName("h2");
+		 confirmPassword.setRequiredError("This field is required");
+		
+		 customLayout.addComponent(confirmPassword, "confirmPassword");
 
 		city = new Label();
 		city.setHeight("30px");
@@ -141,7 +149,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		phonePrefix.setHeight("30px");
 		phonePrefix.setStyleName("h2");
 		customLayout.addComponent(phonePrefix, "phonePrefix");
-		
+
 		phone = new TextField("");
 		phone.setInputPrompt("1234567");
 		phone.setHeight("30px");
@@ -156,7 +164,6 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		mobilePrefix.setRequiredError("This field is required");
 		customLayout.addComponent(mobilePrefix, "mobilePrefix");
 
-		
 		mobile = new TextField("");
 		mobile.setInputPrompt("1234567");
 		mobile.setRequired(true);
@@ -167,13 +174,17 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		customLayout.addComponent(mobile, "mobile");
 
 		registerButton = new Button("Register");
-		// loginButton.addStyleName(Runo.BUTTON_BIG);
-		// loginButton.setClickShortcut(KeyCode.ENTER);
 		customLayout.addComponent(registerButton, "registerButton");
 
+		// hsplit.addComponent(customLayout);
 		addComponent(customLayout);
 
 		registerButton.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -183,6 +194,69 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	}
 
+	// private CustomLayout createOptionLayout() {
+	//
+	// CustomLayout customLayout = new CustomLayout("options");
+	// customLayout.setWidth("188px");
+	// customLayout.setStyleName("optionLayout");
+	//
+	// Button summary = new Button("Account Summary");
+	// summary.addStyleName("optViewButton");
+	// // summary.setHeight("75px");
+	// //summary.setIcon(new ThemeResource("img/blueButton.png"),
+	// "Account Summary");
+	//
+	//
+	// Button editProfile = new Button("Edit Proifile");
+	// // editProfile.setHeight("75px");
+	// editProfile.addStyleName("optViewButton");
+	//
+	//
+	// Button changePassword = new Button("Change Password");
+	// // changePassword.setHeight("75px");
+	// changePassword.addStyleName("optViewButton");
+	//
+	// customLayout.addComponent(summary, "summary");
+	// customLayout.addComponent(editProfile, "edit_profile");
+	// customLayout.addComponent(changePassword, "change_password");
+	//
+	// summary.addClickListener(new ClickListener() {
+	//
+	// @Override
+	// public void buttonClick(ClickEvent event) {
+	// navigator.navigateTo(Views.USER_PAGE);
+	// }
+	// });
+	//
+	// editProfile.addClickListener(new ClickListener() {
+	//
+	// /**
+	// *
+	// */
+	// private static final long serialVersionUID = 1L;
+	//
+	// @Override
+	// public void buttonClick(ClickEvent event) {
+	// navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
+	// }
+	// });
+	//
+	// changePassword.addClickListener(new ClickListener() {
+	//
+	// /**
+	// *
+	// */
+	// private static final long serialVersionUID = 1L;
+	//
+	// @Override
+	// public void buttonClick(ClickEvent event) {
+	// navigator.navigateTo(Views.CHANGE_PASSWORD);
+	// }
+	// });
+	//
+	// return customLayout;
+	// }
+
 	private void registerNewUser() {
 
 		if (!vaildateRegister()) {
@@ -190,11 +264,11 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		}
 
 		if (user == null) {
-			logger.error( "There is no User Values");
+			logger.error("There is no User Values");
 			return;
 		}
 
-		//user.setName(name.getValue());
+		// user.setName(name.getValue());
 		user.setStatus(UserStatus.ACTIVE.value());
 		user.setPobox(poBox.getValue());
 		user.setPoboxCity(poBoxCity.getValue());
@@ -212,7 +286,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			FacadeFactory.getFacade().store(user);
 			navigator.navigateTo(Views.ACTIVATION_PAGE);
 		} catch (DataAccessLayerException e) {
-			//navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
+			// navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
 		}
 
 	}
@@ -229,6 +303,15 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
+
+		 try {
+		 name.validate();
+		 } catch (InvalidValueException e) {
+		 String htmlMessage = e.getHtmlMessage();
+		 name.setComponentError(new UserError(htmlMessage, ContentMode.HTML,
+		 ErrorLevel.ERROR));
+		 status = false;
+		 }
 
 		try {
 			poBox.validate();
@@ -276,20 +359,20 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			phone.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(phone!=null && phone.getValue()!=null && !phone.getValue().isEmpty()){
-				if(phone.getValue().trim().length()!=7){
+
+		try {
+			if (phone != null && phone.getValue() != null && !phone.getValue().isEmpty()) {
+				if (phone.getValue().trim().length() != 7) {
 					phone.setComponentError(new UserError("Invalid Phone Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phone.getValue());
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			phone.setComponentError(new UserError("Invalid Phone Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
+
 		try {
 			phonePrefix.validate();
 		} catch (InvalidValueException e) {
@@ -297,16 +380,16 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			phonePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(phonePrefix!=null && phonePrefix.getValue()!=null && !phonePrefix.getValue().isEmpty()){
-				if(phonePrefix.getValue().trim().length()!=2){
+
+		try {
+			if (phonePrefix != null && phonePrefix.getValue() != null && !phonePrefix.getValue().isEmpty()) {
+				if (phonePrefix.getValue().trim().length() != 2) {
 					phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phonePrefix.getValue());
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
@@ -318,20 +401,20 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			mobile.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(mobile!=null && mobile.getValue()!=null && !mobile.getValue().isEmpty()){
-				if(mobile.getValue().trim().length()!=7){
+
+		try {
+			if (mobile != null && mobile.getValue() != null && !mobile.getValue().isEmpty()) {
+				if (mobile.getValue().trim().length() != 7) {
 					mobile.setComponentError(new UserError("Invalid mobile Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobile.getValue());
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			mobile.setComponentError(new UserError("Invalid mobile Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
+
 		try {
 			mobilePrefix.validate();
 		} catch (InvalidValueException e) {
@@ -339,16 +422,16 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			mobilePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(mobilePrefix!=null && mobilePrefix.getValue()!=null && !mobilePrefix.getValue().isEmpty()){
-				if(mobilePrefix.getValue().trim().length()!=3){
+
+		try {
+			if (mobilePrefix != null && mobilePrefix.getValue() != null && !mobilePrefix.getValue().isEmpty()) {
+				if (mobilePrefix.getValue().trim().length() != 3) {
 					mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobilePrefix.getValue());
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
@@ -360,8 +443,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private void resetFormValidation() {
 
 		loginEmail.setComponentError(null);
-		newPassword.setComponentError(null);
-		confirmPassword.setComponentError(null);
+		 newPassword.setComponentError(null);
+		 confirmPassword.setComponentError(null);
 		contractNo.setComponentError(null);
 		appartmentNumber.setComponentError(null);
 		buildingNumber.setComponentError(null);
@@ -370,71 +453,56 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		phonePrefix.setComponentError(null);
 		mobile.setComponentError(null);
 		mobilePrefix.setComponentError(null);
-		
+
 		// status.setComponentError(null);
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
+
 		logger.debug("Get in Edit User Profile Entree");
-		
+
 		UserAccount accountFromAccountID = null;
 		accountFromAccountID = getuserFromParam(event.getParameters());
-		
-		if(accountFromAccountID!=null){
-			logger.info("Find User From Params");
-			user = accountFromAccountID;
-			setEdit(false);
-		}else{
-			logger.info("No User From Params , try to find from session");
-			accountFromAccountID = getUserFromSession();
-			if(accountFromAccountID !=null){
-				user = accountFromAccountID;
-				setEdit(true);
-				logger.info("Find User From Session");
-			}
-		}
-		
 
-		if(accountFromAccountID==null){
+		if (accountFromAccountID == null) {
 			logger.error("No User Available");
 			navigator.navigateTo(Views.LOGIN);
-			return ;
+			return;
 		}
+
+		logger.info("Find User From Params");
+		user = accountFromAccountID;
+		setEdit(false);
 		setUserValues();
 		resetFormValidation();
 
 	}
-	
-	
-	
 
-	private UserAccount getUserFromSession() {
-		
-		UserAccount userAccount = SessionHandler.get();
-		UserAccount accountFromAccountID= UserManager.getInstance().getAccountFromAccountID(userAccount);
-		return accountFromAccountID;
-	}
-
-
-
+//	private UserAccount getUserFromSession() {
+//
+//		UserAccount userAccount = SessionHandler.get();
+//		if (userAccount == null) {
+//			return null;
+//		}
+//		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
+//		return accountFromAccountID;
+//	}
 
 	private UserAccount getuserFromParam(String parametersString) {
-		
-		
+
 		logger.debug("Parameters=" + parametersString);
 
 		String[] parameters = parametersString.split("/");
 
 		if (parameters == null || parameters.length != 2) {
-			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
+			logger.error("No Paratemeres Passed to this user or Parameters are error ");
 			return null;
 		}
 
 		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			logger.error( "Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
 			return null;
 		}
 
@@ -443,14 +511,14 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		userAccount.setCity(parameters[1]);
 		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
-		
+
 	}
 
 	private void setUserValues() {
 
 		city.setValue("");
 		if (user.getCity() != null) {
-			city.setValue(user.getCity());
+			city.setValue(cityMap.get(user.getCity()));
 		}
 
 		appartmentNumber.setValue("");
@@ -491,21 +559,28 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		phonePrefix.setValue("");
 		if (user.getPhone() != null) {
 			String[] split = user.getPhone().split("/");
-			if(split.length==2){
+			if (split.length == 2) {
 				phonePrefix.setValue(split[0]);
 				phone.setValue(split[1]);
 			}
-			
+
 		}
 
 		mobile.setValue("");
 		mobilePrefix.setValue("");
 		if (user.getMobile() != null) {
 			String[] split = user.getMobile().split("/");
-			if(split.length==2){
+			if (split.length == 2) {
 				mobilePrefix.setValue(split[0]);
 				mobile.setValue(split[1]);
 			}
+		}
+
+		newPassword.setValue("");
+		confirmPassword.setValue("");
+		if (user.getPassword() != null) {
+			newPassword.setValue(user.getPassword());
+			confirmPassword.setValue(user.getPassword());
 		}
 
 	}
@@ -517,5 +592,5 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	public void setEdit(boolean edit) {
 		this.edit = edit;
 	}
-	
+
 }

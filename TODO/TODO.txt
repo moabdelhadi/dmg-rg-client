@@ -2,7 +2,6 @@
 	- ICONS
 	
 	fields: 
-
 	- spelling
 	- partial payment to be allowed. 
 	
@@ -26,19 +25,10 @@ create payment Database
 5- Invoice: Service , FEES
 6- Confirm Email
 7- Forget Password Button
-
 8- Connector DB
-
-
 9- Payment
-
-
 10- METER READING TABLE
 11- BEAMS MEETING
-
-
-
-
 
 DONE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

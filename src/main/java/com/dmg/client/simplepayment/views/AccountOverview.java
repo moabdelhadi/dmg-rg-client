@@ -1,6 +1,9 @@
 package com.dmg.client.simplepayment.views;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -122,6 +125,37 @@ public class AccountOverview extends VerticalLayout implements View {
 				sender.setFormMethod(Method.POST);
 				sender.setFormAction("https://migs.mastercard.com.au/vpcpay");
 				sender.setFormTarget("_self");
+				sender.addValue("vpc_AccessCode", "");
+				sender.addValue("vpc_Version", "1");
+				sender.addValue("vpc_Command", "pay");
+				sender.addValue("vpc_OrderInfo", "");
+				sender.addValue("vpc_Locale", "en");
+				sender.addValue("vpc_Merchant", "");
+				sender.addValue("vpc_Amount", "");
+				sender.addValue("vpc_ReturnURL", "");
+				sender.addValue("vpc_MerchTxnRef", "");
+				sender.addValue("vpc_SecureHash", "");
+				sender.addValue("vpc_SecureHashType", "SHA256");
+				sender.submit();
+				
+			
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+				String text = "This is some text";
+				md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+				byte[] digest = md.digest();
+				System.out.println(digest.toString());
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+			
+				
 				
 				
 //				FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI());

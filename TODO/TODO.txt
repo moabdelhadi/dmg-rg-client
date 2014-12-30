@@ -5,7 +5,7 @@
 	- spelling
 	- partial payment to be allowed. 
 	
-	problem in navigator
+	 problem in navigator
 	
 	
 2- Payment:

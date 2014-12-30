@@ -31,6 +31,37 @@
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>
+	  <servlet>
+		<servlet-name>paymentRes</servlet-name>
+		<servlet-class>
+		    com.vaadin.server.VaadinServlet
+		</servlet-class>
+		
+		<init-param>
+		  <param-name>UI</param-name>
+		  <param-value>com.dmg.client.simplepayment.views.response.PaymentResponse</param-value>
+		</init-param>
+		
+		<!-- If not using the default widget set-->
+		  <init-param>
+		    <param-name>widgetset</param-name>
+		    <param-value>com.dmg.client.AppWidgetSet</param-value>
+		  </init-param>
+	</servlet>
+	
+	<servlet>
+        <servlet-name>payServlet</servlet-name>
+        <servlet-class>com.dmg.client.servlet.PayServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>payServlet</servlet-name>
+        <url-pattern>/payServlet</url-pattern>
+    </servlet-mapping>
+	
+	
+	
+
 	<servlet-mapping>
 		<servlet-name>Vaadin Main Servlet</servlet-name>
 		<url-pattern>/client/*</url-pattern>
@@ -40,6 +71,11 @@
 		<servlet-name>Vaadin Main Servlet</servlet-name>
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
+
+	  <servlet-mapping>
+	    <servlet-name>paymentRes</servlet-name>
+	    <url-pattern>/paymentRes/*</url-pattern>
+	  </servlet-mapping>
 
 	<listener>
 		<listener-class>com.dmg.client.servlet.HibernateListener</listener-class>

@@ -117,6 +117,24 @@
 			<artifactId>formsender</artifactId>
 			<version>2.1.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.18</version>
+		</dependency>
+				
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>1.18</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.18</version>
+		</dependency>
 
 	</dependencies>
 	<build>

@@ -92,6 +92,9 @@ public class BillPopupUI extends UI {
 
 	private Label getLabel(String label) {
 
+		if(label==null){
+			return new Label("");
+		}
 		Label lbl = new Label(label);
 		return lbl;
 
@@ -100,6 +103,9 @@ public class BillPopupUI extends UI {
 	private Label getLabel(BigDecimal label) {
 
 		String value = "0.0";
+		if(label ==null){
+			return new Label(value);
+		}
 		try {
 			value = label.toString();
 		} catch (Exception e) {
@@ -114,6 +120,7 @@ public class BillPopupUI extends UI {
 	private Label getLabel(Date label) {
 
 		String value = "";
+		
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			value= dateFormat.format(label);

@@ -107,9 +107,11 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		// payButton
 
-		payButton = new Button("Pay Online");
+		payButton = new Button("Pay through NBAD");
 		payButton.addStyleName(Runo.BUTTON_BIG);
 		customLayout.addComponent(payButton, "payButton");
+		payButton.setWidth("140px");
+		payButton.setHeight("30px");
 
 		hsplit.addComponent(customLayout);
 		addComponent(hsplit);

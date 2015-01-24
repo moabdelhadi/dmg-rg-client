@@ -6903,14 +6903,14 @@ body .dmg-theme.v-app .v-app-loading {
 	width: 500px;
 	margin-left: auto;
 	margin-right: auto;
-	padding-top: 50px;
+	padding-top: 31px;
 }
 
 .dmg-theme .register {
 	position: relative;
 	margin-top: 20px;
 	padding: 20px 20px 20px;
-	background: #fff;
+	background: #f4f4f4;
 	width: 500px;
 	border: solid 1px grey;
 }
@@ -7094,4 +7094,19 @@ body .dmg-theme.v-app .v-app-loading {
 
 .dmg-theme .options .opltion-list .opt-btn {
 	padding-top: 8px;
+}
+
+.dmg-theme .nbad-logo img {
+	border-radius: 5px;
+	float: left;
+}
+
+.dmg-theme .pay-note {
+	padding-left: 0 !important;
+}
+
+.dmg-theme .nbad-ld-note {
+	width: 300px;
+	padding-left: 10px;
+	float: left;
 }

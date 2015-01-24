@@ -54,8 +54,11 @@ public class NavigatorUI extends UI {
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				
+				logger.info("get in  beforeViewChange()");
+				
 				String viewName = event.getViewName();
-				logger.info("redirect to non authorized Page");
+				logger.info("redirect to non authorized Page viewName");
+				
 				if(StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName,  Views.EDIT_PROFILE_PAGE)|| StringUtils.equals(viewName,  Views.RIGISTER_PROFILE_PAGE)){
 					logger.info("redirect to non authorized Page");
 					return true;
@@ -79,7 +82,7 @@ public class NavigatorUI extends UI {
 			
 			@Override
 			public void afterViewChange(ViewChangeEvent event) {
-				// TODO Auto-generated method stub
+				logger.info("get in  afterViewChange()");
 				
 			}
 		});

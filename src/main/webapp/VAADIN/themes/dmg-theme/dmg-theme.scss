@@ -14,6 +14,11 @@
 	   font-size: 20px;
    }
    
+   
+   .v-scrollable{
+   		/*background: #FFFFFF;*/
+   }
+   
    .v-widget{
    	 font-size: 18px;
    }
@@ -66,7 +71,7 @@
 	  width: 500px;
 	  margin-left: auto;
 	  margin-right: auto;
-	  padding-top:50px;
+	  padding-top:31px;
 	 }
  
 
@@ -75,7 +80,7 @@
 		position: relative;
 		margin-top: 20px;
 		padding: 20px 20px 20px;
-		background: #fff;
+		background: #FFFFFF
 		/* box-shadow: 0 0 55px #777777, 0 1px 2px rgba(0, 0, 0, 0.3);*/
 		width: 500px;
 		border: solid 1px grey;
@@ -270,6 +275,19 @@
 		padding-top:8px;
 	}
 	
+	.nbad-logo img{
+		border-radius: 5px;
+		float: left;
+	}
   
+  	.pay-note{
+  		padding-left: 0 !important;
+  	}
+  	
+  	.nbad-ld-note{
+  		width: 300px;
+		padding-left: 10px;
+		float: left;
+  	}
   
 }

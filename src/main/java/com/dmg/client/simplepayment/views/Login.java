@@ -167,11 +167,6 @@ public class Login extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				loginUser();
-				// System.out.println("dfsfdsdfsdf");
-				// FormSenderBuilder.create().withUI(getUI()).withAction("http://alarabiya.net").withMethod(Method.POST).withTarget("_blank").withValue("name",
-				// "asdasdasd")
-				// .withValue("password", "asdasdasd").submit();
-				// System.out.println("zzzzzz");
 			}
 		});
 

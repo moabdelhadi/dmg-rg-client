@@ -16,6 +16,7 @@ import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.dmg.client.auth.SessionHandler;
+import com.dmg.client.payment.PaymentManager;
 import com.dmg.client.simplepayment.beans.Bill;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.vaadin.navigator.Navigator;
@@ -122,7 +123,9 @@ public class AccountOverview extends VerticalLayout implements View {
 			public void buttonClick(ClickEvent event) {
 
 				log.info( "Pay on process");
-
+				
+				PaymentManager manager = PaymentManager.getInstance();
+				
 				FormSender sender = new FormSender();
 				sender.setFormMethod(Method.POST);
 				sender.setFormAction("https://migs.mastercard.com.au/vpcpay");

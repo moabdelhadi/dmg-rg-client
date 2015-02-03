@@ -1,5 +1,7 @@
 package com.dmg.client.payment;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.util.PropertiesManager;
+import com.dmg.util.SHAEncrypt;
 
 public class PaymentManager {
 
@@ -27,8 +30,8 @@ public class PaymentManager {
 	
 	private PaymentManager() {
 		
-		merchantMap.put("DUBAI", );
-		merchantMap.put("ABUDHABI", );
+		merchantMap.put("DUBAI", readProperty(MERCHANT_ID_DU) );
+		merchantMap.put("ABUDHABI",readProperty(MERCHANT_ID_AD) );
 		
 		
 	}
@@ -52,17 +55,26 @@ public class PaymentManager {
 
 		String city = user.getCity();
 		String merchantID = merchantMap.get(city);
-		map.put("vpc_Merchant", readProperty(merchantID));
+		map.put("vpc_Merchant", merchantID);
 
-		map.put("vpc_MerchTxnRef", "RG-AD-20150203-CONTRACTNO-NO");
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		String date = dateFormat.format(calendar.getTime());
+		
+		
+		String MerchTxnRef = "RG-" + user.getCity() + "-" + user.getContractNo() + "-" + calendar.getTimeInMillis();
+		
+		map.put("vpc_MerchTxnRef", MerchTxnRef);
 		
 		map.put("vpc_Amount", ammount);
 		
-		map.put("vpc_OrderInfo", "RG-AD-20150203-CONTRACTNO-NO");
+		map.put("vpc_OrderInfo", MerchTxnRef);
 		
+		String hashAllFields = SHAEncrypt.hashAllFields(map);
 		
+		map.put("vpc_SecureHash",hashAllFields );
 		
-		map.put("vpc_SecureHash", readProperty());
+		return map;
 		
 	}
 	

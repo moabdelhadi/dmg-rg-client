@@ -16,11 +16,9 @@ public class PropertiesManager {
 	private static PropertiesManager manager = null;
 	private static Properties properties = null;
 	private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
-	
 
 	private static final String PROPERTY_FILE = "conf.properties";
-	public static final String  DATABASE_CONNECTION = "db_connection";
-
+	public static final String DATABASE_CONNECTION = "db_connection";
 
 	private PropertiesManager() {
 		loadProperties(PROPERTY_FILE);
@@ -43,25 +41,34 @@ public class PropertiesManager {
 		try {
 			properties = new Properties();
 
-			InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("../../WEB-INF/config/config.properties");
-			InputStreamReader reader = new InputStreamReader(resourceAsStream, "UTF8");
+			InputStream resourceAsStream = this
+					.getClass()
+					.getClassLoader()
+					.getResourceAsStream(
+							"../../WEB-INF/config/config.properties");
+			InputStreamReader reader = new InputStreamReader(resourceAsStream,
+					"UTF8");
 
 			properties.load(reader);
 
 		} catch (FileNotFoundException e) {
-			log.error( "Error in loading property file", e);
+			log.error("Error in loading property file", e);
 			e.printStackTrace();
 
 		} catch (IOException e) {
-			log.error( "Error in loading property file", e);
+			log.error("Error in loading property file", e);
 			e.printStackTrace();
 		}
 
 	}
 
-	public String getProperty(String fileName) {
+	public String getProperty(String name) {
 
-		Object object = properties.get(fileName);
+		Object object = properties.get(name);
+		if (object == null) {
+			log.error("error in getting properties, {}", name);
+			return "";
+		}
 		return object.toString();
 
 	}
@@ -69,10 +76,9 @@ public class PropertiesManager {
 	public int getPropertyInt(String fileName) {
 
 		Object object = properties.get(fileName);
-		
+
 		int parseInt = Integer.parseInt(object.toString());
-		
-		
+
 		return parseInt;
 
 	}

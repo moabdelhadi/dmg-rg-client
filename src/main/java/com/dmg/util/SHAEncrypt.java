@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class SHAEncrypt {
 
+	
+	
 	// This is secret for encoding the MD5 hash
 	// This secret will vary from merchant to merchant
 	// static final String SECURE_SECRET = "your-secure-hash-secret";
@@ -23,7 +25,7 @@ public class SHAEncrypt {
      * @param fields is a map of all the incoming hey-value pairs from the VPC
      * @param buf is the hash being returned for comparison to the incoming hash
      */
-     String hashAllFields(Map<String,String> fields) {
+     public static String hashAllFields(Map<String,String> fields) {
 
 // 	    String hashKeys = "";
 // 	    String hashValues = "";
@@ -55,7 +57,10 @@ public class SHAEncrypt {
  	    try {
  	        md5 = MessageDigest.getInstance("MD5");
  	        ba = md5.digest(buf.toString().getBytes("ISO-8859-1"));
- 	    } catch (Exception e) {} // wont happen
+ 	    } catch (Exception e) {
+ 	    	
+ 	    	
+ 	    } // wont happen
  	
 // 	    hashValues = buf.toString();
  	    return hex(ba);
@@ -66,7 +71,7 @@ public class SHAEncrypt {
      /**
       * Returns Hex output of byte array
       */
-     static String hex(byte[] input) {
+     private static String hex(byte[] input) {
          // create a StringBuffer 2x the size of the hash array
          StringBuffer sb = new StringBuffer(input.length * 2);
 

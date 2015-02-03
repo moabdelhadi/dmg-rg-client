@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.payment.PaymentManager;
 import com.dmg.client.simplepayment.beans.Bill;
 import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.util.PropertiesManager;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -40,6 +42,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(AccountOverview.class);
+	private static final String PAYMENT_URL="payment.paymentUrl";
 
 	private Navigator navigator;
 
@@ -125,50 +128,24 @@ public class AccountOverview extends VerticalLayout implements View {
 				log.info( "Pay on process");
 				
 				PaymentManager manager = PaymentManager.getInstance();
+				Map<String, String> postFields = manager.getPostFields(user, totalAmount.getValue());
+				
+				
+				log.info( "Pay on process");
 				
 				FormSender sender = new FormSender();
 				sender.setFormMethod(Method.POST);
-				sender.setFormAction("https://migs.mastercard.com.au/vpcpay");
-				sender.setFormTarget("_self");
-				sender.addValue("vpc_AccessCode", "");
-				sender.addValue("vpc_Version", "1");
-				sender.addValue("vpc_Command", "pay");
-				sender.addValue("vpc_OrderInfo", "");
-				sender.addValue("vpc_Locale", "en");
-				sender.addValue("vpc_Merchant", "");
-				sender.addValue("vpc_Amount", "");
-				sender.addValue("vpc_ReturnURL", "");
-				sender.addValue("vpc_MerchTxnRef", "");
-				sender.addValue("vpc_SecureHash", "");
-				sender.addValue("vpc_SecureHashType", "SHA256");
+				sender.setFormAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+				//sender.setFormTarget("_self");
+				
+				for (String key : postFields.keySet()) {
+					log.debug("map key - value:" + key + " : " + postFields.get(key));
+					sender.addValue(key, postFields.get(key));
+				}
+				log.debug("before Submit");
 				sender.submit();
-				
+				log.debug("After Submit");
 			
-			try {
-				MessageDigest md = MessageDigest.getInstance("SHA-256");
-				String text = "This is some text";
-				md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-				byte[] digest = md.digest();
-				System.out.println(digest.toString());
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-
-			
-				
-				
-				
-//				FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI());
-//				.withAction("sadasdas")
-//                .withMethod(Method.POST)
-//                .withValue("name", "asdasdasd")
-//                .withValue("password", "asdasdasd")
-//                .submit();
 
 			}
 		});
@@ -176,27 +153,6 @@ public class AccountOverview extends VerticalLayout implements View {
 	}
 	
 	
-	
-	/*
-	 * 
-	 * 
-vpc_AccessCode: 	sdsds
-vpc_Version: 	1
-submit: 	Continue
-vpc_Command: 	pay
-vpc_OrderInfo: 	sdsdsd
-vpc_Locale: 	en
-vpc_Merchant: 	sdsd
-vpc_Amount: 	100
-vpc_SecureHash: 	FFC6B9FFFD5EEB7BBA51B5C58CD739C8
-vpc_ReturnURL: 	http://162.243.46.82:8080/code/vpc_jsp_authenticate_and_pay_merchanthost_dr.jsp
-vpc_MerchTxnRef: 	sdsdsdsd
-
-	 * 
-	 * 
-	 * 
-	 * */
-
 	@Override
 	public void enter(ViewChangeEvent event) {
 

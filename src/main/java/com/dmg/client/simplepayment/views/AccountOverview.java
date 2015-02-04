@@ -128,20 +128,32 @@ public class AccountOverview extends VerticalLayout implements View {
 				log.info( "Pay on process");
 				
 				PaymentManager manager = PaymentManager.getInstance();
-				Map<String, String> postFields = manager.getPostFields(user, totalAmount.getValue());
+				//Map<String, String> postFields = manager.getPostFields(user, totalAmount.getValue());
 				
 				
 				log.info( "Pay on process");
 				
-				FormSender sender = new FormSender();
-				sender.setFormMethod(Method.POST);
-				sender.setFormAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+				FormSenderBuilder withUI = FormSenderBuilder.create().withUI(getUI());
+				FormSenderBuilder sender = withUI.withAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+//                .withMethod(Method.POST)
+//                .withValue("name", usernameField.getValue())
+//                .withValue("password", passwordField.getValue())
+//                .submit();
+				
+				
+//				FormSender sender = new FormSender(Method.POST);
+				sender= sender.withMethod(Method.POST);
+				log.debug(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+//				sender.setFormAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
 				//sender.setFormTarget("_self");
 				
-				for (String key : postFields.keySet()) {
-					log.debug("map key - value:" + key + " : " + postFields.get(key));
-					sender.addValue(key, postFields.get(key));
-				}
+				//for (String key : postFields.keySet()) {
+				//	log.debug("map key - value:" + key + " : " + postFields.get(key));
+//					sender= sender.withValue(key, postFields.get(key));
+				//}
+				sender= sender.withValue("name", "111");
+				sender= sender.withValue("val1", "222");
+				sender= sender.withValue("val1", "333");
 				log.debug("before Submit");
 				sender.submit();
 				log.debug("After Submit");

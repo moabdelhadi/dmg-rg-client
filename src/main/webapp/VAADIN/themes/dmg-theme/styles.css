@@ -6910,6 +6910,8 @@ body .dmg-theme.v-app .v-app-loading {
 	position: relative;
 	margin-top: 20px;
 	padding: 20px 20px 20px;
+	background: #FFFFFF;
+	width: 500px;
 	border: solid 1px grey;
 }
 

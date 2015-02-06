@@ -1,9 +1,6 @@
 package com.dmg.client.simplepayment.views;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +9,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
@@ -41,8 +37,11 @@ public class AccountOverview extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(AccountOverview.class);
-	private static final String PAYMENT_URL="payment.paymentUrl";
+	private static final Logger log = LoggerFactory
+			.getLogger(AccountOverview.class);
+	private static final String PAYMENT_URL = "payment.paymentUrl";
+	private PaymentManager manager = PaymentManager.getInstance();
+	private Map<String, String> postFields;
 
 	private Navigator navigator;
 
@@ -56,6 +55,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private List<Label> amounts = new ArrayList<Label>();
 	private List<Button> billViews = new ArrayList<Button>();
 	private Label totalAmount;
+	private double totalAnoountDouble=0;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -67,7 +67,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
+		CustomLayout optionLayout = AccountOptions.getInstance(navigator)
+				.createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
 		CustomLayout customLayout = new CustomLayout("AccountOverview");
@@ -125,46 +126,67 @@ public class AccountOverview extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				log.info( "Pay on process");
-				
-				PaymentManager manager = PaymentManager.getInstance();
-				//Map<String, String> postFields = manager.getPostFields(user, totalAmount.getValue());
-				
-				
-				log.info( "Pay on process");
-				
-				FormSenderBuilder withUI = FormSenderBuilder.create().withUI(getUI());
-				FormSenderBuilder sender = withUI.withAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
-//                .withMethod(Method.POST)
-//                .withValue("name", usernameField.getValue())
-//                .withValue("password", passwordField.getValue())
-//                .submit();
-				
-				
-//				FormSender sender = new FormSender(Method.POST);
-				sender= sender.withMethod(Method.POST);
-				log.debug(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
-//				sender.setFormAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
-				//sender.setFormTarget("_self");
-				
-				//for (String key : postFields.keySet()) {
-				//	log.debug("map key - value:" + key + " : " + postFields.get(key));
-//					sender= sender.withValue(key, postFields.get(key));
-				//}
-				sender= sender.withValue("name", "111");
-				sender= sender.withValue("val1", "222");
-				sender= sender.withValue("val1", "333");
-				log.debug("before Submit");
-				sender.submit();
-				log.debug("After Submit");
-			
+				log.info("Pay on process");
+
+				FormSenderBuilder formSender = FormSenderBuilder
+						.create()
+						.withUI(getUI())
+						.withAction(
+								PropertiesManager.getInstance().getProperty(
+										PAYMENT_URL)).withMethod(Method.POST)
+						.withTarget("_self");
+
+				for (String key : postFields.keySet()) {
+					log.debug("map key - value:" + key + " : "
+							+ postFields.get(key));
+					formSender = formSender.withValue(key, postFields.get(key));
+				}
+
+				formSender.submit();
+
+				//
+				//
+				// PaymentManager manager = PaymentManager.getInstance();
+				// //Map<String, String> postFields =
+				// manager.getPostFields(user, totalAmount.getValue());
+				//
+				//
+				// log.info( "Pay on process");
+				//
+				// FormSenderBuilder withUI =
+				// FormSenderBuilder.create().withUI(getUI());
+				// FormSenderBuilder sender =
+				// withUI.withAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+				// // .withMethod(Method.POST)
+				// // .withValue("name", usernameField.getValue())
+				// // .withValue("password", passwordField.getValue())
+				// // .submit();
+				//
+				//
+				// // FormSender sender = new FormSender(Method.POST);
+				// sender= sender.withMethod(Method.POST);
+				// log.debug(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+				// //
+				// sender.setFormAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL));
+				// //sender.setFormTarget("_self");
+				//
+				// //for (String key : postFields.keySet()) {
+				// // log.debug("map key - value:" + key + " : " +
+				// postFields.get(key));
+				// // sender= sender.withValue(key, postFields.get(key));
+				// //}
+				// sender= sender.withValue("name", "111");
+				// sender= sender.withValue("val1", "222");
+				// sender= sender.withValue("val1", "333");
+				// log.debug("before Submit");
+				// sender.submit();
+				// log.debug("After Submit");
 
 			}
 		});
 
 	}
-	
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 
@@ -175,7 +197,8 @@ public class AccountOverview extends VerticalLayout implements View {
 			return;
 		}
 
-		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
+		UserAccount accountFromAccountID = UserManager.getInstance()
+				.getAccountFromAccountID(userAccount);
 
 		if (accountFromAccountID == null) {
 			log.error("No Valid user with this parameter");
@@ -185,11 +208,12 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		name.setValue(user.getName());
 
-		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo());
+		List<Bill> list = BillManager.getInstance().getLatestBills(
+				user.getContractNo());
 		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
 		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
 		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
-
+		totalAnoountDouble = subtract.doubleValue();
 		totalAmount.setValue(subtract.toString());
 
 		int counter = 0;
@@ -200,7 +224,8 @@ public class AccountOverview extends VerticalLayout implements View {
 			dates.get(counter).setValue(dateFormat.format(currentReadingDate));
 			amounts.get(counter).setValue(bill.getTotalAmount().toString());
 			Button button = billViews.get(counter);
-			BrowserWindowOpener opener = new BrowserWindowOpener(BillPopupUI.class);
+			BrowserWindowOpener opener = new BrowserWindowOpener(
+					BillPopupUI.class);
 			opener.setFeatures("");
 			opener.setParameter("accountId", bill.getContractNo());
 			opener.setParameter("billId", bill.getId().toString());
@@ -212,5 +237,8 @@ public class AccountOverview extends VerticalLayout implements View {
 			}
 
 		}
+
+		int intValue = (int)(totalAnoountDouble*100);
+		postFields = manager.getPostFields(user, intValue+"");
 	}
 }

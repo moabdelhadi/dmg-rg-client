@@ -1,5 +1,9 @@
 package com.dmg.client.payment;
 
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.risto.formsender.FormSenderBuilder;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
@@ -18,6 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 public class FormSenderUI extends UI {
 
     private static final long serialVersionUID = 8564331787044638071L;
+    private static final Logger log = LoggerFactory.getLogger(FormSenderUI.class);
 
     @SuppressWarnings("unchecked")
     @Override
@@ -72,11 +77,30 @@ public class FormSenderUI extends UI {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                FormSenderBuilder.create().withAction("http://www.google.com")
-                        .withMethod(Method.POST)
-                        .withValue("name", usernameField.getValue())
-                        .withValue("password", passwordField.getValue())
-                        .submit();
+				
+            	PaymentManager manager = PaymentManager.getInstance();
+				Map<String, String> postFields = manager.getPostFields(null, "");
+
+                FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI())
+        		.withAction("http://www.google.com")
+                .withMethod(Method.POST);
+                
+                int count=0;
+                for (String key : postFields.keySet()) {
+                	log.debug("map key - value:" + key + " : " + postFields.get(key));
+                	formSender = formSender.withValue(key, postFields.get(key));
+                	count++;
+				}
+				
+                formSender.submit();
+                
+
+//                FormSenderBuilder.create().withUI(getUI())
+//                		.withAction("http://www.google.com")
+//                        .withMethod(Method.POST)
+//                        .withValue("name", usernameField.getValue())
+//                        .withValue("password", passwordField.getValue())
+//                        .submit();
             }
         });
     }

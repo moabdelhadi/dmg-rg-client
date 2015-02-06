@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.util.PropertiesManager;
@@ -26,6 +28,7 @@ public class PaymentManager {
 	private static String PAYMENT_URL_FALLBACK = "";
 	private static PaymentManager INSTANCE = new PaymentManager();
 	private Map<String, String> merchantMap = new HashMap<String, String>();
+	private static final Logger log = LoggerFactory.getLogger(PaymentManager.class);
 
 	
 	private PaymentManager() {
@@ -45,9 +48,20 @@ public class PaymentManager {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
+		if(user==null){
+			log.error("Error user is null");
+			map.put("vpc_AccessCode", readProperty(ACCESS_CODE));
+			map.put("vpc_Version", readProperty(VERSION));
+			//map.put("submit", readProperty(SUBMIT));
+			map.put("vpc_Command", readProperty(COMMAND));
+			map.put("vpc_Locale", readProperty(LOCALE));
+			map.put("vpc_ReturnURL", readProperty(RETURN_URL));
+			return map;
+		}
+		
 		map.put("vpc_AccessCode", readProperty(ACCESS_CODE));
 		map.put("vpc_Version", readProperty(VERSION));
-		map.put("submit", readProperty(SUBMIT));
+		//map.put("submit", readProperty(SUBMIT));
 		map.put("vpc_Command", readProperty(COMMAND));
 		map.put("vpc_Locale", readProperty(LOCALE));
 		map.put("vpc_ReturnURL", readProperty(RETURN_URL));
@@ -72,6 +86,7 @@ public class PaymentManager {
 		
 		String hashAllFields = SHAEncrypt.hashAllFields(map);
 		
+		//map.remove("submit");
 		map.put("vpc_SecureHash",hashAllFields );
 		
 		return map;

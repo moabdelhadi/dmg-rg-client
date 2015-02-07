@@ -14,25 +14,24 @@ import com.vaadin.ui.UI;
 
 @Theme("dmg-theme")
 public class NavigatorUI extends UI {
-	
+
 	private static final long serialVersionUID = 511085335415683713L;
 	private static final Logger logger = LoggerFactory.getLogger(NavigatorUI.class);
 
 	Navigator navigator;
 
-
-//	@WebServlet(value = { "/client/*", "/VAADIN/*" }, asyncSupported = true)
-//	@VaadinServletConfiguration(productionMode = false, ui = NavigatorUI.class)
+	// @WebServlet(value = { "/client/*", "/VAADIN/*" }, asyncSupported = true)
+	// @VaadinServletConfiguration(productionMode = false, ui =
+	// NavigatorUI.class)
 	public static class Servlet extends VaadinServlet {
 
 		private static final long serialVersionUID = 1L;
 
 	}
 
-
 	@Override
 	protected void init(final VaadinRequest request) {
-		
+
 		getPage().setTitle("Royal Gas");
 
 		// Create a navigator to control the views
@@ -45,32 +44,35 @@ public class NavigatorUI extends UI {
 		navigator.addView(Views.RIGISTER_PROFILE_PAGE, new RegisterUserProfile(navigator));
 		navigator.addView(Views.ACTIVATION_PAGE, new WelcomeAfterRegister(navigator));
 		navigator.addView(Views.CHANGE_PASSWORD, new ChangePassword(navigator));
-		
-		
+		navigator.addView(Views.FORGOT_PASSWORD, new ForgetPassword(navigator));
+
 		navigator.addViewChangeListener(new ViewChangeListener() {
-			
+
 			private static final long serialVersionUID = 9119189310920723601L;
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
-				
+
 				logger.info("get in  beforeViewChange()");
-				
+
 				String viewName = event.getViewName();
 				logger.info("redirect to non authorized Page viewName");
-				
-				if(StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName,  Views.EDIT_PROFILE_PAGE)|| StringUtils.equals(viewName,  Views.RIGISTER_PROFILE_PAGE)){
+
+				if (StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName, Views.EDIT_PROFILE_PAGE) || StringUtils.equals(viewName, Views.RIGISTER_PROFILE_PAGE)) {
 					logger.info("redirect to non authorized Page");
 					return true;
 				}
-				
+
 				if (SessionHandler.get() == null) {
 					logger.info("non authorized user");
-//					String fragmentAndParameters = viewName;
-//					if (event.getParameters() != null) {
-//						fragmentAndParameters += "/";
-//						fragmentAndParameters += event.getParameters();
-//					}
+					if (event.getViewName().equals(Views.FORGOT_PASSWORD)) {
+						return true;
+					}
+					// String fragmentAndParameters = viewName;
+					// if (event.getParameters() != null) {
+					// fragmentAndParameters += "/";
+					// fragmentAndParameters += event.getParameters();
+					// }
 					navigator.navigateTo(Views.LOGIN);
 					return false;
 
@@ -79,11 +81,11 @@ public class NavigatorUI extends UI {
 
 				}
 			}
-			
+
 			@Override
 			public void afterViewChange(ViewChangeEvent event) {
 				logger.info("get in  afterViewChange()");
-				
+
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 package com.dmg.client.simplepayment.views;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -11,30 +12,43 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- *  This Should be a pop up to enter the email
+ * This Should be a pop up to enter the email
+ * 
  * @author mabdelhadi
- *
+ * 
  */
-public class ForgetPassword extends VerticalLayout implements View{ 
-	
+public class ForgetPassword extends VerticalLayout implements View {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private FormLayout form = new FormLayout();
+	private final FormLayout form = new FormLayout();
 
 	/** Login Fileds **/
 	private Label name;
 	private Button action;
+
+	private Navigator navigator;
+
+	public ForgetPassword(Navigator navigator) {
+		// this.fragmentAndParameters = null;
+		this.navigator = navigator;
+		init();
+	}
+
+	public ForgetPassword(Navigator navigator, String fragmentAndParameters) {
+		// this.fragmentAndParameters = fragmentAndParameters;
+		this.navigator = navigator;
+		init();
+	}
 
 	public ForgetPassword() {
 
 		setWidth(600, Unit.PIXELS);
 		init();
 	}
-
 
 	private void init() {
 
@@ -60,8 +74,7 @@ public class ForgetPassword extends VerticalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

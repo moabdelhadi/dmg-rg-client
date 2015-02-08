@@ -14,7 +14,7 @@ public class SHAEncrypt {
 	// This is secret for encoding the MD5 hash
 	// This secret will vary from merchant to merchant
 	// static final String SECURE_SECRET = "your-secure-hash-secret";
-    static String SECURE_SECRET = "787F5B76DB89CC4D2D20B0516D43431C";
+//    static String SECURE_SECRET = "787F5B76DB89CC4D2D20B0516D43431C";
 
     // This is an array for creating hex chars
     static final char[] HEX_TABLE = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -25,7 +25,7 @@ public class SHAEncrypt {
      * @param fields is a map of all the incoming hey-value pairs from the VPC
      * @param buf is the hash being returned for comparison to the incoming hash
      */
-     public static String hashAllFields(Map<String,String> fields) {
+     public static String hashAllFields(Map<String,String> fields, String SECURE_SECRET) {
 
 // 	    String hashKeys = "";
 // 	    String hashValues = "";

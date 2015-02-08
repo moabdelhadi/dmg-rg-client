@@ -123,7 +123,7 @@ NOTE:
     // This is secret for encoding the MD5 hash
     // This secret will vary from merchant to merchant
     // static final String SECURE_SECRET = "your-secure-hash-secret";
-    static final String SECURE_SECRET = "25763324B02BC63C63C37F6243548DC3";
+    static final String SECURE_SECRET = "787F5B76DB89CC4D2D20B0516D43431C";
 
     // This is an array for creating hex chars
     static final char[] HEX_TABLE = new char[] {

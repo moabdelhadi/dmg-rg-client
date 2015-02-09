@@ -40,7 +40,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private static final Logger log = LoggerFactory
 			.getLogger(AccountOverview.class);
 	private static final String PAYMENT_URL = "payment.paymentUrl";
-	private PaymentManager manager = PaymentManager.getInstance();
+//	private PaymentManager manager = PaymentManager.getInstance();
 	private Map<String, String> postFields;
 
 	private Navigator navigator;
@@ -127,7 +127,10 @@ public class AccountOverview extends VerticalLayout implements View {
 			public void buttonClick(ClickEvent event) {
 
 				log.info("Pay on process");
-
+				PaymentManager manager = PaymentManager.getInstance();
+				int intValue = (int)(totalAnoountDouble*100);
+				Map<String, String> postFields = manager.getPostFields(user, intValue+"");
+				
 				FormSenderBuilder formSender = FormSenderBuilder
 						.create()
 						.withUI(getUI())
@@ -238,7 +241,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		}
 
-		int intValue = (int)(totalAnoountDouble*100);
-		postFields = manager.getPostFields(user, intValue+"");
+		
+		
 	}
 }

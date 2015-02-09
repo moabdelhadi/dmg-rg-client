@@ -91,6 +91,9 @@ public class PaymentManager {
 
 		// map.remove("submit");
 		map.put("vpc_SecureHash", hashAllFields);
+		
+		
+		
 
 		return map;
 

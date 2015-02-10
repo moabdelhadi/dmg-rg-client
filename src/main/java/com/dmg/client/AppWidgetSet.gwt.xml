@@ -29,7 +29,7 @@
     -->
     <!-- <set-configuration-property name="devModeRedirectEnabled" value="true" /> -->
 
-
+	<set-configuration-property name="devModeRedirectEnabled" value="false" />
     <inherits name="org.vaadin.risto.formsender.widgetset.FormSenderWidgetset" />
 
 </module>

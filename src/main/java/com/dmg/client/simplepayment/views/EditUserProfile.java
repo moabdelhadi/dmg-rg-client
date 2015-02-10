@@ -44,8 +44,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private TextField name;
 	private TextField poBox;
 	private TextField poBoxCity;
-//	private PasswordField newPassword;
-//	private PasswordField confirmPassword;
 	private Label city;
 	private Label appartmentNumber;
 	private Label buildingNumber;
@@ -54,7 +52,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 	private TextField phonePrefix;
 	private TextField mobile;
 	private TextField mobilePrefix;
-	// private TextField status;
 	private UserAccount user;
 	private boolean edit;
 	private Map<String, String> cityMap = new HashMap<String, String>();
@@ -108,23 +105,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");
 
-//		newPassword = new PasswordField("New Password");
-//		newPassword.setInputPrompt("New Password");
-//		newPassword.setRequired(true);
-//		newPassword.setHeight("30px");
-//		newPassword.setStyleName("h2");
-//		newPassword.setRequiredError("This field is required");
-//		customLayout.addComponent(newPassword, "newPassword");
-//
-//		confirmPassword = new PasswordField("Confirm Password");
-//		confirmPassword.setInputPrompt("Confirm Password");
-//		confirmPassword.setRequired(true);
-//		confirmPassword.setHeight("30px");
-//		confirmPassword.setStyleName("h2");
-//		confirmPassword.setRequiredError("This field is required");
-//
-//		customLayout.addComponent(confirmPassword, "confirmPassword");
-
 		city = new Label();
 		city.setHeight("30px");
 		city.setStyleName("h2");
@@ -176,8 +156,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		customLayout.addComponent(mobile, "mobile");
 
 		registerButton = new Button("Register");
-		// loginButton.addStyleName(Runo.BUTTON_BIG);
-		// loginButton.setClickShortcut(KeyCode.ENTER);
 		customLayout.addComponent(registerButton, "registerButton");
 
 		
@@ -200,68 +178,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 	}
 	
 	
-//	private CustomLayout createOptionLayout() {
-//		
-//		CustomLayout customLayout = new CustomLayout("options");
-//		customLayout.setWidth("188px");
-//		customLayout.setStyleName("optionLayout");
-//		
-//		Button summary = new Button("Account Summary");
-//		summary.addStyleName("optViewButton");
-////		summary.setHeight("75px");
-//		//summary.setIcon(new ThemeResource("img/blueButton.png"), "Account Summary");
-//		
-//		
-//		Button editProfile = new Button("Edit Proifile");
-////		editProfile.setHeight("75px");
-//		editProfile.addStyleName("optViewButton");
-//		
-//		
-//		Button changePassword = new Button("Change Password");
-////		changePassword.setHeight("75px");
-//		changePassword.addStyleName("optViewButton");
-//		
-//		customLayout.addComponent(summary, "summary");
-//		customLayout.addComponent(editProfile, "edit_profile");
-//		customLayout.addComponent(changePassword, "change_password");
-//		
-//		summary.addClickListener(new ClickListener() {
-//			
-//			@Override
-//			public void buttonClick(ClickEvent event) {
-//				navigator.navigateTo(Views.USER_PAGE);
-//			}
-//		});
-//		
-//		editProfile.addClickListener(new ClickListener() {
-//			
-//			/**
-//			 * 
-//			 */
-//			private static final long serialVersionUID = 1L;
-//
-//			@Override
-//			public void buttonClick(ClickEvent event) {
-//				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-//			}
-//		});
-//		
-//		changePassword.addClickListener(new ClickListener() {
-//			
-//			/**
-//			 * 
-//			 */
-//			private static final long serialVersionUID = 1L;
-//
-//			@Override
-//			public void buttonClick(ClickEvent event) {
-//				navigator.navigateTo(Views.CHANGE_PASSWORD);
-//			}
-//		});
-//		
-//		return customLayout;
-//	}
-
 	private void registerNewUser() {
 
 		if (!vaildateRegister()) {
@@ -273,7 +189,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 			return;
 		}
 
-		//user.setName(name.getValue());
+		user.setName(name.getValue());
 		user.setStatus(UserStatus.ACTIVE.value());
 		user.setPobox(poBox.getValue());
 		user.setPoboxCity(poBoxCity.getValue());
@@ -282,7 +198,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		user.setActivationString("");
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-//		user.setPassword(newPassword.getValue());
 		user.setPhone(phone.getValue());
 		user.setMobile(mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
@@ -309,13 +224,13 @@ public class EditUserProfile extends VerticalLayout implements View {
 			status = false;
 		}
 
-//		try {
-//			name.validate();
-//		} catch (InvalidValueException e) {
-//			String htmlMessage = e.getHtmlMessage();
-//			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-//			status = false;
-//		}
+		try {
+			name.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
 
 		try {
 			poBox.validate();
@@ -332,29 +247,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 			poBoxCity.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-
-//		try {
-//			newPassword.validate();
-//		} catch (InvalidValueException e) {
-//			String htmlMessage = e.getHtmlMessage();
-//			newPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-//			status = false;
-//		}
-//
-//		try {
-//			confirmPassword.validate();
-//		} catch (InvalidValueException e) {
-//			String htmlMessage = e.getHtmlMessage();
-//			confirmPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-//			status = false;
-//		}
-//
-//		if (newPassword.getValue() != null && !newPassword.getValue().trim().isEmpty() && confirmPassword != null) {
-//			if (!newPassword.getValue().equals(confirmPassword.getValue())) {
-//				confirmPassword.setComponentError(new UserError("Password must match"));
-//				status = false;
-//			}
-//		}
 
 		try {
 			phone.validate();
@@ -446,9 +338,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 	private void resetFormValidation() {
 
+		name.setComponentError(null);
 		loginEmail.setComponentError(null);
-//		newPassword.setComponentError(null);
-//		confirmPassword.setComponentError(null);
 		contractNo.setComponentError(null);
 		appartmentNumber.setComponentError(null);
 		buildingNumber.setComponentError(null);
@@ -457,8 +348,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		phonePrefix.setComponentError(null);
 		mobile.setComponentError(null);
 		mobilePrefix.setComponentError(null);
-		
-		// status.setComponentError(null);
 
 	}
 
@@ -468,20 +357,11 @@ public class EditUserProfile extends VerticalLayout implements View {
 		logger.debug("Get in Edit User Profile Entree");
 		
 		UserAccount accountFromAccountID = null;
-		accountFromAccountID = getuserFromParam(event.getParameters());
-		
-		if(accountFromAccountID!=null){
-			logger.info("Find User From Params");
+		accountFromAccountID = getUserFromSession();
+		if(accountFromAccountID !=null){
 			user = accountFromAccountID;
-			setEdit(false);
-		}else{
-			logger.info("No User From Params , try to find from session");
-			accountFromAccountID = getUserFromSession();
-			if(accountFromAccountID !=null){
-				user = accountFromAccountID;
-				setEdit(true);
-				logger.info("Find User From Session");
-			}
+			setEdit(true);
+			logger.info("Find User From Session");
 		}
 		
 
@@ -496,8 +376,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 	}
 	
 	
-	
-
 	private UserAccount getUserFromSession() {
 		
 		UserAccount userAccount = SessionHandler.get();
@@ -507,9 +385,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		UserAccount accountFromAccountID= UserManager.getInstance().getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
 	}
-
-
-
 
 	private UserAccount getuserFromParam(String parametersString) {
 		
@@ -597,14 +472,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 				mobile.setValue(split[1]);
 			}
 		}
-		
-//		newPassword.setValue("");
-//		confirmPassword.setValue("");
-//		if(user.getPassword() !=null){
-//			newPassword.setValue(user.getPassword());
-//			confirmPassword.setValue(user.getPassword());
-//		}
-
 	}
 
 	public boolean isEdit() {

@@ -33,13 +33,14 @@ public class Login extends VerticalLayout implements View {
 
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
-	private Navigator navigator;
+	private final Navigator navigator;
 
 	/** Login Fileds **/
 	private TextField loginAccountId;
 	private ComboBox loginCitySelect;
 	private PasswordField loginPassword;
 	private Button loginButton;
+	private Button forgotPassword;
 
 	private TextField accountId;
 	private ComboBox citySelect;
@@ -72,8 +73,7 @@ public class Login extends VerticalLayout implements View {
 		loginAccountId = new TextField("Account No.");
 		loginAccountId.setHeight("30px");
 		loginAccountId.setStyleName("h2");
-		loginAccountId
-				.setInputPrompt("Please enter you account no. as shown in the help button");
+		loginAccountId.setInputPrompt("Please enter you account no. as shown in the help button");
 		loginAccountId.setRequired(true);
 		loginAccountId.setRequiredError("Please enter account number");
 		// loginAccountId.setWidth("200px");
@@ -90,8 +90,7 @@ public class Login extends VerticalLayout implements View {
 		loginCitySelect.addItem("DUBAI");
 		loginCitySelect.addItem("ABUDHABI");
 		loginCitySelect.setItemCaption("DUBAI", "Dubai & Northern Emirates");
-		loginCitySelect.setItemCaption("ABUDHABI",
-				"Abu dhabi, Alain & Western Region");
+		loginCitySelect.setItemCaption("ABUDHABI", "Abu dhabi, Alain & Western Region");
 		loginCitySelect.setInputPrompt("Please select your region");
 		loginCitySelect.setTextInputAllowed(false);
 		customLayout.addComponent(loginCitySelect, "userCity");
@@ -110,13 +109,16 @@ public class Login extends VerticalLayout implements View {
 		loginButton.setClickShortcut(KeyCode.ENTER);
 		customLayout.addComponent(loginButton, "loginButton");
 
+		forgotPassword = new Button("Forgot my password");
+		forgotPassword.addStyleName(Runo.BUTTON_LINK);
+		customLayout.addComponent(forgotPassword, "forgotPassword");
+
 		// customLayout.setWidth("20%");
 		accountId = new TextField("Account No.");
 		accountId.setHeight("30px");
 		accountId.setStyleName("h2");
 		accountId.setRequired(true);
-		accountId
-				.setInputPrompt("Please enter you account no. as shown in the help button");
+		accountId.setInputPrompt("Please enter you account no. as shown in the help button");
 		accountId.setRequiredError("This feild is required");
 		customLayout.addComponent(accountId, "accountId");
 
@@ -130,8 +132,7 @@ public class Login extends VerticalLayout implements View {
 		citySelect.addItem("DUBAI");
 		citySelect.addItem("ABUDHABI");
 		citySelect.setItemCaption("DUBAI", "Dubai & Northern Emirates");
-		citySelect.setItemCaption("ABUDHABI",
-				"Abu dhabi, Alain & Western Region");
+		citySelect.setItemCaption("ABUDHABI", "Abu dhabi, Alain & Western Region");
 		citySelect.setInputPrompt("Please select your region");
 		citySelect.setNullSelectionAllowed(false);
 		citySelect.setTextInputAllowed(false);
@@ -167,11 +168,14 @@ public class Login extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				loginUser();
-				// System.out.println("dfsfdsdfsdf");
-				// FormSenderBuilder.create().withUI(getUI()).withAction("http://alarabiya.net").withMethod(Method.POST).withTarget("_blank").withValue("name",
-				// "asdasdasd")
-				// .withValue("password", "asdasdasd").submit();
-				// System.out.println("zzzzzz");
+			}
+		});
+
+		forgotPassword.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				navigator.navigateTo(Views.FORGOT_PASSWORD);
 			}
 		});
 
@@ -196,44 +200,33 @@ public class Login extends VerticalLayout implements View {
 		UserAccount user = new UserAccount();
 		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
-		logger.info("try get  User With accountId = " + accountId.getValue()
-				+ " and city =" + citySelect.getValue() + " ,  apartment="
-				+ apartmentNo.getValue() + " , Building="
+		logger.info("try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue() + " , Building="
 				+ buildingNo.getValue());
 
-		UserAccount userAccount = UserManager.getInstance()
-				.getAccountFromAccountID(user);
+		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
 		if (userAccount == null) {
 			logger.warn("No User With accountId = " + accountId.getValue());
-			Notification.show("ERROR",
-					"The input Data does not match an exsisting account",
-					Notification.Type.HUMANIZED_MESSAGE);
+			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
 
 		if (userAccount.getStatus() != 0) {
-			Notification.show("ERROR",
-					"This User Already registered, Please Login",
-					Notification.Type.HUMANIZED_MESSAGE);
+			Notification.show("ERROR", "This User Already registered, Please Login", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
 
 		if (!apartmentNo.getValue().equals(userAccount.getAppartmentNumber())) {
 			logger.warn("Apartment Does not match");
-			Notification.show("ERROR",
-					"The input Data does not match an exsisting account",
-					Notification.Type.HUMANIZED_MESSAGE);
+			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
 
 		if (!buildingNo.getValue().equals(userAccount.getBuildingNumber())) {
-			Notification.show("ERROR", "Building Does not match",
-					Notification.Type.HUMANIZED_MESSAGE);
+			Notification.show("ERROR", "Building Does not match", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
 
-		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/"
-				+ userAccount.getContractNo() + "/" + userAccount.getCity());
+		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
 	}
 
 	private boolean vaildateRegister() {
@@ -246,8 +239,7 @@ public class Login extends VerticalLayout implements View {
 		} catch (InvalidValueException e) {
 
 			String htmlMessage = e.getHtmlMessage();
-			accountId.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			accountId.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -255,8 +247,7 @@ public class Login extends VerticalLayout implements View {
 			citySelect.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			citySelect.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			citySelect.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -264,8 +255,7 @@ public class Login extends VerticalLayout implements View {
 			buildingNo.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			buildingNo.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			buildingNo.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -273,8 +263,7 @@ public class Login extends VerticalLayout implements View {
 			apartmentNo.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			apartmentNo.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			apartmentNo.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -291,8 +280,7 @@ public class Login extends VerticalLayout implements View {
 			loginCitySelect.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginCitySelect.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			loginCitySelect.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -300,8 +288,7 @@ public class Login extends VerticalLayout implements View {
 			loginAccountId.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginAccountId.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			loginAccountId.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -309,8 +296,7 @@ public class Login extends VerticalLayout implements View {
 			loginPassword.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginPassword.setComponentError(new UserError(htmlMessage,
-					ContentMode.HTML, ErrorLevel.ERROR));
+			loginPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
 			// loginPassword.setComponentError(new
 			// UserError("This Field is required"));
 			status = false;
@@ -350,14 +336,12 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		UserAccount user = new UserAccount(loginAccountId.getValue(),
-				loginPassword.getValue(), loginCitySelect.getValue().toString());
+		UserAccount user = new UserAccount(loginAccountId.getValue(), loginPassword.getValue(), loginCitySelect.getValue().toString());
 
 		try {
 			UserAccount result = UserManager.getInstance().login(user);
 			if (result != null) {
-				navigator.navigateTo(Views.USER_PAGE + "/"
-						+ result.getContractNo() + "/" + result.getCity());
+				navigator.navigateTo(Views.USER_PAGE + "/" + result.getContractNo() + "/" + result.getCity());
 			}
 
 		} catch (Exception e) {

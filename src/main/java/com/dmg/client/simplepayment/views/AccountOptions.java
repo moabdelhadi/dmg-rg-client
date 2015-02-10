@@ -2,6 +2,9 @@ package com.dmg.client.simplepayment.views;
 
 import java.io.Serializable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dmg.client.auth.SessionHandler;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.Button;
@@ -17,6 +20,7 @@ public class AccountOptions implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private static AccountOptions INSTANCE;
 	private Navigator navigator;
+	private static final Logger logger = LoggerFactory.getLogger(AccountOptions.class);
 
 	private AccountOptions(Navigator navigator) {
 		
@@ -63,6 +67,7 @@ public class AccountOptions implements Serializable{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				logger.debug("USER Page Button Clicked");
 				navigator.navigateTo(Views.USER_PAGE);
 			}
 		});
@@ -76,6 +81,7 @@ public class AccountOptions implements Serializable{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				logger.debug("Edit Profile button clicked");
 				navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
 			}
 		});
@@ -89,6 +95,7 @@ public class AccountOptions implements Serializable{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				logger.debug("Change Password button clicked");
 				navigator.navigateTo(Views.CHANGE_PASSWORD);
 			}
 		});
@@ -103,6 +110,7 @@ public class AccountOptions implements Serializable{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				logger.debug("Logout button clicked");
 				SessionHandler.logout();
 				navigator.navigateTo(Views.LOGIN);
 			}

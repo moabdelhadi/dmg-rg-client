@@ -86,11 +86,13 @@ public class PaymentManager {
 		map.put("vpc_Amount", ammount);
 
 		map.put("vpc_OrderInfo", MerchTxnRef);
-
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
 
 		// map.remove("submit");
+	//	map.put("vpc_SecureHashType", "MD5");
+
 		map.put("vpc_SecureHash", hashAllFields);
+		
 		
 		
 		

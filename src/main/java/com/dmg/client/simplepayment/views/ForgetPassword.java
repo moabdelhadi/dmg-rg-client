@@ -1,6 +1,7 @@
 package com.dmg.client.simplepayment.views;
 
 import com.dmg.client.auth.util.ValidateMessage;
+import com.dmg.client.user.UserManager;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;

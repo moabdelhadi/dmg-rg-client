@@ -1,4 +1,4 @@
-package com.dmg.client.simplepayment.views;
+package com.dmg.client.user;
 
 public class UserManagerException extends Exception {
 

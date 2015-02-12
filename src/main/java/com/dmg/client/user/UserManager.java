@@ -1,4 +1,4 @@
-package com.dmg.client.simplepayment.views;
+package com.dmg.client.user;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
-import com.dmg.client.auth.util.ValidateMessage;
 import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
@@ -165,7 +164,7 @@ public class UserManager {
 
 	}
 
-	public ValidateMessage validateAccountAndCity(String accountNo, String city) {
+	public UserAccount validateAccountAndCity(String accountNo, String city) throws DataAccessLayerException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.USER_ACCOUNT_ID, accountNo);
@@ -175,21 +174,21 @@ public class UserManager {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Account is incorrect", e);
-			return new ValidateMessage(false, "System Error occurred please call: 800-RGAS");
+			throw new DataAccessLayerException("System Error occurred please call: 800-RGAS");
 
 		}
 
 		if (list == null || list.isEmpty()) {
 			logger.warn("Account is incorrect");
-			return new ValidateMessage(false, "Account does not exist");
+			throw new DataAccessLayerException("Account does not exist");
 		}
 
 		if (list.size() > 1) {
 			logger.warn("Account is dublicated Please Check");
-			return new ValidateMessage(false, "System Error occurred please call: 800-RGAS");
+			throw new DataAccessLayerException("System Error occurred please call: 800-RGAS");
 		}
 
-		return new ValidateMessage(true, null);
+		return list.get(0);
 	}
 
 	public boolean activate(String activationString) {

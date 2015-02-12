@@ -20,50 +20,50 @@ public class Transaction extends AbstractPojo {
 	@Column(name = "CONTRACT_NO")
 	private String contractNo;
 
-	@Column(name = "TOTALAMT")
-	private String totalAmount;
-
-	@Column(name = "DOCNO")
-	private String docNo;
-
-	@Column(name = "INVDATE")
-	private Date invDate;
-
-	@Column(name = "YEARCODE")
-	private String yearCode;
-
-	@Column(name = "SRNO")
-	private String serialNo;
-
 	@Column(name = "CITY")
 	private String city;
 
-	@Column(name = "BUILDING_CODE")
-	private String buildingCode;
+	@Column(name = "vpc_OrderInfo")
+	private String orderInfo;
 
 	@Column(name = "STATUS")
 	private String status;
 
-	@Column(name = "APARTMENT_CODE")
-	private String apartmentCode;
-
-	@Column(name = "AMOUNT")
+	@Column(name = "vpc_Amount")
 	private String amount;
 
-	@Column(name = "FEES")
-	private String fees;
+	@Column(name = "vpc_Command")
+	private String command;
+
+	@Column(name = "vpc_MerchTxnRef")
+	private String merchTxnRef;
+
+	@Column(name = "vpc_SecureHash")
+	private String secureHash;
+
+	@Column(name = "vpc_SecureHashType")
+	private String secureHashType;
 
 	@Column(name = "SYNC_STATUS")
 	private int syncStatus;
 
-	@Column(name = "ACCOUNT_NUMBER")
-	private String accountNumber;
+	@Column(name = "vpc_Version")
+	private String version;
 
-	@Column(name = "BILL_NUMBER")
-	private String billNumber;
+	@Column(name = "vpc_Locale")
+	private String locale;
 
-	@Column(name = "PAYMENT_DATE")
-	private Date paymentDate;
+	@Column(name = "vpc_ReturnURL")
+	private String returnURL;
+
+	@Column(name = "vpc_AccessCode")
+	private String accessCode;
+
+	@Column(name = "vpc_Merchant")
+	private String merchant;
+
+	@Column(name = "FEES")
+	private String fees;
 
 	public Transaction() {
 
@@ -77,54 +77,6 @@ public class Transaction extends AbstractPojo {
 		this.contractNo = contractNo;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(String totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public String getDocNo() {
-		return docNo;
-	}
-
-	public void setDocNo(String docNo) {
-		this.docNo = docNo;
-	}
-
-	public Date getInvDate() {
-		return invDate;
-	}
-
-	public void setInvDate(Date invDate) {
-		this.invDate = invDate;
-	}
-
-	public String getYearCode() {
-		return yearCode;
-	}
-
-	public void setYearCode(String yearCode) {
-		this.yearCode = yearCode;
-	}
-
-	public String getSerialNo() {
-		return serialNo;
-	}
-
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-
 	public String getCity() {
 		return city;
 	}
@@ -133,20 +85,20 @@ public class Transaction extends AbstractPojo {
 		this.city = city;
 	}
 
-	public String getBuildingCode() {
-		return buildingCode;
+	public String getOrderInfo() {
+		return orderInfo;
 	}
 
-	public void setBuildingCode(String buildingCode) {
-		this.buildingCode = buildingCode;
+	public void setOrderInfo(String orderInfo) {
+		this.orderInfo = orderInfo;
 	}
 
-	public String getApartmentCode() {
-		return apartmentCode;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setApartmentCode(String apartmentCode) {
-		this.apartmentCode = apartmentCode;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getAmount() {
@@ -157,12 +109,36 @@ public class Transaction extends AbstractPojo {
 		this.amount = amount;
 	}
 
-	public String getFees() {
-		return fees;
+	public String getCommand() {
+		return command;
 	}
 
-	public void setFees(String fees) {
-		this.fees = fees;
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
+	public String getMerchTxnRef() {
+		return merchTxnRef;
+	}
+
+	public void setMerchTxnRef(String merchTxnRef) {
+		this.merchTxnRef = merchTxnRef;
+	}
+
+	public String getSecureHash() {
+		return secureHash;
+	}
+
+	public void setSecureHash(String secureHash) {
+		this.secureHash = secureHash;
+	}
+
+	public String getSecureHashType() {
+		return secureHashType;
+	}
+
+	public void setSecureHashType(String secureHashType) {
+		this.secureHashType = secureHashType;
 	}
 
 	public int getSyncStatus() {
@@ -173,28 +149,66 @@ public class Transaction extends AbstractPojo {
 		this.syncStatus = syncStatus;
 	}
 
-	public String getAccountNumber() {
-		return accountNumber;
+	public String getVersion() {
+		return version;
 	}
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
-	public String getBillNumber() {
-		return billNumber;
+	public String getLocale() {
+		return locale;
 	}
 
-	public void setBillNumber(String billNumber) {
-		this.billNumber = billNumber;
+	public void setLocale(String locale) {
+		this.locale = locale;
 	}
 
-	public Date getPaymentDate() {
-		return paymentDate;
+	public String getReturnURL() {
+		return returnURL;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
+	public void setReturnURL(String returnURL) {
+		this.returnURL = returnURL;
+	}
+
+	public String getAccessCode() {
+		return accessCode;
+	}
+
+	public void setAccessCode(String accessCode) {
+		this.accessCode = accessCode;
+	}
+
+	public String getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(String merchant) {
+		this.merchant = merchant;
+	}
+
+	public String getFees() {
+		return fees;
+	}
+
+	public void setFees(String fees) {
+		this.fees = fees;
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction [contractNo=" + contractNo + ", city=" + city
+				+ ", orderInfo=" + orderInfo + ", status=" + status
+				+ ", amount=" + amount + ", command=" + command
+				+ ", merchTxnRef=" + merchTxnRef + ", secureHash=" + secureHash
+				+ ", secureHashType=" + secureHashType + ", syncStatus="
+				+ syncStatus + ", version=" + version + ", locale=" + locale
+				+ ", returnURL=" + returnURL + ", accessCode=" + accessCode
+				+ ", merchant=" + merchant + ", fees=" + fees + ", id=" + id
+				+ ", creationDate=" + creationDate + ", updateDate="
+				+ updateDate + "]";
 	}
 
 }

@@ -1,6 +1,10 @@
 package com.dmg.client.simplepayment.views;
 
-import com.dmg.client.auth.util.ValidateMessage;
+import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.client.user.UserManager;
+import com.dmg.core.exception.DataAccessLayerException;
+import com.dmg.util.EncryptionUtil;
+import com.dmg.util.mail.MailManager;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
@@ -42,6 +46,7 @@ public class ForgetPassword extends VerticalLayout implements View {
 	/** Login Fileds **/
 
 	private final Navigator navigator;
+	private UserAccount userAccount;
 
 	public ForgetPassword(Navigator navigator) {
 		// this.fragmentAndParameters = null;
@@ -103,6 +108,8 @@ public class ForgetPassword extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (validate()) {
+					String hashKey = EncryptionUtil.encrypt(userAccount.getCity() + "_" + userAccount.getContractNo() + "_" + System.currentTimeMillis());
+					MailManager.getInstance().sendMail(userAccount.getEmail(), "Reset Password", "Please click here: http://www.alarabiya.net?key=" + hashKey + " to reset your password");
 					notification.show(Page.getCurrent());
 					navigator.navigateTo(Views.LOGIN);
 				}
@@ -134,11 +141,17 @@ public class ForgetPassword extends VerticalLayout implements View {
 		}
 
 		if (status) {
-			ValidateMessage validateMessage = UserManager.getInstance().validateAccountAndCity(accountNumberField.getValue(), citySelect.getValue().toString());
-			if (!validateMessage.isValid()) {
+
+			try {
+				userAccount = UserManager.getInstance().validateAccountAndCity(accountNumberField.getValue(), citySelect.getValue().toString());
+				if (userAccount.getEmail() == null) {
+					Notification.show("Error", "There is no email assigned to this user please call: 800-RGAS ", Type.ERROR_MESSAGE);
+				}
+			} catch (DataAccessLayerException e) {
+				Notification.show("Error", e.getMessage(), Type.ERROR_MESSAGE);
 				status = false;
-				Notification.show("Error", validateMessage.getMessage(), Type.ERROR_MESSAGE);
 			}
+
 		}
 		return status;
 	}

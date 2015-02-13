@@ -164,11 +164,8 @@ public class UserManager {
 
 	}
 
-	public UserAccount validateAccountAndCity(String accountNo, String city) throws DataAccessLayerException {
+	public UserAccount validateAccount(Map<String, Object> parameters) throws DataAccessLayerException {
 
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_ID, accountNo);
-		parameters.put(Constants.USER_CITY, city);
 		List<UserAccount> list;
 		try {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
@@ -189,6 +186,15 @@ public class UserManager {
 		}
 
 		return list.get(0);
+	}
+
+	public void updateAccount(UserAccount userAccount) throws DataAccessLayerException {
+		try {
+			FacadeFactory.getFacade().store(userAccount);
+		} catch (DataAccessLayerException e) {
+			logger.error("Error occured while updating record is incorrect", e);
+			throw new DataAccessLayerException("System Error occurred please call: 800-RGAS");
+		}
 	}
 
 	public boolean activate(String activationString) {

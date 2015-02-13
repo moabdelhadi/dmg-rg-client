@@ -60,12 +60,15 @@ public class UserAccount extends AbstractPojo {
 	@Column(name = "LASTUPDATE")
 	private Date lastUpdate;
 
+	@Column(name = "PASS_RESET_KEY")
+	private String passResetKey;
+
 	public UserAccount() {
 
 	}
 
 	public UserAccount(String accountNo, String password, String city) {
-		this.contractNo = accountNo;
+		contractNo = accountNo;
 		this.password = password;
 		this.city = city;
 	}
@@ -186,13 +189,19 @@ public class UserAccount extends AbstractPojo {
 		return serialVersionUID;
 	}
 
+	public String getPassResetKey() {
+		return passResetKey;
+	}
+
+	public void setPassResetKey(String passResetKey) {
+		this.passResetKey = passResetKey;
+	}
+
 	@Override
 	public String toString() {
-		return "UserAccount [email=" + email + ", password=" + password + ", name=" + name + ", city=" + city
-				+ ", buildingNumber=" + buildingNumber + ", appartmentNumber=" + appartmentNumber + ", accountId="
-				+ contractNo + ", phone=" + phone + ", mobile=" + mobile + ", pobox=" + pobox + ", poboxCity="
-				+ poboxCity + ", status=" + status + ", activationString=" + activationString + ", lastUpdate="
-				+ lastUpdate + "]";
+		return "UserAccount [email=" + email + ", password=" + password + ", name=" + name + ", city=" + city + ", buildingNumber=" + buildingNumber + ", appartmentNumber=" + appartmentNumber
+				+ ", accountId=" + contractNo + ", phone=" + phone + ", mobile=" + mobile + ", pobox=" + pobox + ", poboxCity=" + poboxCity + ", status=" + status + ", activationString="
+				+ activationString + ", lastUpdate=" + lastUpdate + "]";
 	}
 
 }

@@ -63,6 +63,9 @@ public class UserAccount extends AbstractPojo {
 	@Column(name = "PASS_RESET_KEY")
 	private String passResetKey;
 
+	@Column(name = "ACTIVATION_KEY")
+	private String activationKey;
+
 	public UserAccount() {
 
 	}
@@ -195,6 +198,14 @@ public class UserAccount extends AbstractPojo {
 
 	public void setPassResetKey(String passResetKey) {
 		this.passResetKey = passResetKey;
+	}
+
+	public String getActivationKey() {
+		return activationKey;
+	}
+
+	public void setActivationKey(String activationKey) {
+		this.activationKey = activationKey;
 	}
 
 	@Override

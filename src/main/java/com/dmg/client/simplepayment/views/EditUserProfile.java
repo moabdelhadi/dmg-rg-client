@@ -191,7 +191,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		}
 
 		user.setName(name.getValue());
-		user.setStatus(UserStatus.ACTIVE.value());
+		user.setStatus(UserStatus.RESGISTERED.value());
 		user.setPobox(poBox.getValue());
 		user.setPoboxCity(poBoxCity.getValue());
 

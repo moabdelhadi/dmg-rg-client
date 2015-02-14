@@ -217,7 +217,7 @@ public class ChangePassword extends VerticalLayout implements View {
 		}
 
 		//user.setName(name.getValue());
-		user.setStatus(UserStatus.ACTIVE.value());
+		user.setStatus(UserStatus.RESGISTERED.value());
 		
 		String password = user.getPassword();
 		if(!StringUtils.equals(password, oldPassword.getValue())){

@@ -13,6 +13,8 @@ import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
+import com.dmg.util.SHAEncrypt;
+import com.dmg.util.mail.MailManager;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.Navigator;
@@ -38,7 +40,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(RegisterUserProfile.class);
 
-	private Navigator navigator;
+	private final Navigator navigator;
 	private Button registerButton;
 	private TextField loginEmail;
 	private TextField name;
@@ -56,7 +58,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private TextField mobilePrefix;
 	private UserAccount user;
 	private boolean edit;
-	private Map<String, String> cityMap = new HashMap<String, String>();
+	private final Map<String, String> cityMap = new HashMap<String, String>();
 
 	public RegisterUserProfile(Navigator navigator) {
 		this.navigator = navigator;
@@ -108,22 +110,22 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");
 
-		 newPassword = new PasswordField("New Password");
-		 newPassword.setInputPrompt("New Password");
-		 newPassword.setRequired(true);
-		 newPassword.setHeight("30px");
-		 newPassword.setStyleName("h2");
-		 newPassword.setRequiredError("This field is required");
-		 customLayout.addComponent(newPassword, "newPassword");
-		
-		 confirmPassword = new PasswordField("Confirm Password");
-		 confirmPassword.setInputPrompt("Confirm Password");
-		 confirmPassword.setRequired(true);
-		 confirmPassword.setHeight("30px");
-		 confirmPassword.setStyleName("h2");
-		 confirmPassword.setRequiredError("This field is required");
-		
-		 customLayout.addComponent(confirmPassword, "confirmPassword");
+		newPassword = new PasswordField("New Password");
+		newPassword.setInputPrompt("New Password");
+		newPassword.setRequired(true);
+		newPassword.setHeight("30px");
+		newPassword.setStyleName("h2");
+		newPassword.setRequiredError("This field is required");
+		customLayout.addComponent(newPassword, "newPassword");
+
+		confirmPassword = new PasswordField("Confirm Password");
+		confirmPassword.setInputPrompt("Confirm Password");
+		confirmPassword.setRequired(true);
+		confirmPassword.setHeight("30px");
+		confirmPassword.setStyleName("h2");
+		confirmPassword.setRequiredError("This field is required");
+
+		customLayout.addComponent(confirmPassword, "confirmPassword");
 
 		city = new Label();
 		city.setHeight("30px");
@@ -270,7 +272,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		}
 
 		// user.setName(name.getValue());
-		user.setStatus(UserStatus.ACTIVE.value());
+		user.setStatus(UserStatus.RESGISTERED.value());
 		user.setPobox(poBox.getValue());
 		user.setPoboxCity(poBoxCity.getValue());
 
@@ -284,7 +286,15 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {
+			String hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
+			user.setActivationKey(hashKey);
+
 			FacadeFactory.getFacade().store(user);
+			MailManager.getInstance().sendFromGmail(
+					user.getEmail(),
+					"Account Activation",
+					"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
+							+ " to activate your account");
 			navigator.navigateTo(Views.ACTIVATION_PAGE);
 		} catch (DataAccessLayerException e) {
 			// navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
@@ -305,14 +315,13 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			status = false;
 		}
 
-		 try {
-		 name.validate();
-		 } catch (InvalidValueException e) {
-		 String htmlMessage = e.getHtmlMessage();
-		 name.setComponentError(new UserError(htmlMessage, ContentMode.HTML,
-		 ErrorLevel.ERROR));
-		 status = false;
-		 }
+		try {
+			name.validate();
+		} catch (InvalidValueException e) {
+			String htmlMessage = e.getHtmlMessage();
+			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			status = false;
+		}
 
 		try {
 			poBox.validate();
@@ -444,8 +453,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	private void resetFormValidation() {
 
 		loginEmail.setComponentError(null);
-		 newPassword.setComponentError(null);
-		 confirmPassword.setComponentError(null);
+		newPassword.setComponentError(null);
+		confirmPassword.setComponentError(null);
 		contractNo.setComponentError(null);
 		appartmentNumber.setComponentError(null);
 		buildingNumber.setComponentError(null);
@@ -481,15 +490,16 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	}
 
-//	private UserAccount getUserFromSession() {
-//
-//		UserAccount userAccount = SessionHandler.get();
-//		if (userAccount == null) {
-//			return null;
-//		}
-//		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
-//		return accountFromAccountID;
-//	}
+	// private UserAccount getUserFromSession() {
+	//
+	// UserAccount userAccount = SessionHandler.get();
+	// if (userAccount == null) {
+	// return null;
+	// }
+	// UserAccount accountFromAccountID =
+	// UserManager.getInstance().getAccountFromAccountID(userAccount);
+	// return accountFromAccountID;
+	// }
 
 	private UserAccount getuserFromParam(String parametersString) {
 

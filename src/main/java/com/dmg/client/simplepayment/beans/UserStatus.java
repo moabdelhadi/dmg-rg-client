@@ -1,19 +1,17 @@
 package com.dmg.client.simplepayment.beans;
 
 public enum UserStatus {
-	
-	NEW(0),ACTIVE(1), DISABLE(2),NOT_REGISTERED(4);
-	
-	private int value; 
-	
+
+	NEW(0), RESGISTERED(1), ACTIVE(2);
+
+	private int value;
+
 	private UserStatus(int val) {
-		this.value=val;
+		value = val;
 	}
-	
-	public int value(){
+
+	public int value() {
 		return value;
 	}
-	
-	
 
 }

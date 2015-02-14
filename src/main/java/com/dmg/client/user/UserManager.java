@@ -204,7 +204,7 @@ public class UserManager {
 			UserAccount user = getUserFromActivationLink(activationString);
 
 			if (user != null && activationString.equals(user.getActivationString())) {
-				user.setStatus(UserStatus.ACTIVE.value());
+				user.setStatus(UserStatus.RESGISTERED.value());
 
 				FacadeFactory.getFacade().store(user);
 

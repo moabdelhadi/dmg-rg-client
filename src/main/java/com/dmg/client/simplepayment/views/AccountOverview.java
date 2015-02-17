@@ -141,7 +141,7 @@ public class AccountOverview extends VerticalLayout implements View {
 					}
 
 					FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI()).withAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL)).withMethod(Method.POST)
-							.withTarget("_self");
+							.withTarget("_parent");
 
 					for (String key : postFields.keySet()) {
 						log.debug("map key - value:" + key + " : " + postFields.get(key));

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.simplepayment.beans.Constants;
+import com.dmg.client.simplepayment.beans.PaymentResponse;
 import com.dmg.client.simplepayment.beans.Transaction;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.core.exception.DataAccessLayerException;
@@ -37,7 +38,8 @@ public class PaymentManager {
 	private Map<String, String> merchantMap = new HashMap<String, String>();
 	private Map<String, String> accessCodeMap = new HashMap<String, String>();
 	private Map<String, String> secureHashMap = new HashMap<String, String>();
-	private static final Logger log = LoggerFactory.getLogger(PaymentManager.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(PaymentManager.class);
 
 	private PaymentManager() {
 
@@ -83,7 +85,8 @@ public class PaymentManager {
 		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		// String date = dateFormat.format(calendar.getTime());
 
-		String MerchTxnRef = "RG-" + user.getCity() + "-" + user.getContractNo() + "-" + calendar.getTimeInMillis();
+		String MerchTxnRef = "RG-" + user.getCity() + "-"
+				+ user.getContractNo() + "-" + calendar.getTimeInMillis();
 
 		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
@@ -102,7 +105,8 @@ public class PaymentManager {
 			FacadeFactory.getFacade().store(transaction);
 		} catch (Exception e) {
 
-			log.error("error in save new payment: transaction=" + transaction, e);
+			log.error("error in save new payment: transaction=" + transaction,
+					e);
 			return null;
 		}
 
@@ -129,6 +133,9 @@ public class PaymentManager {
 		transaction.setVersion(map.get("vpc_Version"));
 		transaction.setLocale(map.get("vpc_Locale"));
 		transaction.setReturnURL(map.get("vpc_ReturnURL"));
+		transaction.setAccessCode(map.get("vpc_AccessCode"));
+		transaction.setMerchant(map.get("vpc_Merchant"));
+		transaction.setSecureHashType(map.get("vpc_SecureHashType"));
 		return transaction;
 
 	}
@@ -156,7 +163,7 @@ public class PaymentManager {
 	 */
 	private static String null2unknown(String in) {
 		if (in == null || in.length() == 0) {
-			return "No Value Returned";
+			return null;
 		} else {
 			return in;
 		}
@@ -276,7 +283,8 @@ public class PaymentManager {
 		String result = "";
 		if (vAVSResultCode != null || vAVSResultCode.length() == 0) {
 
-			if (vAVSResultCode.equalsIgnoreCase("Unsupported") || vAVSResultCode.equalsIgnoreCase("No Value Returned")) {
+			if (vAVSResultCode.equalsIgnoreCase("Unsupported")
+					|| vAVSResultCode.equalsIgnoreCase("No Value Returned")) {
 				result = "AVS not supported or there was no AVS data provided";
 			} else {
 				// Java cannot switch on a string so turn everything to a char
@@ -342,7 +350,8 @@ public class PaymentManager {
 		String result = "";
 		if (vCSCResultCode != null || vCSCResultCode.length() == 0) {
 
-			if (vCSCResultCode.equalsIgnoreCase("Unsupported") || vCSCResultCode.equalsIgnoreCase("No Value Returned")) {
+			if (vCSCResultCode.equalsIgnoreCase("Unsupported")
+					|| vCSCResultCode.equalsIgnoreCase("No Value Returned")) {
 				result = "CSC not supported or there was no CSC data provided";
 			} else {
 				// Java cannot switch on a string so turn everything to a char
@@ -388,7 +397,8 @@ public class PaymentManager {
 		String result = "";
 		if (vStatus != null && !vStatus.equals("")) {
 
-			if (vStatus.equalsIgnoreCase("Unsupported") || vStatus.equals("No Value Returned")) {
+			if (vStatus.equalsIgnoreCase("Unsupported")
+					|| vStatus.equals("No Value Returned")) {
 				result = "3DS not supported or there was no 3DS data provided";
 			} else {
 
@@ -452,39 +462,34 @@ public class PaymentManager {
 	 * a Virtual Payment Client error and we cannot accurately validate the
 	 * incoming data from the secure hash.
 	 */
-	public void processSerponse(Map<String, String> fields) {
+	public String processSerponse(Map<String, String> fields) {
 
 		// remove the vpc_TxnResponseCode code from the response fields as we do
 		// not
 		// want to include this field in the hash calculation
-		String vpc_Txn_Secure_Hash = null2unknown((String) fields.remove("vpc_SecureHash"));
+		String vpc_Txn_Secure_Hash = null2unknown((String) fields
+				.remove("vpc_SecureHash"));
 		String hashValidated = null;
 
 		// defines if error message should be output
 		boolean errorExists = false;
 
-		if (fields.get("vpc_TxnResponseCode") != null && fields.get("vpc_TxnResponseCode") != "No Value Returned") {
+		// create secure hash and append it to the hash map if it was
+		// created
+		// remember if SECURE_SECRET = "" it wil not be created
+		String secureHash = SHAEncrypt.hashAllFields(fields,secureHashMap.get("DUBAI"));
 
-			// create secure hash and append it to the hash map if it was
-			// created
-			// remember if SECURE_SECRET = "" it wil not be created
-			String secureHash = SHAEncrypt.hashAllFields(fields, secureHashMap.get("DUBAI"));
-
-			// Validate the Secure Hash (remember MD5 hashes are not case
-			// sensitive)
-			if (vpc_Txn_Secure_Hash.equalsIgnoreCase(secureHash)) {
-				// Secure Hash validation succeeded, add a data field to be
-				// displayed later.
-				hashValidated = "CORRECT";
-			} else {
-				// Secure Hash validation failed, add a data field to be
-				// displayed later.
-				errorExists = true;
-				hashValidated = "INVALID HASH";
-			}
+		// Validate the Secure Hash (remember MD5 hashes are not case
+		// sensitive)
+		if (vpc_Txn_Secure_Hash.equalsIgnoreCase(secureHash)) {
+			// Secure Hash validation succeeded, add a data field to be
+			// displayed later.
+			hashValidated = "CORRECT";
 		} else {
-			// Secure Hash was not validated,
-			hashValidated = "Not Calculated - No 'SECURE_SECRET' present.";
+			// Secure Hash validation failed, add a data field to be
+			// displayed later.
+			errorExists = true;
+			hashValidated = "INVALID HASH";
 		}
 
 		// Extract the available receipt fields from the VPC Response
@@ -500,71 +505,139 @@ public class PaymentManager {
 		String orderInfo = null2unknown((String) fields.get("vpc_OrderInfo"));
 		String receiptNo = null2unknown((String) fields.get("vpc_ReceiptNo"));
 		String merchantID = null2unknown((String) fields.get("vpc_Merchant"));
-		String merchTxnRef = null2unknown((String) fields.get("vpc_MerchTxnRef"));
-		String authorizeID = null2unknown((String) fields.get("vpc_AuthorizeId"));
-		String transactionNo = null2unknown((String) fields.get("vpc_TransactionNo"));
-		String acqResponseCode = null2unknown((String) fields.get("vpc_AcqResponseCode"));
-		String txnResponseCode = null2unknown((String) fields.get("vpc_TxnResponseCode"));
+		String merchTxnRef = null2unknown((String) fields
+				.get("vpc_MerchTxnRef"));
+		String authorizeID = null2unknown((String) fields
+				.get("vpc_AuthorizeId"));
+		String transactionNo = null2unknown((String) fields
+				.get("vpc_TransactionNo"));
+		String acqResponseCode = null2unknown((String) fields
+				.get("vpc_AcqResponseCode"));
+		String txnResponseCode = null2unknown((String) fields
+				.get("vpc_TxnResponseCode"));
 
 		// CSC Receipt Data
-		String vCSCResultCode = null2unknown((String) fields.get("vpc_CSCResultCode"));
-		String vCSCRequestCode = null2unknown((String) fields.get("vpc_CSCRequestCode"));
-		String vACQCSCRespCode = null2unknown((String) fields.get("vpc_AcqCSCRespCode"));
+		String vCSCResultCode = null2unknown((String) fields
+				.get("vpc_CSCResultCode"));
+		String vCSCRequestCode = null2unknown((String) fields
+				.get("vpc_CSCRequestCode"));
+		String vACQCSCRespCode = null2unknown((String) fields
+				.get("vpc_AcqCSCRespCode"));
 
 		// 3-D Secure Data
 		String transType3DS = null2unknown((String) fields.get("vpc_VerType"));
 		String verStatus3DS = null2unknown((String) fields.get("vpc_VerStatus"));
 		String token3DS = null2unknown((String) fields.get("vpc_VerToken"));
-		String secureLevel3DS = null2unknown((String) fields.get("vpc_VerSecurityLevel"));
-		String enrolled3DS = null2unknown((String) fields.get("vpc_3DSenrolled"));
+		String secureLevel3DS = null2unknown((String) fields
+				.get("vpc_VerSecurityLevel"));
+		String enrolled3DS = null2unknown((String) fields
+				.get("vpc_3DSenrolled"));
 		String xid3DS = null2unknown((String) fields.get("vpc_3DSXID"));
 		String eci3DS = null2unknown((String) fields.get("vpc_3DSECI"));
 		String status3DS = null2unknown((String) fields.get("vpc_3DSstatus"));
+		String acqAVSRespCode = null2unknown((String) fields
+				.get("vpc_AcqAVSRespCode"));
+		String riskOverallResult = null2unknown((String) fields
+				.get("vpc_RiskOverallResult"));
 
 		String error = "";
 		// Show this page as an error page if error condition
-		if (txnResponseCode.equals("7") || txnResponseCode.equals("No Value Returned") || errorExists) {
+		if (txnResponseCode.equals("7")
+				|| txnResponseCode.equals("No Value Returned") || errorExists) {
 			error = "Error ";
 		}
+		PaymentResponse response = new PaymentResponse();
+		response.setAmount(amount);
+		response.setLocale(locale);
+		response.setBatchNo(batchNo);
+		response.setCommand(command);
+		response.setMessage(message);
+		response.setVersion(version);
+		response.setCard(cardType);
+		response.setOrderInfo(orderInfo);
+		response.setReceiptNo(receiptNo);
+		response.setMerchant(merchantID);
+		response.setMerchTxnRef(merchTxnRef);
+		response.setAuthorizeId(authorizeID);
+		response.setTransactionNo(transactionNo);
+		response.setAcqResponseCode(acqResponseCode);
+		response.setTxnResponseCode(txnResponseCode);
+		response.setcSCResultCode(vCSCResultCode);
+		response.setcSCRequestCode(vCSCRequestCode);
+		response.setAcqCSCRespCode(vACQCSCRespCode);
+		response.setVerType(transType3DS);
+		response.setVerStatus(verStatus3DS);
+		response.setVerToken(token3DS);
+		response.setVerSecurityLevel(secureLevel3DS);
+		response.setD3Senrolled(enrolled3DS);
+		response.setD3sxid(xid3DS);
+		response.setD3SECI(eci3DS);
+		response.setD3Sstatus(status3DS);
+		response.setAcqAVSRespCode(acqAVSRespCode);
+		response.setSecureHash(vpc_Txn_Secure_Hash);
+		response.setRiskOverallResult(riskOverallResult);
+		Date date = Calendar.getInstance().getTime();
+		response.setUpdateDate(date);
+		response.setCreationDate(date);
+
+		try {
+			FacadeFactory.getFacade().store(response);
+			Transaction txn = getPaymentByTxnRef(merchTxnRef);
+			if(txnResponseCode.equals("0")){
+				txn.setStatus("SUCCESS");
+			}else{
+				txn.setStatus("FAIL");
+			}
+			FacadeFactory.getFacade().store(txn);
+			
+		} catch (Exception e) {
+			log.error("Error n saving response" + response.toString(), e);
+		}
+		
+		return txnResponseCode;
+
 	}
 
 	public Transaction getPaymentByTxnRef(String txnRef) throws Exception {
 
 		try {
-			
+
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("vpc_MerchTxnRef", txnRef);
-			List<Transaction> list = FacadeFactory.getFacade().list(Transaction.class, parameters);
+			parameters.put("merchTxnRef", txnRef);
+			List<Transaction> list = FacadeFactory.getFacade().list(
+					Transaction.class, parameters);
 
 			if (list == null || list.isEmpty()) {
 				log.error("cannot find txn for txnRef=" + txnRef);
-				throw new PaymentException("Connot get txn from database for txnref=" + txnRef);
+				throw new PaymentException(
+						"Connot get txn from database for txnref=" + txnRef);
 			}
-			
-			
-			if(list.size()>1){
-				
-				log.error("more than two txn available for the same txnRef=" + txnRef);
+
+			if (list.size() > 1) {
+
+				log.error("more than two txn available for the same txnRef="
+						+ txnRef);
 				for (Transaction transaction : list) {
-					log.warn("txn="+transaction.toString());
+					log.warn("txn=" + transaction.toString());
 				}
-				throw new PaymentException("more than two txn available for the same txnRef=" + txnRef);
+				throw new PaymentException(
+						"more than two txn available for the same txnRef="
+								+ txnRef);
 			}
-			
+
 			Transaction transaction = list.get(0);
-			
+
 			return transaction;
-			
-			
+
 		} catch (Exception e) {
-			log.error("error in getting the txn over All txnRef="+txnRef, e);
+			log.error("error in getting the txn over All txnRef=" + txnRef, e);
 			throw e;
 		}
 	}
 
 	public void save(Transaction txn) throws DataAccessLayerException {
-		
+
 		FacadeFactory.getFacade().store(txn);
-		
+
 	}
 }

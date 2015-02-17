@@ -61,19 +61,22 @@
         
     <div id="home-tagline" class="clearfix">
 	
-
-	
-	
-        </div>
-				
 	 <%
 	 try{
 		String resVal = (String)request.getAttribute("resultVal");
 			if (resVal.equals("0")) {
-
-			} else {
-			
-			}
+  %>
+      <h2>Thank you</h2><p>Your payment completed successfully, it may take two working days to process it.</p>
+  <%
+    } else {
+  %>
+      <h2>Sorry, you payment does not complete</h2><p> <%=request.getAttribute("resultMessage") %> </p>
+  <%
+    }
+  %>
+  <a href="http://www.royalgas.com"><h3>Go To Home Page</h3></a>
+	
+	<%
 	
 	 }catch(Exception e){
 		 
@@ -86,6 +89,11 @@
     
     
 	%>
+	
+	
+        </div>
+				
+
     
     
         

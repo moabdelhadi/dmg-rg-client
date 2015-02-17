@@ -65,6 +65,9 @@ public class UserAccount extends AbstractPojo {
 
 	@Column(name = "ACTIVATION_KEY")
 	private String activationKey;
+	
+	@Column(name = "ENABLE")
+	private Boolean enable;
 
 	public UserAccount() {
 
@@ -206,6 +209,15 @@ public class UserAccount extends AbstractPojo {
 
 	public void setActivationKey(String activationKey) {
 		this.activationKey = activationKey;
+	}
+	
+	
+	public Boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
 	}
 
 	@Override

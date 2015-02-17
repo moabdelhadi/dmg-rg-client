@@ -58,7 +58,7 @@ public class NavigatorUI extends UI {
 				String viewName = event.getViewName();
 				logger.info("redirect to non authorized Page viewName");
 
-				if (StringUtils.equals(viewName, Views.LOGIN) || StringUtils.equals(viewName, Views.EDIT_PROFILE_PAGE) || StringUtils.equals(viewName, Views.RIGISTER_PROFILE_PAGE)
+				if (StringUtils.equals(viewName, Views.LOGIN)  || StringUtils.equals(viewName, Views.RIGISTER_PROFILE_PAGE)
 						|| event.getViewName().equals(Views.ACTIVATION_PAGE)) {
 					logger.info("redirect to non authorized Page");
 					return true;

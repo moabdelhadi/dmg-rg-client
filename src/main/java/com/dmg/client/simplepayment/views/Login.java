@@ -12,6 +12,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
+import com.vaadin.server.Page;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -32,7 +33,7 @@ public class Login extends VerticalLayout implements View {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = LoggerFactory.getLogger(Login.class);
+	private static final Logger log = LoggerFactory.getLogger(Login.class);
 
 	private final Navigator navigator;
 
@@ -201,12 +202,12 @@ public class Login extends VerticalLayout implements View {
 		UserAccount user = new UserAccount();
 		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
-		logger.info("try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue() + " , Building="
+		log.info("try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue() + " , Building="
 				+ buildingNo.getValue());
 
 		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
 		if (userAccount == null) {
-			logger.warn("No User With accountId = " + accountId.getValue());
+			log.warn("No User With accountId = " + accountId.getValue());
 			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
@@ -217,7 +218,7 @@ public class Login extends VerticalLayout implements View {
 		}
 
 		if (!apartmentNo.getValue().equals(userAccount.getAppartmentNumber())) {
-			logger.warn("Apartment Does not match");
+			log.warn("Apartment Does not match");
 			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}
@@ -334,6 +335,7 @@ public class Login extends VerticalLayout implements View {
 	private void loginUser() {
 
 		if (!validateLogin()) {
+			log.info("Error in login");
 			return;
 		}
 
@@ -346,14 +348,12 @@ public class Login extends VerticalLayout implements View {
 			}
 
 		} catch (Exception e) {
-			logger.error("Error in login", e);
-			Notification.show("Error", e.getMessage(), Type.HUMANIZED_MESSAGE);
+			log.error("Error in login", e);
+			Notification notification = new Notification("Login Faild", "<p>"+e.getMessage()+"</p>", Type.HUMANIZED_MESSAGE, true);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
+//			Notification.show("Login Faild", e.getMessage(), Type.ERROR_MESSAGE);
 		}
-
-		// {
-		// Notification.show("Error", loginResultMessages[result],
-		// Type.HUMANIZED_MESSAGE);
-		// }
 
 	}
 
@@ -363,7 +363,7 @@ public class Login extends VerticalLayout implements View {
 		resetFormValidation();
 		resetFormValues();
 
-		logger.debug("Get IN LOGIN VIEW");
+		log.debug("Get IN LOGIN VIEW");
 		System.out.println("get in login");
 
 	}

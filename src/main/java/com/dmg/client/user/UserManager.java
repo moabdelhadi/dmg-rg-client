@@ -12,9 +12,15 @@ import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
+import com.dmg.client.simplepayment.views.Views;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.util.EncryptionUtil;
+import com.dmg.util.SHAEncrypt;
+import com.dmg.util.mail.MailManager;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 //import com.dmg.util.PropertiesManager;
 
@@ -45,13 +51,13 @@ public class UserManager {
 		try {
 			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
 		} catch (DataAccessLayerException e) {
-			logger.error("Account ID or City is incorrect", e);
-			throw new UserManagerException("Error in login Please try again later", e);
+			logger.error("Error in retrieve data from database", e);
+			throw new UserManagerException("Error in login, please try again later", e);
 		}
 
 		if (list == null) {
 			logger.warn("Account ID or City is incorrect");
-			throw new UserManagerException("Error in login Please check you username or password");
+			throw new UserManagerException("Error in login Please check you Account No, Region, and Password");
 		}
 
 		if (list.size() > 1) {
@@ -64,11 +70,31 @@ public class UserManager {
 
 			if (StringUtils.isNotEmpty(user.getPassword()) && user.getPassword().equals(password)) {
 
-				logger.info("Login Success");
+				logger.info("password match");
+
+				if (userAccount.getStatus() == UserStatus.NEW.value()) {
+					logger.warn("This user is not registered yet, please register first");
+					throw new UserManagerException("This account is not registered yet, please register first");
+				}
+
+				if (userAccount.getStatus() == UserStatus.RESGISTERED.value()) {
+					logger.warn("This user is registered, but not confirmed yet, email will be sent to your email address to activate you account");
+					try {
+						sendActivationEmail(userAccount);
+					} catch (DataAccessLayerException e) {
+						logger.error("Error in sending Activation email", e);
+					}
+					throw new UserManagerException("This account is registered, but not confirmed yet, email will be sent to your email address to activate you account");
+				}
 
 				if (userAccount.getStatus() != UserStatus.ACTIVE.value()) {
 					logger.warn("Login Success, but user is not active");
-					throw new UserManagerException("Error in login This user is in active");
+					throw new UserManagerException("Account is not active");
+				}
+
+				if (userAccount.isEnable() == null || !userAccount.isEnable()) {
+					logger.warn("This account is disabled by the admin, please contact thcompany to check");
+					throw new UserManagerException("This account is disabled by the admin, please contact the company to check");
 				}
 
 				SessionHandler.setUser(userAccount);
@@ -239,6 +265,37 @@ public class UserManager {
 		return false;
 
 	}
+
+
+	public void sendActivationEmail(UserAccount user) throws DataAccessLayerException {
+		String hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
+		user.setActivationKey(hashKey);
+
+		FacadeFactory.getFacade().store(user);
+		MailManager.getInstance().sendMail(
+				user.getEmail(),
+				"Account Activation",
+				"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
+						+ " to activate your account");
+	}
+	
+	
+//	public void generateActivationString(UserAccount userAccount) {
+//
+//		String hashKey = SHAEncrypt.encryptKey(userAccount.getCity() + "_" + userAccount.getContractNo() + "_" + System.currentTimeMillis());
+//		userAccount.setActivationKey(hashKey);
+//		try {
+//			UserManager.getInstance().updateAccount(userAccount);
+//		} catch (DataAccessLayerException e) {
+//			logger.error("Error" + e.getMessage(), e);
+//			return;
+//		}
+//		MailManager.getInstance().sendMail(
+//				userAccount.getEmail(),
+//				"Activate your account",
+//				"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
+//						+ " to activate you account");
+//	}
 
 	private UserAccount getUserFromActivationLink(String string) throws Exception {
 

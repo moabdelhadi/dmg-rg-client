@@ -125,7 +125,7 @@ public class ForgotPassword extends VerticalLayout implements View {
 						navigator.navigateTo(Views.LOGIN);
 						return;
 					}
-					MailManager.getInstance().sendFromGmail(
+					MailManager.getInstance().sendMail(
 							userAccount.getEmail(),
 							"Reset Password",
 							"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()

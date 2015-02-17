@@ -286,21 +286,15 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {
-			String hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
-			user.setActivationKey(hashKey);
-
-			FacadeFactory.getFacade().store(user);
-			MailManager.getInstance().sendFromGmail(
-					user.getEmail(),
-					"Account Activation",
-					"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
-							+ " to activate your account");
+			UserManager.getInstance().sendActivationEmail(user);
 			navigator.navigateTo(Views.ACTIVATION_PAGE);
 		} catch (DataAccessLayerException e) {
 			// navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
 		}
 
 	}
+
+	
 
 	private boolean vaildateRegister() {
 

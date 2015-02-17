@@ -14,7 +14,7 @@ public class MailManager {
 
 	private static final String SENDER_EMAIL = "m.abdelhadi@aldarmedia.com";
 	private static final String SENDER_USER_NAME = "m.abdelhadi@aldarmedia.com";
-	private static final String SENDER_PASSWORD = "Welcome123";
+	private static final String SENDER_PASSWORD = "mkatri02";
 	private final String MAIL_SERVER_NAME = "mail.aldarmedia.com";
 
 	private static final MailManager INSTANCE = new MailManager();

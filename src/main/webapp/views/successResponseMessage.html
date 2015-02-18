@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page import="java.util.Calendar"%>
+
 <html lang="en-US">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -60,45 +60,7 @@
 	    
         
     <div id="home-tagline" class="clearfix">
-	
 
-	 <%
-	 try{
-		String resVal = (String)request.getAttribute("resultVal");
-		String resultMessage = (String)request.getAttribute("resultMessage");
-			if (resVal.equals("0")) {
-			%>
-               
-               <p>Operation Sucess</p>
-               <h3><a href="https://www.royalgas.com">Go To Home Page</a></h3>
-
-	 <%
-
-			} else {
-%>
-               <p>Operation Faild</p>
-               <p><%= resultMessage %><p>
-               <h3><a href="https://www.royalgas.com">Go To Home Page</a></h3>
-
-
-	 <%
-			
-			}
-	
-	 }catch(Exception e){
-		
-		 %>
-		 
-		 <p>Error Accour</p>
-		 <%
-		 
-	 } 
-    response.setHeader("Content-Type","text/html, charset=ISO-8859-1");
-    response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
-    //response.setDateHeader("Last-Modified", Calendar.getInstance().getTimeInMillis());
-    response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
-    response.setHeader("Pragma","no-cache");
-%>    
     
         </div>
 				

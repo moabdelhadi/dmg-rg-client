@@ -1,7 +1,6 @@
 package com.dmg.client.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,7 +33,40 @@ public class PayServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		log.debug("get");
-		doPost(request, response);
+	try{
+			
+			Map fields = new HashMap<String, String>();
+			int count = 0;
+			Enumeration<String> parameterNames = request.getParameterNames();
+			for (Enumeration e = parameterNames; e.hasMoreElements();) {
+				String fieldName = (String) e.nextElement();
+				String fieldValue = request.getParameter(fieldName);
+				if ((fieldValue != null) && (fieldValue.length() > 0)) {
+					fields.put(fieldName, fieldValue);
+					log.debug("fiels" + count++ + ": " + fieldName + " = "
+							+ fieldValue);
+				}
+			}
+			
+			String processSerponse = PaymentManager.getInstance().processResponse(fields);
+			String responseDescription = getResponseDescription(processSerponse);
+			
+			request.setAttribute("resultMessage", responseDescription);
+			request.setAttribute("resultVal", processSerponse);
+		    RequestDispatcher view = request.getRequestDispatcher("/views/responseMessage.jsp");
+		    view.forward(request, response);
+
+			
+		}catch(Exception e){
+			
+			log.error("error in handling response",e);
+			response.setHeader("Content-Type","text/html, charset=ISO-8859-1");
+			response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+//			response.setDateHeader("Last-Modified", Calendar.getInstance().getTimeInMillis());
+			response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
+			response.setHeader("Pragma","no-cache");
+		    
+		}
 	}
 
 	@Override

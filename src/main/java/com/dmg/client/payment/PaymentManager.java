@@ -88,7 +88,7 @@ public class PaymentManager {
 
 		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
-		map.put("vpc_Amount", ammount);
+		map.put("vpc_Amount", "10000");
 
 		map.put("vpc_OrderInfo", MerchTxnRef);
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);

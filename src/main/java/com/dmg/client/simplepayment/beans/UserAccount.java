@@ -1,5 +1,6 @@
 package com.dmg.client.simplepayment.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -69,6 +70,12 @@ public class UserAccount extends AbstractPojo {
 	@Column(name = "ENABLE")
 	private Boolean enable;
 
+	
+	@Column(name="BALANCE")
+	private BigDecimal balance;
+	
+	
+	
 	public UserAccount() {
 
 	}
@@ -218,6 +225,18 @@ public class UserAccount extends AbstractPojo {
 
 	public void setEnable(Boolean enable) {
 		this.enable = enable;
+	}
+	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+
+	public Boolean getEnable() {
+		return enable;
 	}
 
 	@Override

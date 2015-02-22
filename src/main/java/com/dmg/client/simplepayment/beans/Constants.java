@@ -8,5 +8,6 @@ public class Constants {
 	public static final String PASS_RESET_KEY = "passResetKey";
 	public static final String ACTIVATION_KEY = "activationKey";
 	public static final String BILL_CONTRACT_NUMBER = "contractNo";
+	public static final String ONLINE_FEES_NAME = "online.fees";
 
 }

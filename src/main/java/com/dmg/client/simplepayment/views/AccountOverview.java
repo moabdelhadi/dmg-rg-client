@@ -15,6 +15,7 @@ import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.payment.PaymentManager;
 import com.dmg.client.simplepayment.beans.Bill;
+import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.Transaction;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.user.UserManager;
@@ -57,6 +58,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private List<Button> billViews = new ArrayList<Button>();
 	private Label totalAmount;
 	private double totalAnoountDouble = 0;
+	private double fees = 0;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -65,6 +67,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 	private void init() {
 
+		fees = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
@@ -84,6 +87,9 @@ public class AccountOverview extends VerticalLayout implements View {
 		dates.clear();
 		amounts.clear();
 		billViews.clear();
+		
+		
+		
 
 		for (int i = 0; i < 3; i++) {
 
@@ -184,8 +190,10 @@ public class AccountOverview extends VerticalLayout implements View {
 		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
 		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
 		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
-		totalAnoountDouble = subtract.doubleValue();
-		totalAmount.setValue(subtract.toString());
+		BigDecimal balance = user.getBalance();
+		
+		double totalAmountValue = balance.doubleValue() +fees;
+		totalAmount.setValue(totalAmountValue+ "AED" );
 
 		int counter = 0;
 		for (Bill bill : list) {

@@ -282,7 +282,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		user.setLastUpdate(Calendar.getInstance().getTime());
 		user.setPassword(newPassword.getValue());
 		user.setPhone(phone.getValue());
-		user.setMobile(mobile.getValue());
+		user.setMobile(mobilePrefix.getValue()+"/"+mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {

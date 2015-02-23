@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -208,26 +209,50 @@ public class Login extends VerticalLayout implements View {
 		UserAccount userAccount = UserManager.getInstance().getAccountFromAccountID(user);
 		if (userAccount == null) {
 			log.warn("No User With accountId = " + accountId.getValue());
-			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
+			Notification notification = new Notification("Credentials are not valid", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE, true);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
 			return;
 		}
-
-		if (userAccount.getStatus() != 0) {
-			Notification.show("ERROR", "This User Already registered, Please Login", Notification.Type.HUMANIZED_MESSAGE);
-			return;
-		}
-
+		
 		if (!apartmentNo.getValue().equals(userAccount.getAppartmentNumber())) {
 			log.warn("Apartment Does not match");
-			Notification.show("ERROR", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
+			Notification notification = new Notification("Credentials are not valid", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
 			return;
 		}
 
 		if (!buildingNo.getValue().equals(userAccount.getBuildingNumber())) {
-			Notification.show("ERROR", "Building Does not match", Notification.Type.HUMANIZED_MESSAGE);
+			log.warn("Building Does not match");
+			Notification notification = new Notification("Credentials are not valid", "The input Data does not match an exsisting account", Notification.Type.HUMANIZED_MESSAGE);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
 			return;
 		}
 
+
+		if (userAccount.getStatus() == UserStatus.ACTIVE.value()) {
+			Notification notification = new Notification("Already registered", "You are already registered, please login", Notification.Type.HUMANIZED_MESSAGE);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
+			return;
+		}
+		
+		if (userAccount.getStatus() == UserStatus.RESGISTERED.value()) {
+			Notification notification = new Notification("Not activated yet", "You are registered but not activated yet, please open your email and activate you account, or call the support center", Notification.Type.HUMANIZED_MESSAGE);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
+			return;
+		}
+		
+		if (userAccount.getStatus() != UserStatus.NEW.value()) {
+			Notification notification = new Notification("Not activated yet", "You are registered but not activated yet, please call the support center", Notification.Type.HUMANIZED_MESSAGE);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
+			return;
+		}
+		
 		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
 	}
 
@@ -299,8 +324,6 @@ public class Login extends VerticalLayout implements View {
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
 			loginPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
-			// loginPassword.setComponentError(new
-			// UserError("This Field is required"));
 			status = false;
 		}
 		return status;
@@ -343,8 +366,11 @@ public class Login extends VerticalLayout implements View {
 
 		try {
 			UserAccount result = UserManager.getInstance().login(user);
+
 			if (result != null) {
-				navigator.navigateTo(Views.USER_PAGE + "/" + result.getContractNo() + "/" + result.getCity());
+				log.info("login success");
+				navigator.navigateTo(Views.USER_PAGE);
+				//navigator.navigateTo(Views.USER_PAGE + "/" + result.getContractNo() + "/" + result.getCity());
 			}
 
 		} catch (Exception e) {

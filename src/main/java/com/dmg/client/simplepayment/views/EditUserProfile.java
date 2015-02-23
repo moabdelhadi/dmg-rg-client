@@ -94,14 +94,14 @@ public class EditUserProfile extends VerticalLayout implements View {
 		name.setRequiredError("This field is required");
 		customLayout.addComponent(name, "fullName");
 
-		poBox = new TextField("POBOX");
-		poBox.setInputPrompt("POBOX");
+		poBox = new TextField("POBox");
+		poBox.setInputPrompt("POBox");
 		poBox.setHeight("30px");
 		poBox.setStyleName("h2");
 		customLayout.addComponent(poBox, "poBox");
 
-		poBoxCity = new TextField("POBOX CITY");
-		poBoxCity.setInputPrompt("POBOX CITY");
+		poBoxCity = new TextField("POBox City");
+		poBoxCity.setInputPrompt("POBox City");
 		poBoxCity.setHeight("30px");
 		poBoxCity.setStyleName("h2");
 		customLayout.addComponent(poBoxCity, "poBoxCity");

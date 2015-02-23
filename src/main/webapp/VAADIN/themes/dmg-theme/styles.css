@@ -7029,8 +7029,13 @@ body .dmg-theme.v-app .v-app-loading {
 }
 
 .dmg-theme .container p {
-	padding-left: 30px;
 	font-size: large;
+}
+
+.dmg-theme .container .tbl_title {
+	color: gray;
+	text-align: left;
+	margin: 0px;
 }
 
 .dmg-theme .help a:hover span {

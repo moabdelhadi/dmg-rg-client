@@ -59,6 +59,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private Label totalAmount;
 	private double totalAnoountDouble = 0;
 	private double fees = 0;
+	private Label feeNote;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -88,8 +89,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		amounts.clear();
 		billViews.clear();
 		
-		
-		
+		feeNote = new Label("Please note that "+fees+" AED are added to your amount as an online service fee");
+		customLayout.addComponent(feeNote, "feeNote");
 
 		for (int i = 0; i < 3; i++) {
 
@@ -118,7 +119,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		// payButton
 
-		payButton = new Button("Pay through NBAD");
+		payButton = new Button("Pay now");
 		payButton.addStyleName(Runo.BUTTON_BIG);
 		customLayout.addComponent(payButton, "payButton");
 		payButton.setWidth("140px");

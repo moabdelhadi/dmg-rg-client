@@ -12,10 +12,14 @@ import javax.mail.internet.MimeMessage;
 
 public class MailManager {
 
-	private static final String SENDER_EMAIL = "m.abdelhadi@aldarmedia.com";
-	private static final String SENDER_USER_NAME = "m.abdelhadi@aldarmedia.com";
-	private static final String SENDER_PASSWORD = "mkatri02";
-	private final String MAIL_SERVER_NAME = "mail.aldarmedia.com";
+	private static final String SENDER_EMAIL = "dontreply@royalgas.com";
+	private static final String SENDER_USER_NAME = "dontreply@royalgas.com";
+	private static final String SENDER_PASSWORD = "X1Nmdd2T4CbJ";
+	private final String MAIL_SERVER_NAME = "mail.royalgas.com";
+	
+//	dontreply@royalgas.com
+//	X1Nmdd2T4CbJ
+//	mail.royalgas.com
 
 	private static final MailManager INSTANCE = new MailManager();
 

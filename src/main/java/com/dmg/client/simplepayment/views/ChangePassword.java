@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
+import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
@@ -69,7 +70,7 @@ public class ChangePassword extends VerticalLayout implements View {
 		cityMap.put("ABUDHABI", "Abu dhabi, Alain & Western Region");
 
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
+		CustomLayout optionLayout = new  AccountOptions(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
 		
@@ -227,9 +228,8 @@ public class ChangePassword extends VerticalLayout implements View {
 		}
 
 		// TODO setactivationString
-		user.setActivationString("");
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPassword(newPassword.getValue());
+		user.setPassword(PasswordUtil.generateHashedPassword(newPassword.getValue()));
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {

@@ -12,15 +12,11 @@ import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
-import com.dmg.client.simplepayment.views.Views;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.util.EncryptionUtil;
 import com.dmg.util.SHAEncrypt;
 import com.dmg.util.mail.MailManager;
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 
 //import com.dmg.util.PropertiesManager;
 
@@ -134,61 +130,61 @@ public class UserManager {
 
 	}
 
-	public void registerUser(UserAccount user) {
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
-		parameters.put(Constants.USER_CITY, user.getCity());
-		List<UserAccount> list;
-		try {
-			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
-		} catch (DataAccessLayerException e) {
-			logger.error("Account is incorrect", e);
-			return;
-
-		}
-
-		if (list == null) {
-			logger.warn("Account is incorrect");
-			return;
-		}
-
-		if (list.size() > 1) {
-			logger.warn("Account is dublicated Please Check");
-			return;
-		}
-
-		UserAccount userAccount = list.get(0);
-
-		String activationLink = user.getEmail() + "==" + System.currentTimeMillis() + "==" + (Math.random() * 10000);
-		String encrypt = EncryptionUtil.encrypt(activationLink);
-		try {
-			String decrypt = EncryptionUtil.decrypt(encrypt);
-			if (decrypt != null && decrypt.equals(activationLink)) {
-				System.out.println("Encription Success");
-			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		user.setActivationString(encrypt);
-
-		userAccount.setEmail(user.getEmail());
-		userAccount.setPobox(user.getPobox());
-		userAccount.setPoboxCity(user.getPoboxCity());
-		userAccount.setName(user.getName());
-		userAccount.setPassword(user.getPassword());
-		userAccount.setPhone(user.getPhone());
-		userAccount.setStatus(UserStatus.NEW.value());
-
-		try {
-			FacadeFactory.getFacade().store(userAccount);
-		} catch (DataAccessLayerException e) {
-			logger.error("Error in saving user acount=" + userAccount.getContractNo(), e);
-			return;
-		}
-
-	}
+//	public void registerUser(UserAccount user) {
+//
+//		Map<String, Object> parameters = new HashMap<String, Object>();
+//		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
+//		parameters.put(Constants.USER_CITY, user.getCity());
+//		List<UserAccount> list;
+//		try {
+//			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+//		} catch (DataAccessLayerException e) {
+//			logger.error("Account is incorrect", e);
+//			return;
+//
+//		}
+//
+//		if (list == null) {
+//			logger.warn("Account is incorrect");
+//			return;
+//		}
+//
+//		if (list.size() > 1) {
+//			logger.warn("Account is dublicated Please Check");
+//			return;
+//		}
+//
+//		UserAccount userAccount = list.get(0);
+//
+////		String activationLink = user.getEmail() + "==" + System.currentTimeMillis() + "==" + (Math.random() * 10000);
+////		String encrypt = EncryptionUtil.encrypt(activationLink);
+////		try {
+////			String decrypt = EncryptionUtil.decrypt(encrypt);
+////			if (decrypt != null && decrypt.equals(activationLink)) {
+////				System.out.println("Encription Success");
+////			}
+////		} catch (Exception e1) {
+////			// TODO Auto-generated catch block
+////			e1.printStackTrace();
+////		}
+////		user.setActivationString(encrypt);
+//
+//		userAccount.setEmail(user.getEmail());
+//		userAccount.setPobox(user.getPobox());
+//		userAccount.setPoboxCity(user.getPoboxCity());
+//		userAccount.setName(user.getName());
+//		userAccount.setPassword(user.getPassword());
+//		userAccount.setPhone(user.getPhone());
+//		userAccount.setStatus(UserStatus.NEW.value());
+//
+//		try {
+//			FacadeFactory.getFacade().store(userAccount);
+//		} catch (DataAccessLayerException e) {
+//			logger.error("Error in saving user acount=" + userAccount.getContractNo(), e);
+//			return;
+//		}
+//
+//	}
 
 	public UserAccount validateAccount(Map<String, Object> parameters) throws DataAccessLayerException {
 
@@ -223,48 +219,48 @@ public class UserManager {
 		}
 	}
 
-	public boolean activate(String activationString) {
+//	public boolean activate(String activationString) {
+//
+//		logger.debug("code=" + activationString);
+//		try {
+//			UserAccount user = getUserFromActivationLink(activationString);
+//
+//			if (user != null && activationString.equals(user.getActivationString())) {
+//				user.setStatus(UserStatus.RESGISTERED.value());
+//
+//				FacadeFactory.getFacade().store(user);
+//
+//				logger.info("activation Success");
+//				return true;
+//			}
+//
+//		} catch (Exception e) {
+//			logger.error("error in Activate User", e);
+//			e.printStackTrace();
+//		}
+//		return false;
+//
+//	}
 
-		logger.debug("code=" + activationString);
-		try {
-			UserAccount user = getUserFromActivationLink(activationString);
-
-			if (user != null && activationString.equals(user.getActivationString())) {
-				user.setStatus(UserStatus.RESGISTERED.value());
-
-				FacadeFactory.getFacade().store(user);
-
-				logger.info("activation Success");
-				return true;
-			}
-
-		} catch (Exception e) {
-			logger.error("error in Activate User", e);
-			e.printStackTrace();
-		}
-		return false;
-
-	}
-
-	public boolean resetPassword(String activationString, String password) {
-
-		try {
-			UserAccount user = getUserFromActivationLink(activationString);
-
-			if (user != null && activationString.equals(user.getActivationString())) {
-				logger.info("reset enable");
-				user.setPassword(password);
-				user.setActivationString("");
-				FacadeFactory.getFacade().store(user);
-				return true;
-			}
-
-		} catch (Exception e) {
-			logger.error("error in Activate User", e);
-		}
-		return false;
-
-	}
+//	public boolean resetPassword(String activationString, String password) {
+//
+//		try {
+//			UserAccount user = getUserFromActivationLink(activationString);
+//
+//			if (user != null && activationString.equals(user.getActivationString())) {
+//				logger.info("reset enable");
+//				user.setPassword(password);
+//				user.setActivationString("");
+//				FacadeFactory.getFacade().store(user);
+//				return true;
+//			}
+//
+//		} catch (Exception e) {
+//			logger.error("error in Activate User", e);
+//		}
+//		return false;
+//
+//	}
 
 
 	public void sendActivationEmail(UserAccount user) throws DataAccessLayerException {
@@ -280,23 +276,6 @@ public class UserManager {
 	}
 	
 	
-//	public void generateActivationString(UserAccount userAccount) {
-//
-//		String hashKey = SHAEncrypt.encryptKey(userAccount.getCity() + "_" + userAccount.getContractNo() + "_" + System.currentTimeMillis());
-//		userAccount.setActivationKey(hashKey);
-//		try {
-//			UserManager.getInstance().updateAccount(userAccount);
-//		} catch (DataAccessLayerException e) {
-//			logger.error("Error" + e.getMessage(), e);
-//			return;
-//		}
-//		MailManager.getInstance().sendMail(
-//				userAccount.getEmail(),
-//				"Activate your account",
-//				"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
-//						+ " to activate you account");
-//	}
-
 	private UserAccount getUserFromActivationLink(String string) throws Exception {
 
 		String decrypt = EncryptionUtil.decrypt(string);

@@ -20,13 +20,8 @@ public class NavigatorUI extends UI {
 
 	Navigator navigator;
 
-	// @WebServlet(value = { "/client/*", "/VAADIN/*" }, asyncSupported = true)
-	// @VaadinServletConfiguration(productionMode = false, ui =
-	// NavigatorUI.class)
 	public static class Servlet extends VaadinServlet {
-
 		private static final long serialVersionUID = 1L;
-
 	}
 
 	@Override
@@ -45,11 +40,9 @@ public class NavigatorUI extends UI {
 		navigator.addView(Views.ACTIVATION_PAGE, new ActivationView(navigator));
 		navigator.addView(Views.CHANGE_PASSWORD, new ChangePassword(navigator));
 		navigator.addView(Views.FORGOT_PASSWORD, new ForgotPassword(navigator));
-
 		navigator.addViewChangeListener(new ViewChangeListener() {
 
 			private static final long serialVersionUID = 9119189310920723601L;
-
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 

@@ -22,18 +22,26 @@ public class AccountOptions implements Serializable{
 	private Navigator navigator;
 	private static final Logger logger = LoggerFactory.getLogger(AccountOptions.class);
 
-	private AccountOptions(Navigator navigator) {
+	public AccountOptions(Navigator navigator) {
 		
 		this.navigator = navigator;
 
 	}
 
-	public static AccountOptions getInstance(Navigator navigator) {
-		if (INSTANCE == null) {
-			INSTANCE = new AccountOptions(navigator);
-		}
-		return INSTANCE;
-	}
+//	public static AccountOptions getInstance(Navigator navigator) {
+//		
+//		
+//		if (INSTANCE != null) {
+//			return INSTANCE;
+//		}
+//		synchronized (AccountOptions.class){
+//			if (INSTANCE == null) {
+//				INSTANCE = new AccountOptions(navigator);
+//			}
+//		}
+//		return INSTANCE;
+//	
+//	}
 
 	public CustomLayout createOptionLayout() {
 
@@ -60,9 +68,6 @@ public class AccountOptions implements Serializable{
 
 		summary.addClickListener(new ClickListener() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -74,9 +79,6 @@ public class AccountOptions implements Serializable{
 
 		editProfile.addClickListener(new ClickListener() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -88,9 +90,6 @@ public class AccountOptions implements Serializable{
 
 		changePassword.addClickListener(new ClickListener() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -103,9 +102,6 @@ public class AccountOptions implements Serializable{
 		
 		logoutUser.addClickListener(new ClickListener() {
 			
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override

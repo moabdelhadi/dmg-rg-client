@@ -3,6 +3,7 @@ package com.dmg.client.simplepayment.views;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
@@ -362,7 +363,7 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		UserAccount user = new UserAccount(loginAccountId.getValue(), loginPassword.getValue(), loginCitySelect.getValue().toString());
+		UserAccount user = new UserAccount(loginAccountId.getValue(), PasswordUtil.generateHashedPassword(loginPassword.getValue()), loginCitySelect.getValue().toString());
 
 		try {
 			UserAccount result = UserManager.getInstance().login(user);

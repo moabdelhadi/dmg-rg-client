@@ -55,9 +55,6 @@ public class UserAccount extends AbstractPojo {
 	@Column(name = "STATUS")
 	private int status;
 
-	@Column(name = "ACTIVATIONSTRING")
-	private String activationString;
-
 	@Column(name = "LASTUPDATE")
 	private Date lastUpdate;
 
@@ -182,14 +179,6 @@ public class UserAccount extends AbstractPojo {
 		this.status = status;
 	}
 
-	public String getActivationString() {
-		return activationString;
-	}
-
-	public void setActivationString(String activationString) {
-		this.activationString = activationString;
-	}
-
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
@@ -242,8 +231,8 @@ public class UserAccount extends AbstractPojo {
 	@Override
 	public String toString() {
 		return "UserAccount [email=" + email + ", password=" + password + ", name=" + name + ", city=" + city + ", buildingNumber=" + buildingNumber + ", appartmentNumber=" + appartmentNumber
-				+ ", accountId=" + contractNo + ", phone=" + phone + ", mobile=" + mobile + ", pobox=" + pobox + ", poboxCity=" + poboxCity + ", status=" + status + ", activationString="
-				+ activationString + ", lastUpdate=" + lastUpdate + "]";
+				+ ", accountId=" + contractNo + ", phone=" + phone + ", mobile=" + mobile + ", pobox=" + pobox + ", poboxCity=" + poboxCity + ", status=" + status 
+				 + ", lastUpdate=" + lastUpdate + "]";
 	}
 
 }

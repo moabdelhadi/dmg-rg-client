@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
@@ -197,68 +198,6 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	}
 
-	// private CustomLayout createOptionLayout() {
-	//
-	// CustomLayout customLayout = new CustomLayout("options");
-	// customLayout.setWidth("188px");
-	// customLayout.setStyleName("optionLayout");
-	//
-	// Button summary = new Button("Account Summary");
-	// summary.addStyleName("optViewButton");
-	// // summary.setHeight("75px");
-	// //summary.setIcon(new ThemeResource("img/blueButton.png"),
-	// "Account Summary");
-	//
-	//
-	// Button editProfile = new Button("Edit Proifile");
-	// // editProfile.setHeight("75px");
-	// editProfile.addStyleName("optViewButton");
-	//
-	//
-	// Button changePassword = new Button("Change Password");
-	// // changePassword.setHeight("75px");
-	// changePassword.addStyleName("optViewButton");
-	//
-	// customLayout.addComponent(summary, "summary");
-	// customLayout.addComponent(editProfile, "edit_profile");
-	// customLayout.addComponent(changePassword, "change_password");
-	//
-	// summary.addClickListener(new ClickListener() {
-	//
-	// @Override
-	// public void buttonClick(ClickEvent event) {
-	// navigator.navigateTo(Views.USER_PAGE);
-	// }
-	// });
-	//
-	// editProfile.addClickListener(new ClickListener() {
-	//
-	// /**
-	// *
-	// */
-	// private static final long serialVersionUID = 1L;
-	//
-	// @Override
-	// public void buttonClick(ClickEvent event) {
-	// navigator.navigateTo(Views.EDIT_PROFILE_PAGE);
-	// }
-	// });
-	//
-	// changePassword.addClickListener(new ClickListener() {
-	//
-	// /**
-	// *
-	// */
-	// private static final long serialVersionUID = 1L;
-	//
-	// @Override
-	// public void buttonClick(ClickEvent event) {
-	// navigator.navigateTo(Views.CHANGE_PASSWORD);
-	// }
-	// });
-	//
-	// return customLayout;
-	// }
 
 	private void registerNewUser() {
 
@@ -277,11 +216,10 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		user.setPoboxCity(poBoxCity.getValue());
 
 		// TODO setactivationString
-		user.setActivationString("");
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPassword(newPassword.getValue());
-		user.setPhone(phone.getValue());
+		user.setPassword(PasswordUtil.generateHashedPassword(newPassword.getValue()));
+		user.setPhone(phonePrefix+"/"+phone.getValue());
 		user.setMobile(mobilePrefix.getValue()+"/"+mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
@@ -289,12 +227,10 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			UserManager.getInstance().sendActivationEmail(user);
 			navigator.navigateTo(Views.ACTIVATION_PAGE);
 		} catch (DataAccessLayerException e) {
-			// navigator.navigateTo(Views.EDIT_PROFILE_PAGE+"/"+user.getContractNo()+"/"+user.getCity());
+			logger.error("Error in register User ");
 		}
 
 	}
-
-	
 
 	private boolean vaildateRegister() {
 

@@ -72,7 +72,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
+		CustomLayout optionLayout = new AccountOptions(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
 		CustomLayout customLayout = new CustomLayout("AccountOverview");

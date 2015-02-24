@@ -68,7 +68,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		cityMap.put("DUBAI", "Dubai & Northern Emirates");
 		cityMap.put("ABUDHABI", "Abu dhabi, Alain & Western Region");
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = AccountOptions.getInstance(navigator).createOptionLayout();
+		CustomLayout optionLayout = new AccountOptions(navigator).createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
 		
@@ -196,11 +196,10 @@ public class EditUserProfile extends VerticalLayout implements View {
 		user.setPoboxCity(poBoxCity.getValue());
 
 		// TODO setactivationString
-		user.setActivationString("");
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPhone(phone.getValue());
-		user.setMobile(mobile.getValue());
+		user.setPhone(phonePrefix+"/"+phone.getValue());
+		user.setMobile(mobilePrefix+"/"+mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {
@@ -387,30 +386,30 @@ public class EditUserProfile extends VerticalLayout implements View {
 		return accountFromAccountID;
 	}
 
-	private UserAccount getuserFromParam(String parametersString) {
-		
-		
-		logger.debug("Parameters=" + parametersString);
-
-		String[] parameters = parametersString.split("/");
-
-		if (parameters == null || parameters.length != 2) {
-			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
-			return null;
-		}
-
-		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
-			return null;
-		}
-
-		UserAccount userAccount = new UserAccount();
-		userAccount.setContractNo(parameters[0]);
-		userAccount.setCity(parameters[1]);
-		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
-		return accountFromAccountID;
-		
-	}
+//	private UserAccount getuserFromParam(String parametersString) {
+//		
+//		
+//		logger.debug("Parameters=" + parametersString);
+//
+//		String[] parameters = parametersString.split("/");
+//
+//		if (parameters == null || parameters.length != 2) {
+//			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
+//			return null;
+//		}
+//
+//		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
+//			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+//			return null;
+//		}
+//
+//		UserAccount userAccount = new UserAccount();
+//		userAccount.setContractNo(parameters[0]);
+//		userAccount.setCity(parameters[1]);
+//		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
+//		return accountFromAccountID;
+//		
+//	}
 
 	private void setUserValues() {
 

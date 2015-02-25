@@ -15,6 +15,7 @@ import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.util.EncryptionUtil;
+import com.dmg.util.PropertiesManager;
 import com.dmg.util.SHAEncrypt;
 import com.dmg.util.mail.MailManager;
 
@@ -26,6 +27,7 @@ public class UserManager {
 
 	// private final String CONFIRMATION_BASE_PATH =
 	// PropertiesManager.getInstance().getProperty("confirmation_base_path");
+	private static String CONFIRM_BASE_PATH = "confirmation.base.path";
 	private static final UserManager INSTANCE = new UserManager();
 
 	private UserManager() {
@@ -271,7 +273,7 @@ public class UserManager {
 		MailManager.getInstance().sendMail(
 				user.getEmail(),
 				"Account Activation",
-				"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
+				"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
 						+ " to activate your account");
 	}
 	

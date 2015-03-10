@@ -128,11 +128,18 @@ public class ForgotPassword extends VerticalLayout implements View {
 						navigator.navigateTo(Views.LOGIN);
 						return;
 					}
+					
+					String msgBody = "<div style=\"text-align:left\"><p>Hello "+userAccount.getName()+",</p><p>Please follow the link below to reset your account password.</p><p>"+PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()+"</p><p>Regards,</p><p>Royal Development for Gas Works</p></div>";
 					MailManager.getInstance().sendMail(
 							userAccount.getEmail(),
 							"Reset Password",
-							"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
-									+ " to reset your password");
+							msgBody);
+							
+//							"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
+//									+ " to reset your password");
+//					
+					
+					
 					notification.show(Page.getCurrent());
 					navigator.navigateTo(Views.LOGIN);
 				}

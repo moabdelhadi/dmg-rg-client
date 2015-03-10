@@ -75,6 +75,7 @@ public class Login extends VerticalLayout implements View {
 		CustomLayout customLayout = new CustomLayout("login");
 		// customLayout.setWidth("20%");
 		loginAccountId = new TextField("Account No.");
+		loginAccountId.setId("loginAccountID");
 		loginAccountId.setHeight("30px");
 		loginAccountId.setStyleName("h2");
 		loginAccountId.setInputPrompt("Please enter you account no. as shown in the help button");
@@ -101,6 +102,7 @@ public class Login extends VerticalLayout implements View {
 
 		loginPassword = new PasswordField("Password");
 		loginPassword.setHeight("30px");
+		loginPassword.setId("LoginPasswordId");
 		// loginPassword.setWidth("200px");
 		loginPassword.setStyleName("h2");
 		loginPassword.setRequired(true);

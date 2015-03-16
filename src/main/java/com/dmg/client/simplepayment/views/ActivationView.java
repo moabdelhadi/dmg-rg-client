@@ -8,12 +8,15 @@ import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.exception.DataAccessLayerException;
+import com.dmg.util.PropertiesManager;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
@@ -30,9 +33,10 @@ public class ActivationView extends VerticalLayout implements View {
 
 	private final Navigator navigator;
 
-	private Button backToLogin;
+	private Link backToLogin;
 	private Label activationLabel;
 	private UserAccount userAccount;
+	
 
 	public ActivationView(Navigator navigator) {
 		this.navigator = navigator;
@@ -48,29 +52,31 @@ public class ActivationView extends VerticalLayout implements View {
 
 		customLayout.addComponent(activationLabel, "activationMsg");
 
-		backToLogin = new Button("Back to login");
+		String loginUrl = PropertiesManager.getInstance().getProperty("payment.home.path");
+		backToLogin = new Link("Go to login", new ExternalResource(loginUrl));
 		backToLogin.addStyleName(Runo.BUTTON_BIG);
 		customLayout.addComponent(backToLogin, "backToLogin");
 
 		addComponent(customLayout);
 
-		backToLogin.addClickListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(Views.LOGIN);
-			}
-		});
+//		backToLogin.addClickListener(new ClickListener() {
+//
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				navigator.navigateTo(Views.LOGIN);
+//			}
+//		});
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
 		String parameters = event.getParameters();
 		if ("".equals(parameters)) {
 			return;
@@ -90,12 +96,13 @@ public class ActivationView extends VerticalLayout implements View {
 				userAccount.setActivationKey("");
 				userAccount.setSyncStatus(2);
 				UserManager.getInstance().updateAccount(userAccount);
-				Notification.show("Success", "Your account is activated", Type.HUMANIZED_MESSAGE);
+				Notification.show("Success", "Your account is activated", Type.WARNING_MESSAGE);
+				
+//				navigator.navigateTo(Views.LOGIN);
 
-				navigator.navigateTo(Views.LOGIN);
 			} catch (DataAccessLayerException e) {
 				Notification.show("Error", "Link is invalid", Type.ERROR_MESSAGE);
-				navigator.navigateTo(Views.LOGIN);
+//				navigator.navigateTo(Views.LOGIN);
 			}
 
 		} else {

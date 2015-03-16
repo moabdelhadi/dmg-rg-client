@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.PaymentResponse;
 import com.dmg.client.simplepayment.beans.Transaction;
 import com.dmg.client.simplepayment.beans.UserAccount;

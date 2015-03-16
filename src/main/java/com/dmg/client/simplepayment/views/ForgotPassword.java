@@ -7,6 +7,7 @@ import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.exception.DataAccessLayerException;
+import com.dmg.util.PropertiesManager;
 import com.dmg.util.SHAEncrypt;
 import com.dmg.util.mail.MailManager;
 import com.vaadin.data.Validator.InvalidValueException;
@@ -42,6 +43,8 @@ public class ForgotPassword extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static String CONFIRM_BASE_PATH = "confirmation.base.path";
 
 	private TextField accountNumberField;
 	private Button resetPasswordButton;
@@ -125,11 +128,18 @@ public class ForgotPassword extends VerticalLayout implements View {
 						navigator.navigateTo(Views.LOGIN);
 						return;
 					}
+					
+					String msgBody = "<div style=\"text-align:left\"><p>Hello "+userAccount.getName()+",</p><p>Please follow the link below to reset your account password.</p><p>"+PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()+"</p><p>Regards,</p><p>Royal Development for Gas Works</p></div>";
 					MailManager.getInstance().sendMail(
 							userAccount.getEmail(),
 							"Reset Password",
-							"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
-									+ " to reset your password");
+							msgBody);
+							
+//							"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!forgotPassword/" + hashKey + "/" + userAccount.getCity() + "/" + userAccount.getContractNo()
+//									+ " to reset your password");
+//					
+					
+					
 					notification.show(Page.getCurrent());
 					navigator.navigateTo(Views.LOGIN);
 				}

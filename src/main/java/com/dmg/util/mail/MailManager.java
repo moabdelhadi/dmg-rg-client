@@ -1,5 +1,6 @@
 package com.dmg.util.mail;
 
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,7 +11,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.dmg.client.user.UserManager;
+
 public class MailManager {
+	
+	private static final Logger log = LoggerFactory.getLogger(MailManager.class);
 
 	private static final String SENDER_EMAIL = "dontreply@royalgas.com";
 	private static final String SENDER_USER_NAME = "dontreply@royalgas.com";
@@ -35,9 +43,13 @@ public class MailManager {
 		final String username = SENDER_EMAIL;
 		final String password = SENDER_PASSWORD;
 		Properties props = new Properties();
+		
+		props.put("mail.smtp.host", MAIL_SERVER_NAME);
+		props.put("mail.debug", "true");
+		
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", MAIL_SERVER_NAME);
+		
 		props.put("mail.smtp.port", "26");
 
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -53,7 +65,10 @@ public class MailManager {
 			message.setFrom(new InternetAddress(SENDER_USER_NAME));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject(subject);
-			message.setText(body);
+//			message.setText(body);
+			message.setSentDate(new Date());
+			message.setContent(body, "text/html");
+			log.debug("sent Html Body Message");
 
 			Transport.send(message);
 

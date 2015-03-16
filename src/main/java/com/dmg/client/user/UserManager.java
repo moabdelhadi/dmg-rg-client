@@ -15,6 +15,7 @@ import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.util.EncryptionUtil;
+import com.dmg.util.PropertiesManager;
 import com.dmg.util.SHAEncrypt;
 import com.dmg.util.mail.MailManager;
 
@@ -26,6 +27,7 @@ public class UserManager {
 
 	// private final String CONFIRMATION_BASE_PATH =
 	// PropertiesManager.getInstance().getProperty("confirmation_base_path");
+	private static String CONFIRM_BASE_PATH = "confirmation.base.path";
 	private static final UserManager INSTANCE = new UserManager();
 
 	private UserManager() {
@@ -264,15 +266,22 @@ public class UserManager {
 
 
 	public void sendActivationEmail(UserAccount user) throws DataAccessLayerException {
-		String hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
-		user.setActivationKey(hashKey);
-
-		FacadeFactory.getFacade().store(user);
+		
+		String hashKey = user.getActivationKey();
+		
+		if(hashKey==null || hashKey.trim().isEmpty()){
+			hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
+			user.setActivationKey(hashKey);
+			FacadeFactory.getFacade().store(user);
+		}
+		
+		String msgBody = "<div style=\"text-align:left\"><p>Hello "+user.getName()+",</p><p>Thanks for registering with Royal Development for Gas Works online Service</p><p>Please follow the link below to Activate your account.</p><p>"+PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()+"</p><p>Regards,</p><p>Royal Development for Gas Works</p></div>";
 		MailManager.getInstance().sendMail(
 				user.getEmail(),
 				"Account Activation",
-				"Please click here: http://www.localhost:8080/dmg-rg-client/client/#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
-						+ " to activate your account");
+				msgBody);
+//				"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
+//						+ " to activate your account");
 	}
 	
 	

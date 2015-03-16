@@ -88,6 +88,7 @@ public class ActivationView extends VerticalLayout implements View {
 				userAccount = UserManager.getInstance().validateAccount(paramMap);
 				userAccount.setStatus(UserStatus.ACTIVE.value());
 				userAccount.setActivationKey("");
+				userAccount.setSyncStatus(2);
 				UserManager.getInstance().updateAccount(userAccount);
 				Notification.show("Success", "Your account is activated", Type.HUMANIZED_MESSAGE);
 

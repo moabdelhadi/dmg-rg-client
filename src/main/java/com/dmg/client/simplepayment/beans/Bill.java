@@ -24,6 +24,9 @@ public class Bill extends AbstractPojo {
 
 	@Column(name = "SRNO")
 	private String serialNo;
+	
+	@Column(name = "INVNO")
+	private String invNo;
 
 	@Column(name = "PARTYNAME")
 	private String partyName;
@@ -129,6 +132,15 @@ public class Bill extends AbstractPojo {
 
 	public void setSerialNo(String serialNo) {
 		this.serialNo = serialNo;
+	}
+
+	
+	public String getInvNo() {
+		return invNo;
+	}
+
+	public void setInvNo(String invNo) {
+		this.invNo = invNo;
 	}
 
 	public String getPartyName() {

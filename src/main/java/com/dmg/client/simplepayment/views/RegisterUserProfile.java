@@ -496,6 +496,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			poBoxCity.setValue(user.getPoboxCity());
 		}
 
+		//TODO  OHone Format
 		phone.setValue("");
 		phonePrefix.setValue("");
 		if (user.getPhone() != null) {
@@ -524,6 +525,23 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			confirmPassword.setValue(user.getPassword());
 		}
 
+	}
+	
+	private String getPhoneFormated(String phone){
+		
+		if(phone==null || phone.trim().isEmpty() || phone.length()<9){
+			return "";
+		}
+		
+		StringBuilder phoneFormated = new StringBuilder();
+		for (char chr : phone.toCharArray()) {
+			if(Character.isDigit(chr)){
+				phoneFormated.append(chr);
+			}
+		}
+		
+		return phoneFormated.toString();
+		
 	}
 
 	public boolean isEdit() {

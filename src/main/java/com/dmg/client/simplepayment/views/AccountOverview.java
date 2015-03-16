@@ -193,8 +193,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
 		BigDecimal balance = user.getBalance();
 		
-		double totalAmountValue = balance.doubleValue() +fees;
-		totalAmount.setValue(totalAmountValue+ "AED" );
+		totalAnoountDouble = balance.doubleValue() +fees;
+		totalAmount.setValue(totalAnoountDouble+ "AED" );
 
 		int counter = 0;
 		for (Bill bill : list) {

@@ -88,7 +88,7 @@ public class PaymentManager {
 
 		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
-		map.put("vpc_Amount", "10000");
+		map.put("vpc_Amount", ammount);
 
 		map.put("vpc_OrderInfo", MerchTxnRef);
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
@@ -120,7 +120,7 @@ public class PaymentManager {
 		transaction.setContractNo(user.getContractNo());
 		transaction.setStatus("NEW");
 		transaction.setCity(user.getCity());
-		transaction.setSyncStatus(3);
+		transaction.setSyncStatus(0);
 		transaction.setAmount(map.get("vpc_Amount"));
 		transaction.setCommand(map.get("vpc_Command"));
 		transaction.setOrderInfo(map.get("vpc_OrderInfo"));

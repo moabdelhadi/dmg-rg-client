@@ -201,6 +201,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		user.setPhone(phonePrefix+"/"+phone.getValue());
 		user.setMobile(mobilePrefix+"/"+mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
+		user.setSyncStatus(2);
 
 		try {
 			FacadeFactory.getFacade().store(user);

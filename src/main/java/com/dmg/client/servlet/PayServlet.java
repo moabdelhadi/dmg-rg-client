@@ -107,7 +107,7 @@ public class PayServlet extends HttpServlet {
 //		    RequestDispatcher view = request.getRequestDispatcher("/views/responseMessage.jsp");
 //		    view.forward(request, resp);
 //		    log.debug("forwarding to jsp Page");
-			response.setHeader("Content-Type","text/html, charset=ISO-8859-1");
+			response.setHeader("Content-Type","text/html");
 			response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
 			response.setDateHeader("Last-Modified", Calendar.getInstance().getTimeInMillis());
 			response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
@@ -128,7 +128,7 @@ public class PayServlet extends HttpServlet {
 		}catch(Exception e){
 			
 			log.error("error in handling response",e);
-			response.setHeader("Content-Type","text/html, charset=ISO-8859-1");
+			response.setHeader("Content-Type","text/html");
 			response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
 			response.setDateHeader("Last-Modified", Calendar.getInstance().getTimeInMillis());
 			response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");

@@ -2,7 +2,7 @@
 <%@page import="java.util.Calendar"%>
 <html lang="en-US">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <title> Royal Development for Gas Works</title> 
         <link rel="icon" type="image/png" href="https://www.royalgas.com/wp-content/uploads/2013/07/favicon.ico">
@@ -79,6 +79,12 @@
 	<%
 	
 	 }catch(Exception e){
+		 
+		 response.setHeader("Content-Type","text/html");
+		 response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+		 response.setDateHeader("Last-Modified", Calendar.getInstance().getTimeInMillis());
+		 response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
+		 response.setHeader("Pragma","no-cache");
 		 
 	 }
     response.setHeader("Content-Type","text/html");

@@ -39,7 +39,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(RegisterUserProfile.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(RegisterUserProfile.class);
 
 	private final Navigator navigator;
 	private Button registerButton;
@@ -198,7 +199,6 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	}
 
-
 	private void registerNewUser() {
 
 		if (!vaildateRegister()) {
@@ -218,9 +218,10 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		// TODO setactivationString
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPassword(PasswordUtil.generateHashedPassword(newPassword.getValue()));
-		user.setPhone(phonePrefix+"/"+phone.getValue());
-		user.setMobile(mobilePrefix.getValue()+"/"+mobile.getValue());
+		user.setPassword(PasswordUtil.generateHashedPassword(newPassword
+				.getValue()));
+		user.setPhone(phonePrefix + "/" + phone.getValue());
+		user.setMobile(mobilePrefix.getValue() + "/" + mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 
 		try {
@@ -241,7 +242,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			loginEmail.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			loginEmail.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -249,7 +251,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			name.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -257,7 +260,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			poBox.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			poBox.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			poBox.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -265,7 +269,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			poBoxCity.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			poBoxCity.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			poBoxCity.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -273,7 +278,8 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			newPassword.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			newPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			newPassword.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -281,13 +287,17 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			confirmPassword.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			confirmPassword.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			confirmPassword.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
-		if (newPassword.getValue() != null && !newPassword.getValue().trim().isEmpty() && confirmPassword != null) {
+		if (newPassword.getValue() != null
+				&& !newPassword.getValue().trim().isEmpty()
+				&& confirmPassword != null) {
 			if (!newPassword.getValue().equals(confirmPassword.getValue())) {
-				confirmPassword.setComponentError(new UserError("Password must match"));
+				confirmPassword.setComponentError(new UserError(
+						"Password must match"));
 				status = false;
 			}
 		}
@@ -296,20 +306,26 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			phone.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			phone.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			phone.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
-			if (phone != null && phone.getValue() != null && !phone.getValue().isEmpty()) {
+			if (phone != null && phone.getValue() != null
+					&& !phone.getValue().isEmpty()) {
 				if (phone.getValue().trim().length() != 7) {
-					phone.setComponentError(new UserError("Invalid Phone Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					phone.setComponentError(new UserError(
+							"Invalid Phone Number - lenght", ContentMode.HTML,
+							ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phone.getValue());
 			}
 		} catch (Exception e) {
-			phone.setComponentError(new UserError("Invalid Phone Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			phone.setComponentError(new UserError(
+					"Invalid Phone Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -317,20 +333,26 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			phonePrefix.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			phonePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			phonePrefix.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
-			if (phonePrefix != null && phonePrefix.getValue() != null && !phonePrefix.getValue().isEmpty()) {
+			if (phonePrefix != null && phonePrefix.getValue() != null
+					&& !phonePrefix.getValue().isEmpty()) {
 				if (phonePrefix.getValue().trim().length() != 2) {
-					phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					phonePrefix.setComponentError(new UserError(
+							"Invalid phonePrefix Number - lenght",
+							ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phonePrefix.getValue());
 			}
 		} catch (Exception e) {
-			phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			phonePrefix.setComponentError(new UserError(
+					"Invalid phonePrefix Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -338,20 +360,26 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			mobile.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			mobile.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			mobile.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
-			if (mobile != null && mobile.getValue() != null && !mobile.getValue().isEmpty()) {
+			if (mobile != null && mobile.getValue() != null
+					&& !mobile.getValue().isEmpty()) {
 				if (mobile.getValue().trim().length() != 7) {
-					mobile.setComponentError(new UserError("Invalid mobile Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					mobile.setComponentError(new UserError(
+							"Invalid mobile Number - lenght", ContentMode.HTML,
+							ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobile.getValue());
 			}
 		} catch (Exception e) {
-			mobile.setComponentError(new UserError("Invalid mobile Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			mobile.setComponentError(new UserError(
+					"Invalid mobile Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -359,20 +387,26 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			mobilePrefix.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			mobilePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			mobilePrefix.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
 		try {
-			if (mobilePrefix != null && mobilePrefix.getValue() != null && !mobilePrefix.getValue().isEmpty()) {
+			if (mobilePrefix != null && mobilePrefix.getValue() != null
+					&& !mobilePrefix.getValue().isEmpty()) {
 				if (mobilePrefix.getValue().trim().length() != 3) {
-					mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+					mobilePrefix.setComponentError(new UserError(
+							"Invalid mobilePrefix Number - lenght",
+							ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobilePrefix.getValue());
 			}
 		} catch (Exception e) {
-			mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+			mobilePrefix.setComponentError(new UserError(
+					"Invalid mobilePrefix Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -442,15 +476,18 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			return null;
 		}
 
-		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
+		if (StringUtils.isEmpty(parameters[0])
+				|| StringUtils.isEmpty(parameters[1])) {
+			logger.error("Paratemeres Value is in correct " + parameters[0]
+					+ " , " + parameters[1]);
 			return null;
 		}
 
 		UserAccount userAccount = new UserAccount();
 		userAccount.setContractNo(parameters[0]);
 		userAccount.setCity(parameters[1]);
-		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
+		UserAccount accountFromAccountID = UserManager.getInstance()
+				.getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
 
 	}
@@ -496,26 +533,21 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			poBoxCity.setValue(user.getPoboxCity());
 		}
 
-		//TODO  OHone Format
+		// TODO OHone Format
 		phone.setValue("");
 		phonePrefix.setValue("");
-		if (user.getPhone() != null) {
-			String[] split = user.getPhone().split("/");
-			if (split.length == 2) {
-				phonePrefix.setValue(split[0]);
-				phone.setValue(split[1]);
-			}
-
+		String phoneFormated = getPhoneFormated(user.getPhone());
+		if (phoneFormated.length() > 5) {
+			phonePrefix.setValue(phoneFormated.substring(0, 2));
+			phone.setValue(phoneFormated.substring(2));
 		}
 
 		mobile.setValue("");
 		mobilePrefix.setValue("");
-		if (user.getMobile() != null) {
-			String[] split = user.getMobile().split("/");
-			if (split.length == 2) {
-				mobilePrefix.setValue(split[0]);
-				mobile.setValue(split[1]);
-			}
+		String mobileFormated = getPhoneFormated(user.getMobile());
+		if (mobileFormated.length() > 5) {
+			mobilePrefix.setValue(mobileFormated.substring(0, 3));
+			mobile.setValue(mobileFormated.substring(3));
 		}
 
 		newPassword.setValue("");
@@ -526,22 +558,19 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		}
 
 	}
-	
-	private String getPhoneFormated(String phone){
-		
-		if(phone==null || phone.trim().isEmpty() || phone.length()<9){
+
+	private String getPhoneFormated(String phone) {
+		if (phone == null || phone.trim().isEmpty() || phone.length() < 9) {
 			return "";
 		}
-		
+
 		StringBuilder phoneFormated = new StringBuilder();
 		for (char chr : phone.toCharArray()) {
-			if(Character.isDigit(chr)){
+			if (Character.isDigit(chr)) {
 				phoneFormated.append(chr);
 			}
 		}
-		
 		return phoneFormated.toString();
-		
 	}
 
 	public boolean isEdit() {

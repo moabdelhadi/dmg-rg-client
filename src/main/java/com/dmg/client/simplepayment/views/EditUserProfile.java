@@ -37,7 +37,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(EditUserProfile.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(EditUserProfile.class);
 
 	private Navigator navigator;
 	private Button registerButton;
@@ -68,13 +69,13 @@ public class EditUserProfile extends VerticalLayout implements View {
 		cityMap.put("DUBAI", "Dubai & Northern Emirates");
 		cityMap.put("ABUDHABI", "Abu dhabi, Alain & Western Region");
 		HorizontalLayout hsplit = new HorizontalLayout();
-		CustomLayout optionLayout = new AccountOptions(navigator).createOptionLayout();
+		CustomLayout optionLayout = new AccountOptions(navigator)
+				.createOptionLayout();
 		hsplit.addComponent(optionLayout);
 
-		
 		CustomLayout customLayout = new CustomLayout("editProfile");
 		customLayout.setWidth("750px");
-//		customLayout.setHeight("760px");
+		// customLayout.setHeight("760px");
 		// customLayout.setWidth("20%");
 		loginEmail = new TextField("User Email");
 		loginEmail.setInputPrompt("Please enter valed email");
@@ -131,7 +132,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		phonePrefix.setHeight("30px");
 		phonePrefix.setStyleName("h2");
 		customLayout.addComponent(phonePrefix, "phonePrefix");
-		
+
 		phone = new TextField("");
 		phone.setInputPrompt("1234567");
 		phone.setHeight("30px");
@@ -146,7 +147,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		mobilePrefix.setRequiredError("This field is required");
 		customLayout.addComponent(mobilePrefix, "mobilePrefix");
 
-		
 		mobile = new TextField("");
 		mobile.setInputPrompt("1234567");
 		mobile.setRequired(true);
@@ -159,7 +159,6 @@ public class EditUserProfile extends VerticalLayout implements View {
 		registerButton = new Button("Register");
 		customLayout.addComponent(registerButton, "registerButton");
 
-		
 		hsplit.addComponent(customLayout);
 		addComponent(hsplit);
 
@@ -177,8 +176,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		});
 
 	}
-	
-	
+
 	private void registerNewUser() {
 
 		if (!vaildateRegister()) {
@@ -198,8 +196,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 		// TODO setactivationString
 		user.setEmail(loginEmail.getValue());
 		user.setLastUpdate(Calendar.getInstance().getTime());
-		user.setPhone(phonePrefix+"/"+phone.getValue());
-		user.setMobile(mobilePrefix+"/"+mobile.getValue());
+		user.setPhone(phonePrefix + "/" + phone.getValue());
+		user.setMobile(mobilePrefix + "/" + mobile.getValue());
 		user.setUpdateDate(Calendar.getInstance().getTime());
 		user.setSyncStatus(2);
 
@@ -221,7 +219,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 			loginEmail.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			loginEmail.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			loginEmail.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -229,7 +228,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 			name.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			name.setComponentError(new UserError(htmlMessage, ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -237,7 +237,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 			poBox.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			poBox.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			poBox.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -245,7 +246,8 @@ public class EditUserProfile extends VerticalLayout implements View {
 			poBoxCity.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			poBoxCity.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			poBoxCity.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -253,41 +255,53 @@ public class EditUserProfile extends VerticalLayout implements View {
 			phone.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			phone.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			phone.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(phone!=null && phone.getValue()!=null && !phone.getValue().isEmpty()){
-				if(phone.getValue().trim().length()!=7){
-					phone.setComponentError(new UserError("Invalid Phone Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+
+		try {
+			if (phone != null && phone.getValue() != null
+					&& !phone.getValue().isEmpty()) {
+				if (phone.getValue().trim().length() != 7) {
+					phone.setComponentError(new UserError(
+							"Invalid Phone Number - lenght", ContentMode.HTML,
+							ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phone.getValue());
 			}
-		}catch(Exception e){
-			phone.setComponentError(new UserError("Invalid Phone Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+		} catch (Exception e) {
+			phone.setComponentError(new UserError(
+					"Invalid Phone Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
-		
+
 		try {
 			phonePrefix.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			phonePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			phonePrefix.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(phonePrefix!=null && phonePrefix.getValue()!=null && !phonePrefix.getValue().isEmpty()){
-				if(phonePrefix.getValue().trim().length()!=2){
-					phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+
+		try {
+			if (phonePrefix != null && phonePrefix.getValue() != null
+					&& !phonePrefix.getValue().isEmpty()) {
+				if (phonePrefix.getValue().trim().length() != 2) {
+					phonePrefix.setComponentError(new UserError(
+							"Invalid phonePrefix Number - lenght",
+							ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(phonePrefix.getValue());
 			}
-		}catch(Exception e){
-			phonePrefix.setComponentError(new UserError("Invalid phonePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+		} catch (Exception e) {
+			phonePrefix.setComponentError(new UserError(
+					"Invalid phonePrefix Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
@@ -295,46 +309,72 @@ public class EditUserProfile extends VerticalLayout implements View {
 			mobile.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			mobile.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			mobile.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(mobile!=null && mobile.getValue()!=null && !mobile.getValue().isEmpty()){
-				if(mobile.getValue().trim().length()!=7){
-					mobile.setComponentError(new UserError("Invalid mobile Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+
+		try {
+			if (mobile != null && mobile.getValue() != null
+					&& !mobile.getValue().isEmpty()) {
+				if (mobile.getValue().trim().length() != 7) {
+					mobile.setComponentError(new UserError(
+							"Invalid mobile Number - lenght", ContentMode.HTML,
+							ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobile.getValue());
 			}
-		}catch(Exception e){
-			mobile.setComponentError(new UserError("Invalid mobile Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+		} catch (Exception e) {
+			mobile.setComponentError(new UserError(
+					"Invalid mobile Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
-		
+
 		try {
 			mobilePrefix.validate();
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
-			mobilePrefix.setComponentError(new UserError(htmlMessage, ContentMode.HTML, ErrorLevel.ERROR));
+			mobilePrefix.setComponentError(new UserError(htmlMessage,
+					ContentMode.HTML, ErrorLevel.ERROR));
 			status = false;
 		}
-		
-		try{
-			if(mobilePrefix!=null && mobilePrefix.getValue()!=null && !mobilePrefix.getValue().isEmpty()){
-				if(mobilePrefix.getValue().trim().length()!=3){
-					mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - lenght", ContentMode.HTML, ErrorLevel.ERROR));
+
+		try {
+			if (mobilePrefix != null && mobilePrefix.getValue() != null
+					&& !mobilePrefix.getValue().isEmpty()) {
+				if (mobilePrefix.getValue().trim().length() != 3) {
+					mobilePrefix.setComponentError(new UserError(
+							"Invalid mobilePrefix Number - lenght",
+							ContentMode.HTML, ErrorLevel.ERROR));
 					status = false;
 				}
 				Integer.parseInt(mobilePrefix.getValue());
 			}
-		}catch(Exception e){
-			mobilePrefix.setComponentError(new UserError("Invalid mobilePrefix Number - digits", ContentMode.HTML, ErrorLevel.ERROR));
+		} catch (Exception e) {
+			mobilePrefix.setComponentError(new UserError(
+					"Invalid mobilePrefix Number - digits", ContentMode.HTML,
+					ErrorLevel.ERROR));
 			status = false;
 		}
 
 		return status;
 
+	}
+
+	private String getPhoneFormated(String phone) {
+		if (phone == null || phone.trim().isEmpty() || phone.length() < 9) {
+			return "";
+		}
+
+		StringBuilder phoneFormated = new StringBuilder();
+		for (char chr : phone.toCharArray()) {
+			if (Character.isDigit(chr)) {
+				phoneFormated.append(chr);
+			}
+		}
+		return phoneFormated.toString();
 	}
 
 	private void resetFormValidation() {
@@ -354,63 +394,37 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
+
 		logger.debug("Get in Edit User Profile Entree");
-		
+
 		UserAccount accountFromAccountID = null;
 		accountFromAccountID = getUserFromSession();
-		if(accountFromAccountID !=null){
+		if (accountFromAccountID != null) {
 			user = accountFromAccountID;
 			setEdit(true);
 			logger.info("Find User From Session");
 		}
-		
 
-		if(accountFromAccountID==null){
+		if (accountFromAccountID == null) {
 			logger.error("No User Available");
 			navigator.navigateTo(Views.LOGIN);
-			return ;
+			return;
 		}
 		setUserValues();
 		resetFormValidation();
 
 	}
-	
-	
+
 	private UserAccount getUserFromSession() {
-		
+
 		UserAccount userAccount = SessionHandler.get();
-		if(userAccount==null){
+		if (userAccount == null) {
 			return null;
 		}
-		UserAccount accountFromAccountID= UserManager.getInstance().getAccountFromAccountID(userAccount);
+		UserAccount accountFromAccountID = UserManager.getInstance()
+				.getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
 	}
-
-//	private UserAccount getuserFromParam(String parametersString) {
-//		
-//		
-//		logger.debug("Parameters=" + parametersString);
-//
-//		String[] parameters = parametersString.split("/");
-//
-//		if (parameters == null || parameters.length != 2) {
-//			logger.error( "No Paratemeres Passed to this user or Parameters are error ");
-//			return null;
-//		}
-//
-//		if (StringUtils.isEmpty(parameters[0]) || StringUtils.isEmpty(parameters[1])) {
-//			logger.error("Paratemeres Value is in correct " + parameters[0] + " , " + parameters[1]);
-//			return null;
-//		}
-//
-//		UserAccount userAccount = new UserAccount();
-//		userAccount.setContractNo(parameters[0]);
-//		userAccount.setCity(parameters[1]);
-//		UserAccount accountFromAccountID = UserManager.getInstance().getAccountFromAccountID(userAccount);
-//		return accountFromAccountID;
-//		
-//	}
 
 	private void setUserValues() {
 
@@ -455,23 +469,18 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		phone.setValue("");
 		phonePrefix.setValue("");
-		if (user.getPhone() != null) {
-			String[] split = user.getPhone().split("/");
-			if(split.length==2){
-				phonePrefix.setValue(split[0]);
-				phone.setValue(split[1]);
-			}
-			
+		String phoneFormated = getPhoneFormated(user.getPhone());
+		if (phoneFormated.length() > 5) {
+			phonePrefix.setValue(phoneFormated.substring(0, 2));
+			phone.setValue(phoneFormated.substring(2));
 		}
 
 		mobile.setValue("");
 		mobilePrefix.setValue("");
-		if (user.getMobile() != null) {
-			String[] split = user.getMobile().split("/");
-			if(split.length==2){
-				mobilePrefix.setValue(split[0]);
-				mobile.setValue(split[1]);
-			}
+		String mobileFormated = getPhoneFormated(user.getMobile());
+		if (mobileFormated.length() > 5) {
+			mobilePrefix.setValue(mobileFormated.substring(0, 3));
+			mobile.setValue(mobileFormated.substring(3));
 		}
 	}
 
@@ -482,5 +491,5 @@ public class EditUserProfile extends VerticalLayout implements View {
 	public void setEdit(boolean edit) {
 		this.edit = edit;
 	}
-	
+
 }

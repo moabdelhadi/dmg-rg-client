@@ -56,7 +56,7 @@ public class PaymentManager {
 		return INSTANCE;
 	}
 
-	public Map<String, String> getPostFields(UserAccount user, String ammount) {
+	public Map<String, String> getPostFields(UserAccount user, String ammount, String lBDocNo, String lBDocType, String lBYearCode) {
 
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -98,10 +98,12 @@ public class PaymentManager {
 		map.put("vpc_SecureHash", hashAllFields);
 
 		Transaction transaction = saveNewPayment(map, user);
+		transaction.setInvDocNo(lBDocNo);
+		transaction.setInvDocType(lBDocType);
+		transaction.setInvYearCode(lBYearCode);
 		try {
 			FacadeFactory.getFacade().store(transaction);
 		} catch (Exception e) {
-
 			log.error("error in save new payment: transaction=" + transaction, e);
 			return null;
 		}
@@ -112,6 +114,7 @@ public class PaymentManager {
 
 	private Transaction saveNewPayment(Map<String, String> map, UserAccount user) {
 
+		
 		Transaction transaction = new Transaction();
 		Date date = Calendar.getInstance().getTime();
 		transaction.setCreationDate(date);

@@ -64,6 +64,15 @@ public class Transaction extends AbstractPojo {
 
 	@Column(name = "FEES")
 	private String fees;
+	
+	@Column(name = "INV_DOCNO")
+	private String invDocNo;
+	
+	@Column(name = "INV_DOCTYPE")
+	private String invDocType;
+	
+	@Column(name = "INV_YEARCODE")
+	private String invYearCode;
 
 	public Transaction() {
 
@@ -195,6 +204,30 @@ public class Transaction extends AbstractPojo {
 
 	public void setFees(String fees) {
 		this.fees = fees;
+	}
+	
+	public String getInvDocNo() {
+		return invDocNo;
+	}
+
+	public void setInvDocNo(String invDocNo) {
+		this.invDocNo = invDocNo;
+	}
+
+	public String getInvDocType() {
+		return invDocType;
+	}
+
+	public void setInvDocType(String invDocType) {
+		this.invDocType = invDocType;
+	}
+
+	public String getInvYearCode() {
+		return invYearCode;
+	}
+
+	public void setInvYearCode(String invYearCode) {
+		this.invYearCode = invYearCode;
 	}
 
 	@Override

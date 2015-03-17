@@ -24,6 +24,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,6 +32,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
@@ -60,6 +62,9 @@ public class AccountOverview extends VerticalLayout implements View {
 	private double totalAnoountDouble = 0;
 	private double fees = 0;
 	private Label feeNote;
+	private String lBDocType="" ;
+	private String lBDocNo="" ;
+	private String lBYearCode="" ;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -99,7 +104,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			customLayout.addComponent(date, "date_" + counter);
 			dates.add(date);
 
-			Label amount = new Label("....." + counter);
+			Label amount = new Label("..." + counter);
 			amount.setStyleName("table-td-font-size");
 			customLayout.addComponent(amount, "amount_" + counter);
 			amounts.add(amount);
@@ -114,7 +119,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		}
 
-		totalAmount = new Label("Ammount Due date: " + " ??? " + " AED");
+		totalAmount = new Label("Ammount Due date: " + " ... " + " AED");
 		customLayout.addComponent(totalAmount, "totalAmount");
 
 		// payButton
@@ -139,12 +144,23 @@ public class AccountOverview extends VerticalLayout implements View {
 					PaymentManager manager = PaymentManager.getInstance();
 					int intValue = (int) (totalAnoountDouble * 100);
 					
-					Map<String, String> postFields = manager.getPostFields(user, intValue + "");
+					if(intValue==0){
+						Notification notification = new Notification("No Payment Available","Your Balance is 0 you have no payment to do", Notification.Type.HUMANIZED_MESSAGE, true);
+						notification.setDelayMsec(-1);
+						notification.show(Page.getCurrent());
+						return;
+					}
+					
+					Map<String, String> postFields = manager.getPostFields(user, intValue + "", lBDocNo, lBDocType, lBYearCode);
 
 					Transaction txn = manager.getPaymentByTxnRef(postFields.get("vpc_MerchTxnRef"));
 
 					if (txn == null) {
 						log.error("Error the txn Dose Not Saved Well");
+						Notification notification = new Notification("Payment process error","Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
+						notification.setDelayMsec(-1);
+						notification.show(Page.getCurrent());
+						return;
 					}
 
 					FormSenderBuilder formSender = FormSenderBuilder.create().withUI(getUI()).withAction(PropertiesManager.getInstance().getProperty(PAYMENT_URL)).withMethod(Method.POST)
@@ -162,6 +178,10 @@ public class AccountOverview extends VerticalLayout implements View {
 
 				} catch (Exception e) {
 					log.error("Error in sending the Payment", e);
+					Notification notification = new Notification("Payment process error","Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
+					notification.setDelayMsec(-1);
+					notification.show(Page.getCurrent());
+					return;
 				}
 			}
 		});
@@ -188,14 +208,19 @@ public class AccountOverview extends VerticalLayout implements View {
 		name.setValue(user.getName());
 
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo());
-		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
-		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
-		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
+//		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
+//		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
+//		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
 		BigDecimal balance = user.getBalance();
 		
 		totalAnoountDouble = balance.doubleValue() +fees;
-		totalAmount.setValue(totalAnoountDouble+ "AED" );
+		totalAmount.setValue(totalAnoountDouble+ " AED" );
 
+		Bill lasBill= list.get(0);
+		lBDocNo = lasBill.getDocNo();
+		lBDocType = lasBill.getDocType();
+		lBYearCode = lasBill.getYearCode();
+		
 		int counter = 0;
 		for (Bill bill : list) {
 

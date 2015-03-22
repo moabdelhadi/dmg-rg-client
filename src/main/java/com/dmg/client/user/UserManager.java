@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
+import com.dmg.client.simplepayment.beans.BeansFactory;
 import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
@@ -44,10 +45,10 @@ public class UserManager {
 		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
 
-		List<UserAccount> list = null;
+		List<? extends UserAccount> list = null;
 
 		try {
-			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in retrieve data from database", e);
 			throw new UserManagerException("Error in login, please try again later", e);
@@ -110,9 +111,10 @@ public class UserManager {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
-		List<UserAccount> list;
+		List<? extends UserAccount> list;
 		try {
-			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+			
+			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Account is incorrect", e);
 			return null;
@@ -190,9 +192,14 @@ public class UserManager {
 
 	public UserAccount validateAccount(Map<String, Object> parameters) throws DataAccessLayerException {
 
-		List<UserAccount> list;
+		List<? extends UserAccount> list;
 		try {
-			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+			
+			Object city = parameters.get(Constants.USER_CITY);
+			UserAccount userAccount = BeansFactory.getInstance().getUserAccount(city.toString());
+			
+			
+			list = FacadeFactory.getFacade().list(userAccount.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Account is incorrect", e);
 			throw new DataAccessLayerException("System Error occurred please call: 800-RGAS");
@@ -285,29 +292,29 @@ public class UserManager {
 	}
 	
 	
-	private UserAccount getUserFromActivationLink(String string) throws Exception {
-
-		String decrypt = EncryptionUtil.decrypt(string);
-		String[] params = decrypt.split("==");
-
-		if (params.length != 3) {
-			logger.warn("invalid activation Link decrypt=" + decrypt);
-			return null;
-		}
-
-		logger.debug("params= " + params[0] + " ' " + params[0] + " ' " + params[0]);
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(Constants.USER_ACCOUNT_EMAIL, params[0].trim());
-
-		List<UserAccount> list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
-
-		if (list == null || list.isEmpty()) {
-			logger.warn("no such Email decrypt=" + decrypt);
-			return null;
-		}
-		return list.get(0);
-
-	}
+//	private UserAccount getUserFromActivationLink(String string) throws Exception {
+//
+//		String decrypt = EncryptionUtil.decrypt(string);
+//		String[] params = decrypt.split("==");
+//
+//		if (params.length != 3) {
+//			logger.warn("invalid activation Link decrypt=" + decrypt);
+//			return null;
+//		}
+//
+//		logger.debug("params= " + params[0] + " ' " + params[0] + " ' " + params[0]);
+//
+//		Map<String, Object> parameters = new HashMap<String, Object>();
+//		parameters.put(Constants.USER_ACCOUNT_EMAIL, params[0].trim());
+//
+//		List<UserAccount> list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+//
+//		if (list == null || list.isEmpty()) {
+//			logger.warn("no such Email decrypt=" + decrypt);
+//			return null;
+//		}
+//		return list.get(0);
+//
+//	}
 
 }

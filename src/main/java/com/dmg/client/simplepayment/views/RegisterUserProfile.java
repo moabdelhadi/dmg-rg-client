@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.util.PasswordUtil;
+import com.dmg.client.simplepayment.beans.BeansFactory;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
@@ -483,7 +484,12 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			return null;
 		}
 
-		UserAccount userAccount = new UserAccount();
+		UserAccount userAccount = BeansFactory.getInstance().getUserAccount(parameters[1]);
+		 if(userAccount==null){
+			 logger.error("City Value is in correct , " + parameters[1]);
+				return null;
+		 }
+		
 		userAccount.setContractNo(parameters[0]);
 		userAccount.setCity(parameters[1]);
 		UserAccount accountFromAccountID = UserManager.getInstance()

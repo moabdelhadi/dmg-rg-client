@@ -4,98 +4,101 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 import com.dmg.core.bean.AbstractPojo;
 
-@Entity
-@Table(name = "BILLS")
+@MappedSuperclass
 public class Bill extends AbstractPojo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "DOCNO")
-	private String docNo;
+	protected String docNo;
 
 	@Column(name = "DOCTYPE")
-	private String docType;
+	protected String docType;
 
 	@Column(name = "YEARCODE")
-	private String yearCode;
+	protected String yearCode;
 
 	@Column(name = "SRNO")
-	private String serialNo;
+	protected String serialNo;
 	
 	@Column(name = "INVNO")
-	private String invNo;
+	protected String invNo;
 
 	@Column(name = "PARTYNAME")
-	private String partyName;
+	protected String partyName;
 
 	@Column(name = "PREV_BALANCE")
-	private BigDecimal prevBalance;
+	protected BigDecimal prevBalance;
 
 	@Column(name = "LAST_REC_DOCDATE")
-	private Date lastReceivingDate;
+	protected Date lastReceivingDate;
 
 	@Column(name = "LAST_REC_AMT")
-	private BigDecimal LastReceivingAmount;
+	protected BigDecimal LastReceivingAmount;
 
 	@Column(name = "CITY")
-	private String city;
+	protected String city;
 
 	@Column(name = "INVDATE")
-	private Date billDate;
+	protected Date billDate;
 
 	@Column(name = "SERVICE")
-	private BigDecimal service;
+	protected BigDecimal service;
 
 	@Column(name = "GAS_DIFFERENCE")
-	private BigDecimal gasDifference;
+	protected BigDecimal gasDifference;
 
 	@Column(name = "LAST_REC_PAY_REF")
-	private String lastReceivedPayReference;
+	protected String lastReceivedPayReference;
 
 	@Column(name = "COLLECTOR_NAME")
-	private String collectorName;
+	protected String collectorName;
 
 	@Column(name = "LAST_READING")
-	private String lastReading;
+	protected String lastReading;
 
 	@Column(name = "LAST_READING_DATE")
-	private Date lastReadingDate;
+	protected Date lastReadingDate;
 
 	@Column(name = "CURR_READING")
-	private String currentReading;
+	protected String currentReading;
 
 	@Column(name = "CURR_READING_DATE")
-	private Date currentReadingDate;
+	protected Date currentReadingDate;
 
 	@Column(name = "BUILDING_CODE")
-	private String buildingCode;
+	protected String buildingCode;
 
 	@Column(name = "BUILDING_NAME")
-	private String buildingName;
+	protected String buildingName;
 
 	@Column(name = "APARTMENT_CODE")
-	private String apartmentCode;
+	protected String apartmentCode;
 
 	@Column(name = "TOTAL_UNIT")
-	private String totalUnit;
+	protected String totalUnit;
 
 	@Column(name = "UNIT_PRICE")
-	private String unitPrice;
+	protected String unitPrice;
 
 	@Column(name = "AMT")
-	private BigDecimal amount;
+	protected BigDecimal amount;
 
 	@Column(name = "TOTALAMT")
-	private BigDecimal totalAmount;
+	protected BigDecimal totalAmount;
 
 	@Column(name = "CONTRACT_NO")
-	private String contractNo;
+	protected String contractNo;
 
 	@Column(name = "RECEIVED_AMT")
-	private BigDecimal receivedAmmount;
+	protected BigDecimal receivedAmmount;
 
 	
 	public Bill() {

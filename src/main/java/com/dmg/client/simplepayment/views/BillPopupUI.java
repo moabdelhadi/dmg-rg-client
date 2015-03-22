@@ -35,6 +35,8 @@ public class BillPopupUI extends UI {
 		UserAccount userAccount = SessionHandler.get();
 		
 		String billId = request.getParameter("billId");
+		String city = request.getParameter("billCity");
+		
 
 		if (userAccount == null) {
 			log.error("User Not Available");
@@ -45,11 +47,11 @@ public class BillPopupUI extends UI {
 		try {
 			billIdValue = Long.parseLong(billId);
 		} catch (Exception e) {
-			log.error("Invalis billId" + billId);
+			log.error("Invalis billId " + billId);
 			return;
 		}
 
-		Bill bill = BillManager.getInstance().getBillById(billIdValue);
+		Bill bill = BillManager.getInstance().getBillById(billIdValue, city);
 		if(bill==null){
 			log.error( "Invalis bill ID" + billId);
 			return;

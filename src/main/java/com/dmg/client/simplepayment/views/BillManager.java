@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.simplepayment.beans.BeansFactory;
 import com.dmg.client.simplepayment.beans.Bill;
 import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.core.exception.DataAccessLayerException;
@@ -28,15 +29,18 @@ public class BillManager {
 		return INSTANCE;
 	}
 
-	public List<Bill> getLatestBills(String contractID) {
+	public List<Bill> getLatestBills(String contractID , String city) {
 
 		List<Bill> list = new ArrayList<>();
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(Constants.BILL_CONTRACT_NUMBER, contractID);
+		
+		Bill bill = BeansFactory.getInstance().getBill(city);
+		
 
 		try {
-			list.addAll(FacadeFactory.getFacade().list(Bill.class, parameters, Constants.BILL_INV_DATE, false));
+			list.addAll(FacadeFactory.getFacade().list(bill.getClass(), parameters, Constants.BILL_INV_DATE, false));
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in get bills for contract number , "
 					+ contractID, e);
@@ -46,14 +50,18 @@ public class BillManager {
 		return list;
 	}
 
-	public Bill getBillById(Long id) {
+	public Bill getBillById(Long id, String city) {
 
 		Bill bill = null;
 		try {
-			bill = FacadeFactory.getFacade().find(Bill.class, id);
+			Bill billBean = BeansFactory.getInstance().getBill(city);
+			if(billBean==null){
+				logger.error("Error in get bill form id and City =" + id + " , "+city);
+				return bill;
+			}
+			bill = FacadeFactory.getFacade().find(billBean.getClass(), id);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in get bill form id =" + id, e);
-			e.printStackTrace();
 		}
 		return bill;
 

@@ -10,6 +10,10 @@ import com.dmg.core.bean.AbstractPojo;
 @Table(name = "TXNRESP")
 public class PaymentResponse extends AbstractPojo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Column(name = "vpc_3DSXID")
 	private String d3sxid;
 	@Column(name = "vpc_3DSenrolled")

@@ -207,7 +207,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		name.setValue(user.getName());
 
-		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo());
+		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
 //		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
 //		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
 //		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
@@ -233,6 +233,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			opener.setFeatures("");
 			opener.setParameter("accountId", bill.getContractNo());
 			opener.setParameter("billId", bill.getId().toString());
+			opener.setParameter("billCity", bill.getCity().toString());
 			opener.extend(button);
 
 			counter++;

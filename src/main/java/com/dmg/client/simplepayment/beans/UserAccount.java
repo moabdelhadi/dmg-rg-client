@@ -4,14 +4,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.MappedSuperclass;
 
 import com.dmg.core.bean.AbstractPojo;
 
-@Entity
-@Table(name = "USERACCOUNTS", uniqueConstraints = { @UniqueConstraint(columnNames = { "CONTRACT_NO" }) })
+@MappedSuperclass
 public class UserAccount extends AbstractPojo {
 
 	/**
@@ -20,58 +17,58 @@ public class UserAccount extends AbstractPojo {
 	private static final long serialVersionUID = 711201638919389292L;
 
 	@Column(name = "EMAIL")
-	private String email;
+	protected String email;
 
 	@Column(name = "PASSWORD")
 	protected String password;
 
 	@Column(name = "NAME")
-	private String name;
+	protected String name;
 
 	@Column(name = "CITY")
-	private String city;
+	protected String city;
 
 	@Column(name = "BUILDING_NUMBER")
-	private String buildingNumber;
+	protected String buildingNumber;
 
 	@Column(name = "APPARTMENT_NUMBER")
-	private String appartmentNumber;
+	protected String appartmentNumber;
 
 	@Column(name = "CONTRACT_NO")
-	private String contractNo;
+	protected String contractNo;
 
 	@Column(name = "PHONE")
-	private String phone;
+	protected String phone;
 
 	@Column(name = "MOBILE")
-	private String mobile;
+	protected String mobile;
 
 	@Column(name = "POBOX")
-	private String pobox;
+	protected String pobox;
 
 	@Column(name = "POBOX_CITY")
-	private String poboxCity;
+	protected String poboxCity;
 
 	@Column(name = "STATUS")
-	private int status;
+	protected int status;
 
 	@Column(name = "LASTUPDATE")
-	private Date lastUpdate;
+	protected Date lastUpdate;
 
 	@Column(name = "PASS_RESET_KEY")
-	private String passResetKey;
+	protected String passResetKey;
 
 	@Column(name = "ACTIVATION_KEY")
-	private String activationKey;
+	protected String activationKey;
 	
 	@Column(name = "ENABLE")
-	private Boolean enable;
+	protected Boolean enable;
 
 	@Column(name="BALANCE")
-	private BigDecimal balance;
+	protected BigDecimal balance;
 	
 	@Column(name = "SYNC_STATUS")
-	private int syncStatus;
+	protected int syncStatus;
 	
 	
 	public UserAccount() {

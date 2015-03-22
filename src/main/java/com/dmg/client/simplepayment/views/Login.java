@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.util.PasswordUtil;
+import com.dmg.client.simplepayment.beans.BeansFactory;
 import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
@@ -203,7 +204,7 @@ public class Login extends VerticalLayout implements View {
 		if (!vaildateRegister()) {
 			return;
 		}
-		UserAccount user = new UserAccount();
+		UserAccount user = BeansFactory.getInstance().getUserAccount(citySelect.getValue().toString());
 		user.setContractNo(accountId.getValue());
 		user.setCity(citySelect.getValue().toString());
 		log.info("try get  User With accountId = " + accountId.getValue() + " and city =" + citySelect.getValue() + " ,  apartment=" + apartmentNo.getValue() + " , Building="
@@ -365,7 +366,20 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 
-		UserAccount user = new UserAccount(loginAccountId.getValue(), PasswordUtil.generateHashedPassword(loginPassword.getValue()), loginCitySelect.getValue().toString());
+		
+		UserAccount user = BeansFactory.getInstance().getUserAccount(loginCitySelect.getValue().toString());
+		if(user==null){
+			Notification notification = new Notification("System Error", "<p>SystemError During Login, please Try Again later</p>", Type.HUMANIZED_MESSAGE, true);
+			notification.setDelayMsec(-1);
+			notification.show(Page.getCurrent());
+			return;
+		}
+		
+		user.setContractNo(loginAccountId.getValue());
+		user.setPassword(PasswordUtil.generateHashedPassword(loginPassword.getValue()));
+		user.setCity(loginCitySelect.getValue().toString());
+		
+//		UserAccount user = new UserAccount(loginAccountId.getValue(), PasswordUtil.generateHashedPassword(loginPassword.getValue()), loginCitySelect.getValue().toString());
 
 		try {
 			UserAccount result = UserManager.getInstance().login(user);

@@ -151,7 +151,7 @@ public class AccountOverview extends VerticalLayout implements View {
 						return;
 					}
 					
-					Map<String, String> postFields = manager.getPostFields(user, intValue + "", lBDocNo, lBDocType, lBYearCode);
+					Map<String, String> postFields = manager.getPostFields(user, totalAnoountDouble, lBDocNo, lBDocType, lBYearCode);
 
 					Transaction txn = manager.getPaymentByTxnRef(postFields.get("vpc_MerchTxnRef"));
 
@@ -224,7 +224,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		int counter = 0;
 		for (Bill bill : list) {
 
-			Date currentReadingDate = bill.getCurrentReadingDate();
+			Date currentReadingDate = bill.getBillDate();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			dates.get(counter).setValue(dateFormat.format(currentReadingDate));
 			amounts.get(counter).setValue(bill.getTotalAmount().toString());

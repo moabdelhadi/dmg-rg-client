@@ -1,5 +1,6 @@
 package com.dmg.client.payment;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.simplepayment.beans.Constants;
 import com.dmg.client.simplepayment.beans.PaymentResponse;
 import com.dmg.client.simplepayment.beans.Transaction;
 import com.dmg.client.simplepayment.beans.UserAccount;
@@ -56,7 +58,7 @@ public class PaymentManager {
 		return INSTANCE;
 	}
 
-	public Map<String, String> getPostFields(UserAccount user, String ammount, String lBDocNo, String lBDocType, String lBYearCode) {
+	public Map<String, String> getPostFields(UserAccount user, double totalAnoountDouble, String lBDocNo, String lBDocType, String lBYearCode) {
 
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -87,7 +89,8 @@ public class PaymentManager {
 
 		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
-		map.put("vpc_Amount", ammount);
+		int  tamnt = (int)totalAnoountDouble*100;
+		map.put("vpc_Amount", tamnt +"");
 
 		map.put("vpc_OrderInfo", MerchTxnRef);
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
@@ -101,6 +104,9 @@ public class PaymentManager {
 		transaction.setInvDocNo(lBDocNo);
 		transaction.setInvDocType(lBDocType);
 		transaction.setInvYearCode(lBYearCode);
+		transaction.setDoubleAmount(new BigDecimal(totalAnoountDouble));
+		int fee = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
+		transaction.setFees(BigDecimal.valueOf(fee));
 		try {
 			FacadeFactory.getFacade().store(transaction);
 		} catch (Exception e) {

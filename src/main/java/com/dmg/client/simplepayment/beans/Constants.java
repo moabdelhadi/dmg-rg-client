@@ -9,5 +9,6 @@ public class Constants {
 	public static final String ACTIVATION_KEY = "activationKey";
 	public static final String BILL_CONTRACT_NUMBER = "contractNo";
 	public static final String ONLINE_FEES_NAME = "online.fees";
+	public static final String BILL_INV_DATE = "billDate";
 
 }

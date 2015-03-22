@@ -1,5 +1,6 @@
 package com.dmg.client.simplepayment.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -63,7 +64,7 @@ public class Transaction extends AbstractPojo {
 	private String merchant;
 
 	@Column(name = "FEES")
-	private String fees;
+	private BigDecimal fees;
 	
 	@Column(name = "INV_DOCNO")
 	private String invDocNo;
@@ -73,6 +74,9 @@ public class Transaction extends AbstractPojo {
 	
 	@Column(name = "INV_YEARCODE")
 	private String invYearCode;
+	
+	@Column(name="AMOUNT")
+	private BigDecimal doubleAmount; 
 
 	public Transaction() {
 
@@ -198,14 +202,15 @@ public class Transaction extends AbstractPojo {
 		this.merchant = merchant;
 	}
 
-	public String getFees() {
+
+	public BigDecimal getFees() {
 		return fees;
 	}
 
-	public void setFees(String fees) {
+	public void setFees(BigDecimal fees) {
 		this.fees = fees;
 	}
-	
+
 	public String getInvDocNo() {
 		return invDocNo;
 	}
@@ -228,6 +233,14 @@ public class Transaction extends AbstractPojo {
 
 	public void setInvYearCode(String invYearCode) {
 		this.invYearCode = invYearCode;
+	}
+	
+	public BigDecimal getDoubleAmount() {
+		return doubleAmount;
+	}
+
+	public void setDoubleAmount(BigDecimal doubleAmount) {
+		this.doubleAmount = doubleAmount;
 	}
 
 	@Override

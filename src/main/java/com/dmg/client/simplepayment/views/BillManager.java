@@ -36,7 +36,7 @@ public class BillManager {
 		parameters.put(Constants.BILL_CONTRACT_NUMBER, contractID);
 
 		try {
-			list.addAll(FacadeFactory.getFacade().list(Bill.class, parameters));
+			list.addAll(FacadeFactory.getFacade().list(Bill.class, parameters, Constants.BILL_INV_DATE, false));
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in get bills for contract number , "
 					+ contractID, e);

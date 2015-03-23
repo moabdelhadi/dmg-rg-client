@@ -3,9 +3,9 @@ package com.dmg.client.simplepayment.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dmg.client.simplepayment.beans.Constants;
-import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.user.UserManager;
+import com.dmg.core.bean.Constants;
+import com.dmg.core.bean.UserAccount;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.util.PropertiesManager;
 import com.dmg.util.SHAEncrypt;
@@ -15,11 +15,12 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Page;
-import com.vaadin.server.UserError;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
+import com.vaadin.server.Page;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomLayout;
@@ -28,7 +29,6 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.Runo;
 
 /**

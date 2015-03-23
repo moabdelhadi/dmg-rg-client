@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.core.bean.UserAccount;
 import com.dmg.util.PropertiesManager;
 import com.vaadin.data.Validator;
 import com.vaadin.data.Validator.InvalidValueException;

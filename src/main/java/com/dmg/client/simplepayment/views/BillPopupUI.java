@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
-import com.dmg.client.simplepayment.beans.Bill;
-import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.core.bean.Bill;
+import com.dmg.core.bean.UserAccount;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;

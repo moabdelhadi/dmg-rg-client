@@ -11,10 +11,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dmg.client.simplepayment.beans.Constants;
-import com.dmg.client.simplepayment.beans.PaymentResponse;
-import com.dmg.client.simplepayment.beans.Transaction;
-import com.dmg.client.simplepayment.beans.UserAccount;
+import com.dmg.core.bean.Constants;
+import com.dmg.core.bean.PaymentResponse;
+import com.dmg.core.bean.Transaction;
+import com.dmg.core.bean.UserAccount;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 import com.dmg.util.PropertiesManager;

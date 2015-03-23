@@ -9,14 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.util.PasswordUtil;
-import com.dmg.client.simplepayment.beans.BeansFactory;
-import com.dmg.client.simplepayment.beans.UserAccount;
-import com.dmg.client.simplepayment.beans.UserStatus;
 import com.dmg.client.user.UserManager;
+import com.dmg.core.bean.BeansFactory;
+import com.dmg.core.bean.UserAccount;
+import com.dmg.core.bean.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
-import com.dmg.core.persistence.FacadeFactory;
-import com.dmg.util.SHAEncrypt;
-import com.dmg.util.mail.MailManager;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.Navigator;

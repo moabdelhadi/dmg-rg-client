@@ -14,11 +14,11 @@ import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.payment.PaymentManager;
-import com.dmg.client.simplepayment.beans.Bill;
-import com.dmg.client.simplepayment.beans.Constants;
-import com.dmg.client.simplepayment.beans.Transaction;
-import com.dmg.client.simplepayment.beans.UserAccount;
 import com.dmg.client.user.UserManager;
+import com.dmg.core.bean.Bill;
+import com.dmg.core.bean.Constants;
+import com.dmg.core.bean.Transaction;
+import com.dmg.core.bean.UserAccount;
 import com.dmg.util.PropertiesManager;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -226,6 +226,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 			Date currentReadingDate = bill.getBillDate();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			log.debug(currentReadingDate.toString());
 			dates.get(counter).setValue(dateFormat.format(currentReadingDate));
 			amounts.get(counter).setValue(bill.getTotalAmount().toString());
 			Button button = billViews.get(counter);

@@ -8,9 +8,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dmg.client.simplepayment.beans.BeansFactory;
-import com.dmg.client.simplepayment.beans.Bill;
-import com.dmg.client.simplepayment.beans.Constants;
+import com.dmg.core.bean.BeansFactory;
+import com.dmg.core.bean.Bill;
+import com.dmg.core.bean.Constants;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
 

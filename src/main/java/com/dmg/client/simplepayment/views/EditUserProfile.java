@@ -130,12 +130,14 @@ public class EditUserProfile extends VerticalLayout implements View {
 		phonePrefix.setInputPrompt("04");
 		phonePrefix.setHeight("30px");
 		phonePrefix.setStyleName("h2");
+		phonePrefix.setMaxLength(3);
 		customLayout.addComponent(phonePrefix, "phonePrefix");
 
 		phone = new TextField("");
 		phone.setInputPrompt("1234567");
 		phone.setHeight("30px");
 		phone.setStyleName("h2");
+		phone.setMaxLength(7);
 		customLayout.addComponent(phone, "phone");
 
 		mobilePrefix = new TextField("Mobile No.");
@@ -143,6 +145,7 @@ public class EditUserProfile extends VerticalLayout implements View {
 		mobilePrefix.setRequired(true);
 		mobilePrefix.setHeight("30px");
 		mobilePrefix.setStyleName("h2");
+		mobilePrefix.setMaxLength(3);
 		mobilePrefix.setRequiredError("This field is required");
 		customLayout.addComponent(mobilePrefix, "mobilePrefix");
 

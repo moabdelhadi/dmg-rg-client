@@ -51,8 +51,6 @@ public class UserManager {
 
 		try {
 			
-			
-			
 			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in retrieve data from database", e);
@@ -71,17 +69,19 @@ public class UserManager {
 		for (UserAccount userAccount : list) {
 
 			String password = userAccount.getPassword();
+			
+			int status = userAccount.getStatus();
+			
+			if (status == UserStatus.NEW.value()) {
+				logger.warn("This user is not registered yet, please register first");
+				throw new UserManagerException("This account is not registered yet, please register first");
+			}
 
 			if (StringUtils.isNotEmpty(user.getPassword()) && user.getPassword().equals(password)) {
 
 				logger.info("password match");
 
-				if (userAccount.getStatus() == UserStatus.NEW.value()) {
-					logger.warn("This user is not registered yet, please register first");
-					throw new UserManagerException("This account is not registered yet, please register first");
-				}
-
-				if (userAccount.getStatus() == UserStatus.RESGISTERED.value()) {
+				if (status == UserStatus.RESGISTERED.value()) {
 					logger.warn("This user is registered, but not confirmed yet, email will be sent to your email address to activate you account");
 					try {
 						sendActivationEmail(userAccount);
@@ -91,7 +91,7 @@ public class UserManager {
 					throw new UserManagerException("This account is registered, but not confirmed yet, email will be sent to your email address to activate you account");
 				}
 
-				if (userAccount.getStatus() != UserStatus.ACTIVE.value()) {
+				if (status != UserStatus.ACTIVE.value()) {
 					logger.warn("Login Success, but user is not active");
 					throw new UserManagerException("Account is not active");
 				}

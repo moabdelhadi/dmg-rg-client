@@ -83,6 +83,7 @@ public class BillPopupUI extends UI {
 		customLayout.addComponent(getLabel(bill.getUnitPrice()), "unitPrice");
 		log.debug("consumptionValue = "+ bill.getAmount());
 		customLayout.addComponent(getLabel(bill.getAmount()), "consumptionValue");
+		customLayout.addComponent(getLabel(bill.getAmount()), "consumptionValue2");
 		customLayout.addComponent(getLabel(bill.getCurrentReadingDate()), "currentReadingDate");
 		customLayout.addComponent(getLabel(bill.getLastReadingDate()), "previousReadingDate");
 		customLayout.addComponent(getLabel(bill.getPrevBalance()), "previousValue");

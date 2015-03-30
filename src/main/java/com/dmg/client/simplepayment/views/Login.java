@@ -7,7 +7,10 @@ import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.UserAccount;
+import com.dmg.core.bean.UserAccountsDU;
 import com.dmg.core.bean.UserStatus;
+import com.dmg.core.exception.DataAccessLayerException;
+import com.dmg.core.persistence.FacadeFactory;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.Navigator;
@@ -176,6 +179,7 @@ public class Login extends VerticalLayout implements View {
 			public void buttonClick(ClickEvent event) {
 				loginUser();
 			}
+
 		});
 
 		forgotPassword.addClickListener(new ClickListener() {

@@ -72,8 +72,8 @@ public class BillPopupUI extends UI {
 		customLayout.addComponent(getLabel(bill.getBuildingName()), "BuildingOwner");
 		customLayout.addComponent(getLabel(bill.getBuildingCode()), "BuildingCode");
 		customLayout.addComponent(getLabel(bill.getApartmentCode()), "apartmentCode");
-		customLayout.addComponent(getLabel(bill.getDocNo() + "-" + bill.getSerialNo()), "billCode");
-		customLayout.addComponent(getLabel(bill.getCurrentReading()), "billDate");
+		customLayout.addComponent(getLabel(bill.getDocNo()), "billCode");
+		customLayout.addComponent(getLabel(bill.getBillDate()), "billDate");
 		customLayout.addComponent(getLabel(bill.getContractNo()), "accountId");
 		customLayout.addComponent(getLabel(bill.getLastReceivingAmount()), "lastRecivedAmmount");
 		customLayout.addComponent(getLabel(bill.getLastReceivingDate()), "lastRecivedDate");
@@ -81,6 +81,7 @@ public class BillPopupUI extends UI {
 		customLayout.addComponent(getLabel(bill.getLastReading()), "previousReading");
 		customLayout.addComponent(getLabel(bill.getTotalUnit()), "consumptionAmt");
 		customLayout.addComponent(getLabel(bill.getUnitPrice()), "unitPrice");
+		log.debug("consumptionValue = "+ bill.getAmount());
 		customLayout.addComponent(getLabel(bill.getAmount()), "consumptionValue");
 		customLayout.addComponent(getLabel(bill.getCurrentReadingDate()), "currentReadingDate");
 		customLayout.addComponent(getLabel(bill.getLastReadingDate()), "previousReadingDate");

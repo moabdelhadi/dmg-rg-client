@@ -39,21 +39,27 @@ public class UserManager {
 
 	public UserAccount login(UserAccount user) throws UserManagerException {
 
+		logger.debug("Start Login");
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
 		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
 
+		logger.debug("Start Search in user.getClass()= "+user.getClass().getName() + " ,  user.getContractNo()="+ user.getContractNo()+" , user.getCity() "+user.getCity());
+		
 		List<? extends UserAccount> list = null;
 
 		try {
+			
+			
+			
 			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in retrieve data from database", e);
 			throw new UserManagerException("Error in login, please try again later", e);
 		}
 
-		if (list == null) {
+		if (list == null || list.isEmpty()) {
 			logger.warn("Account ID or City is incorrect");
 			throw new UserManagerException("Error in login Please check you Account No, Region, and Password");
 		}
@@ -120,12 +126,12 @@ public class UserManager {
 		}
 
 		if (list == null || list.size() == 0) {
-			logger.warn("Email is incorrect");
+			logger.warn("account is incorrect");
 			return null;
 		}
 
 		if (list.size() > 1) {
-			logger.warn("Email is dublicated Please Check");
+			logger.warn("account is dublicated Please Check");
 		}
 
 		UserAccount userAccount = list.get(0);

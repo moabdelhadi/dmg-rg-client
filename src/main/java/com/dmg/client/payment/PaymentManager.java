@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.Constants;
 import com.dmg.core.bean.PaymentResponse;
 import com.dmg.core.bean.Transaction;
@@ -121,13 +122,15 @@ public class PaymentManager {
 	private Transaction saveNewPayment(Map<String, String> map, UserAccount user) {
 
 		
-		Transaction transaction = new Transaction();
+		String city = user.getCity();
+		Transaction transaction = BeansFactory.getInstance().getTxn(city);
 		Date date = Calendar.getInstance().getTime();
 		transaction.setCreationDate(date);
 		transaction.setUpdateDate(date);
 		transaction.setContractNo(user.getContractNo());
 		transaction.setStatus("NEW");
-		transaction.setCity(user.getCity());
+
+		transaction.setCity(city);
 		transaction.setSyncStatus(0);
 		transaction.setAmount(map.get("vpc_Amount"));
 		transaction.setCommand(map.get("vpc_Command"));
@@ -590,9 +593,19 @@ public class PaymentManager {
 
 		try {
 
+			if(txnRef==null || txnRef.isEmpty()){
+				log.error("error in getting the txn City note Defined=" + txnRef);
+				throw new Exception("error in getting the txn City note Defined=" + txnRef);
+			}
+			
+			String city = getCity(txnRef);
+			
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("merchTxnRef", txnRef);
-			List<Transaction> list = FacadeFactory.getFacade().list(Transaction.class, parameters);
+			
+			
+			Transaction txn = BeansFactory.getInstance().getTxn(city);
+			List<? extends Transaction> list = FacadeFactory.getFacade().list(txn.getClass(), parameters);
 
 			if (list == null || list.isEmpty()) {
 				log.error("cannot find txn for txnRef=" + txnRef);
@@ -616,6 +629,23 @@ public class PaymentManager {
 			log.error("error in getting the txn over All txnRef=" + txnRef, e);
 			throw e;
 		}
+	}
+
+	private String getCity(String txnRef) {
+		
+		if(txnRef==null){
+			return "";
+		}
+		
+		if(txnRef.startsWith("RG-ABUDHABI")){
+			return "ABUDHABI";
+		}
+		
+		if(txnRef.startsWith("RG-DUBAI")){
+			return "DUBAI";
+		}
+		
+		return "";
 	}
 
 	public void save(Transaction txn) throws DataAccessLayerException {

@@ -33,6 +33,7 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
@@ -51,6 +52,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 	/** Login Fileds **/
 	private Button payButton;
+	private TextField payAmountField;
 
 	private UserAccount user;
 
@@ -61,10 +63,11 @@ public class AccountOverview extends VerticalLayout implements View {
 	private Label totalAmount;
 	private double totalAnoountDouble = 0;
 	private double fees = 0;
+	private double maxPayment = 0;
 	private Label feeNote;
-	private String lBDocType="" ;
-	private String lBDocNo="" ;
-	private String lBYearCode="" ;
+	private String lBDocType = "";
+	private String lBDocNo = "";
+	private String lBYearCode = "";
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -74,6 +77,8 @@ public class AccountOverview extends VerticalLayout implements View {
 	private void init() {
 
 		fees = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
+		maxPayment= PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_MAX_PAY_NAME);
+		
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
@@ -93,8 +98,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		dates.clear();
 		amounts.clear();
 		billViews.clear();
-		
-		feeNote = new Label("Please note that "+fees+" AED are added to your amount as an online service fee");
+
+		feeNote = new Label("Please note that " + fees + " AED are added to your amount as an online service fee");
 		customLayout.addComponent(feeNote, "feeNote");
 
 		for (int i = 0; i < 3; i++) {
@@ -130,6 +135,14 @@ public class AccountOverview extends VerticalLayout implements View {
 		payButton.setWidth("140px");
 		payButton.setHeight("30px");
 
+		payAmountField = new TextField();
+		payAmountField.setId("payAmountField");
+		payAmountField.setHeight("25px");
+		payAmountField.setInputPrompt("Please insert the ammount you want to pay");
+		payAmountField.setRequired(true);
+		payAmountField.setRequiredError("please inset the amount to pay");
+		customLayout.addComponent(payAmountField, "payamt");
+
 		hsplit.addComponent(customLayout);
 		addComponent(hsplit);
 
@@ -142,22 +155,36 @@ public class AccountOverview extends VerticalLayout implements View {
 
 					log.info("Pay on process");
 					PaymentManager manager = PaymentManager.getInstance();
-					int intValue = (int) (totalAnoountDouble * 100);
-					
-					if(intValue==0){
-						Notification notification = new Notification("No Payment Available","Your Balance is 0 you have no payment to do", Notification.Type.HUMANIZED_MESSAGE, true);
+
+					double parseDouble = 0.0 ;
+					try {
+						payAmountField.validate();
+						String editPayAmount = payAmountField.getValue();
+						 parseDouble = Double.parseDouble(editPayAmount);
+						
+						if(parseDouble < fees + 0.1 || parseDouble>maxPayment){
+							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than "+maxPayment , Notification.Type.HUMANIZED_MESSAGE, true);
+							notification.setDelayMsec(-1);
+							notification.show(Page.getCurrent());
+							return;
+						}
+
+					} catch (Exception e) {
+
+						Notification notification = new Notification("Invalid Amount", "Please insert valid amount", Notification.Type.HUMANIZED_MESSAGE, true);
 						notification.setDelayMsec(-1);
 						notification.show(Page.getCurrent());
 						return;
+
 					}
-					
-					Map<String, String> postFields = manager.getPostFields(user, totalAnoountDouble, lBDocNo, lBDocType, lBYearCode);
+
+					Map<String, String> postFields = manager.getPostFields(user, parseDouble, lBDocNo, lBDocType, lBYearCode);
 
 					Transaction txn = manager.getPaymentByTxnRef(postFields.get("vpc_MerchTxnRef"));
 
 					if (txn == null) {
 						log.error("Error the txn Dose Not Saved Well");
-						Notification notification = new Notification("Payment process error","Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
+						Notification notification = new Notification("Payment process error", "Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
 						notification.setDelayMsec(-1);
 						notification.show(Page.getCurrent());
 						return;
@@ -178,7 +205,7 @@ public class AccountOverview extends VerticalLayout implements View {
 
 				} catch (Exception e) {
 					log.error("Error in sending the Payment", e);
-					Notification notification = new Notification("Payment process error","Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
+					Notification notification = new Notification("Payment process error", "Error happen during process the payment", Notification.Type.HUMANIZED_MESSAGE, true);
 					notification.setDelayMsec(-1);
 					notification.show(Page.getCurrent());
 					return;
@@ -208,19 +235,20 @@ public class AccountOverview extends VerticalLayout implements View {
 		name.setValue(user.getName());
 
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
-//		BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
-//		BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
-//		BigDecimal subtract = totalAmountvalue.subtract(receivedAmmountValue);
+		// BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
+		// BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
+		// BigDecimal subtract =
+		// totalAmountvalue.subtract(receivedAmmountValue);
 		BigDecimal balance = user.getBalance();
-		
-		totalAnoountDouble = balance.doubleValue() +fees;
-		totalAmount.setValue(totalAnoountDouble+ " AED" );
 
-		Bill lasBill= list.get(0);
+		totalAnoountDouble = balance.doubleValue() + fees;
+		totalAmount.setValue(totalAnoountDouble + " AED");
+		payAmountField.setValue(String.valueOf(totalAnoountDouble));
+		Bill lasBill = list.get(0);
 		lBDocNo = lasBill.getDocNo();
 		lBDocType = lasBill.getDocType();
 		lBYearCode = lasBill.getYearCode();
-		
+
 		int counter = 0;
 		for (Bill bill : list) {
 

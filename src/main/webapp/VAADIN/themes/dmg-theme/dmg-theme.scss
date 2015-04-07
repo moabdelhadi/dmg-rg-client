@@ -293,5 +293,18 @@
 		padding-left: 10px;
 		float: left;
   	}
+  	
+  	.register .payment-div-btn .payButton, .register .payment-div-btn .payamt , .register .payment-div-btn .paycurn{
+  			float:left;
+  			padding-left:3px;
+  	} 
+  	
+  	.register .payment-div-btn .payamt input.v-textfield.v-widget {
+  			  width: 60px;
+  	} 
+  	
+  	 .register .payment-div-btn .payButton, .register .payment-div-btn .paycurn{
+  			  margin-top: 15px;
+  	}
   
 }

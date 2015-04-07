@@ -90,7 +90,7 @@ public class PaymentManager {
 
 		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
-		int  tamnt = (int)totalAnoountDouble*100;
+		int  tamnt = (int)(totalAnoountDouble*100);
 		map.put("vpc_Amount", tamnt +"");
 
 		map.put("vpc_OrderInfo", MerchTxnRef);

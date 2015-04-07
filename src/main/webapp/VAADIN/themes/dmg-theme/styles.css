@@ -7115,3 +7115,16 @@ body .dmg-theme.v-app .v-app-loading {
 	padding-left: 10px;
 	float: left;
 }
+
+.dmg-theme .register .payment-div-btn .payButton, .dmg-theme .register .payment-div-btn .payamt, .dmg-theme .register .payment-div-btn .paycurn {
+	float: left;
+	padding-left: 3px;
+}
+
+.dmg-theme .register .payment-div-btn .payamt input.v-textfield.v-widget {
+	width: 60px;
+}
+
+.dmg-theme .register .payment-div-btn .payButton, .dmg-theme .register .payment-div-btn .paycurn {
+	margin-top: 15px;
+}

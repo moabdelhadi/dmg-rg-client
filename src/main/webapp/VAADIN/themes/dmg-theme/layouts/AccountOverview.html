@@ -66,23 +66,32 @@
 				</tbody>
 			</table>
 			<div>
-				<div class="separator">&nbsp;</div>
 				<div>
 					<h4 >
 						<div style="float:left">Amount Due:&nbsp;&nbsp;</div><div style="float:left" location="totalAmount"></div>&nbsp;&nbsp; AED
 					</h4>
 				</div>
-				<div><p class="pay-note"><div location="feeNote"></div></p></div>
-			</div>
-			<div class="payment-div">
-				<div class="nbad-logo"><img src="/dmg-rg-client/VAADIN/themes/dmg-theme/img/nbad-logo.png" width="140px" height="40px" /><div class="nbad-ld-note">
-				<span>Your payment will be processed through NBAD </span></div></div>
-				<div class="separator">&nbsp;</div>
-				<div location="payButton"></div>
 			</div>
 			<div class="payment-div-btn">
 				<div class="payButton" location="payButton"></div><div class="payamt" location="payamt"></div><div class="paycurn">AED</div>
 			</div>
+			
+			<div location="lastPayment" style="padding-bottom: 10px;padding-top: 10px;"></div>
+			
+			<div class="separator">&nbsp;</div>
+			<div class="payment-div">
+				<div class="nbad-logo">
+					<img src="/dmg-rg-client/VAADIN/themes/dmg-theme/img/nbad-logo.png" width="140px" height="40px" />
+					<div class="nbad-ld-note">
+						<span>Your payment will be processed through NBAD</span>
+					</div>
+				</div>
+				<div class="separator" style="line-height: 4px;">&nbsp;</div>
+				<div class="pay-note">
+					<div location="feeNote"></div>
+				</div>
+			</div>
+
 			
 		  </div>
 		 

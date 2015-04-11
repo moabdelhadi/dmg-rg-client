@@ -49,37 +49,44 @@ public class NavigatorUI extends UI {
 				logger.info("get in  beforeViewChange()");
 
 				String viewName = event.getViewName();
-				logger.info("redirect to non authorized Page viewName");
+				logger.info("redirect  Page viewName="+viewName);
 
-				if (StringUtils.equals(viewName, Views.LOGIN)  || StringUtils.equals(viewName, Views.RIGISTER_PROFILE_PAGE)
-						|| event.getViewName().equals(Views.ACTIVATION_PAGE)) {
+				if (StringUtils.equals(viewName, Views.LOGIN) 
+						|| event.getViewName().equals(Views.ACTIVATION_PAGE)
+						|| event.getViewName().equals(Views.FORGOT_PASSWORD)
+						) {
 					logger.info("redirect to non authorized Page");
 					return true;
 				}
-
+				
 				if (SessionHandler.get() == null) {
-					logger.info("non authorized user");
-					if (event.getViewName().equals(Views.FORGOT_PASSWORD)) {
-						return true;
-					}
-					// String fragmentAndParameters = viewName;
-					// if (event.getParameters() != null) {
-					// fragmentAndParameters += "/";
-					// fragmentAndParameters += event.getParameters();
-					// }
+					logger.info("No User In the Session");
 					navigator.navigateTo(Views.LOGIN);
 					return false;
-
-				} else {
+				} 
+								
+				if (StringUtils.equals(viewName, Views.RIGISTER_PROFILE_PAGE) && SessionHandler.get().isOnlyRegister() ) {
+					logger.debug("Navigate to Register");
+					navigator.navigateTo(Views.LOGIN);
 					return true;
-
+				} 
+				
+				
+				if(SessionHandler.get().isOnlyRegister()){
+					logger.debug("None Autorised User");
+					navigator.navigateTo(Views.LOGIN);
+					return false;
 				}
+				
+				
+				logger.debug("Autorised User");
+				return true;
+				
 			}
 
 			@Override
 			public void afterViewChange(ViewChangeEvent event) {
 				logger.info("get in  afterViewChange()");
-
 			}
 		});
 	}

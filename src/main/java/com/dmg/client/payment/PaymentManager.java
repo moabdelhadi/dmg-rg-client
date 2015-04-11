@@ -589,6 +589,42 @@ public class PaymentManager {
 
 	}
 
+	public Transaction getLatestPaymentByUser(String contractNo, String city){
+		
+		try{
+			
+			if(contractNo==null || contractNo.isEmpty() ){
+				log.error("error in getting the txn contractNo note Defined=" + contractNo);
+				return null;
+			}
+			
+			if(city==null || city.isEmpty() ){
+				log.error("error in getting the txn City note Defined=" + city);
+				return null;
+			}
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("contractNo", contractNo);
+			
+			Transaction txn = BeansFactory.getInstance().getTxn(city);
+			List<? extends Transaction> list = FacadeFactory.getFacade().list(txn.getClass(), parameters, "creationDate", false);
+
+			if (list == null || list.isEmpty()) {
+				log.warn("cannot find txn for contractNo=" + contractNo + " & city="+city);
+				return null;
+			}
+
+			Transaction transaction = list.get(0);
+			return transaction;
+
+		}catch(Exception e ){
+			log.error("Error in get txn By Contarct No", e);
+		}
+		
+		return null;
+		
+	}
+	
 	public Transaction getPaymentByTxnRef(String txnRef) throws Exception {
 
 		try {

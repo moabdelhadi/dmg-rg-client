@@ -3,6 +3,7 @@ package com.dmg.client.simplepayment.views;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.bean.BeansFactory;
@@ -258,7 +259,10 @@ public class Login extends VerticalLayout implements View {
 			return;
 		}
 		
-		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE + "/" + userAccount.getContractNo() + "/" + userAccount.getCity());
+		
+		userAccount.setOnlyRegister(true);
+		SessionHandler.setUser(userAccount);
+		navigator.navigateTo(Views.RIGISTER_PROFILE_PAGE);
 	}
 
 	private boolean vaildateRegister() {

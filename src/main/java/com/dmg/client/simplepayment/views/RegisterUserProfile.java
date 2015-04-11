@@ -4,13 +4,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.user.UserManager;
-import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.UserAccount;
 import com.dmg.core.bean.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
@@ -440,7 +439,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 		logger.debug("Get in Edit User Profile Entree");
 
 		UserAccount accountFromAccountID = null;
-		accountFromAccountID = getuserFromParam(event.getParameters());
+		accountFromAccountID = getUserFromSession();
 
 		if (accountFromAccountID == null) {
 			logger.error("No User Available");
@@ -456,48 +455,48 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 	}
 
-	// private UserAccount getUserFromSession() {
-	//
-	// UserAccount userAccount = SessionHandler.get();
-	// if (userAccount == null) {
-	// return null;
-	// }
-	// UserAccount accountFromAccountID =
-	// UserManager.getInstance().getAccountFromAccountID(userAccount);
-	// return accountFromAccountID;
-	// }
+	private UserAccount getUserFromSession() {
 
-	private UserAccount getuserFromParam(String parametersString) {
-
-		logger.debug("Parameters=" + parametersString);
-
-		String[] parameters = parametersString.split("/");
-
-		if (parameters == null || parameters.length != 2) {
-			logger.error("No Paratemeres Passed to this user or Parameters are error ");
+		UserAccount userAccount = SessionHandler.get();
+		if (userAccount == null) {
 			return null;
 		}
-
-		if (StringUtils.isEmpty(parameters[0])
-				|| StringUtils.isEmpty(parameters[1])) {
-			logger.error("Paratemeres Value is in correct " + parameters[0]
-					+ " , " + parameters[1]);
-			return null;
-		}
-
-		UserAccount userAccount = BeansFactory.getInstance().getUserAccount(parameters[1]);
-		 if(userAccount==null){
-			 logger.error("City Value is in correct , " + parameters[1]);
-				return null;
-		 }
-		
-		userAccount.setContractNo(parameters[0]);
-		userAccount.setCity(parameters[1]);
 		UserAccount accountFromAccountID = UserManager.getInstance()
 				.getAccountFromAccountID(userAccount);
 		return accountFromAccountID;
-
 	}
+
+//	private UserAccount getuserFromParam(String parametersString) {
+//
+//		logger.debug("Parameters=" + parametersString);
+//
+//		String[] parameters = parametersString.split("/");
+//
+//		if (parameters == null || parameters.length != 2) {
+//			logger.error("No Paratemeres Passed to this user or Parameters are error ");
+//			return null;
+//		}
+//
+//		if (StringUtils.isEmpty(parameters[0])
+//				|| StringUtils.isEmpty(parameters[1])) {
+//			logger.error("Paratemeres Value is in correct " + parameters[0]
+//					+ " , " + parameters[1]);
+//			return null;
+//		}
+//
+//		UserAccount userAccount = BeansFactory.getInstance().getUserAccount(parameters[1]);
+//		 if(userAccount==null){
+//			 logger.error("City Value is in correct , " + parameters[1]);
+//				return null;
+//		 }
+//		
+//		userAccount.setContractNo(parameters[0]);
+//		userAccount.setCity(parameters[1]);
+//		UserAccount accountFromAccountID = UserManager.getInstance()
+//				.getAccountFromAccountID(userAccount);
+//		return accountFromAccountID;
+//
+//	}
 
 	private void setUserValues() {
 

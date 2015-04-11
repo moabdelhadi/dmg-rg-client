@@ -9,6 +9,7 @@ public class Views {
 	public static final String EDIT_PROFILE_PAGE = "editProfile";
 	public static final String ACTIVATION_PAGE = "activationPage";
 	public static final String RIGISTER_PROFILE_PAGE = "registerUser";
+	//    registerUser/160%2F2015/ABUDHABI
 	public static final String CHANGE_PASSWORD = "changePassword";
 	public static final String FORGOT_PASSWORD = "forgotPassword";
 

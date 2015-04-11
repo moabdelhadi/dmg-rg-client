@@ -303,8 +303,12 @@
   			  width: 60px;
   	} 
   	
-  	 .register .payment-div-btn .payButton, .register .payment-div-btn .paycurn{
-  			  margin-top: 15px;
+  	.register .pay-note .feeNoteLbl{
+  	     font-size: 12px;
+  	}
+  	
+  	.register .payment-div span{
+         font-size: 16px;
   	}
   
 }

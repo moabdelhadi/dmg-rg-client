@@ -7125,6 +7125,10 @@ body .dmg-theme.v-app .v-app-loading {
 	width: 60px;
 }
 
-.dmg-theme .register .payment-div-btn .payButton, .dmg-theme .register .payment-div-btn .paycurn {
-	margin-top: 15px;
+.dmg-theme .register .pay-note .feeNoteLbl {
+	font-size: 12px;
+}
+
+.dmg-theme .register .payment-div span {
+	font-size: 16px;
 }

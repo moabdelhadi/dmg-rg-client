@@ -65,6 +65,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private double fees = 0;
 	private double maxPayment = 0;
 	private Label feeNote;
+	private Label lastPaymentNote;
 	private String lBDocType = "";
 	private String lBDocNo = "";
 	private String lBYearCode = "";
@@ -99,17 +100,23 @@ public class AccountOverview extends VerticalLayout implements View {
 		amounts.clear();
 		billViews.clear();
 
-		feeNote = new Label("Please note that " + fees + " AED are added to your amount as an online service fee");
+		feeNote = new Label("Please note that " + fees + " AED were added to your amount as an online service fee");
+		feeNote.addStyleName("feeNoteLbl");
 		customLayout.addComponent(feeNote, "feeNote");
-
+		
+		
+		lastPaymentNote = new Label("...");
+		lastPaymentNote.addStyleName("lastPayNote");
+		customLayout.addComponent(lastPaymentNote, "lastPayment");
+		
 		for (int i = 0; i < 3; i++) {
 
-			Label date = new Label("..." + counter);
+			Label date = new Label("...");
 			date.setStyleName("table-td-font-size");
 			customLayout.addComponent(date, "date_" + counter);
 			dates.add(date);
 
-			Label amount = new Label("..." + counter);
+			Label amount = new Label("...");
 			amount.setStyleName("table-td-font-size");
 			customLayout.addComponent(amount, "amount_" + counter);
 			amounts.add(amount);
@@ -139,7 +146,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		payAmountField.setId("payAmountField");
 		payAmountField.setHeight("25px");
 		payAmountField.setInputPrompt("Please insert the ammount you want to pay");
-		payAmountField.setRequired(true);
+//		payAmountField.setRequired(true);
 		payAmountField.setRequiredError("please inset the amount to pay");
 		customLayout.addComponent(payAmountField, "payamt");
 
@@ -152,7 +159,6 @@ public class AccountOverview extends VerticalLayout implements View {
 			public void buttonClick(ClickEvent event) {
 
 				try {
-
 					log.info("Pay on process");
 					PaymentManager manager = PaymentManager.getInstance();
 
@@ -234,16 +240,33 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		name.setValue(user.getName());
 
-		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
-		// BigDecimal totalAmountvalue = list.get(0).getTotalAmount();
-		// BigDecimal receivedAmmountValue = list.get(0).getReceivedAmmount();
-		// BigDecimal subtract =
-		// totalAmountvalue.subtract(receivedAmmountValue);
 		BigDecimal balance = user.getBalance();
+		
 
 		totalAnoountDouble = balance.doubleValue() + fees;
 		totalAmount.setValue(totalAnoountDouble + " AED");
 		payAmountField.setValue(String.valueOf(totalAnoountDouble));
+		
+		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(),user.getCity());
+		if(latestPaymentByUser!=null){
+			log.debug("hereSSSSSSSSSSSSSSSSSSSSS");
+			String amountString = latestPaymentByUser.getDoubleAmount().toString();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String paymentDate = df.format(latestPaymentByUser.getDoubleAmount());
+			String status = latestPaymentByUser.getStatus();
+			if("SENT".equals(status)){
+				status = "IN PROCESS";
+			}
+			lastPaymentNote.setValue("Last Payment: "+amountString+" AED,  "+paymentDate+",("+status+")");
+		}
+		
+		
+		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
+
+		if(list==null || list.isEmpty()){
+			return;
+		}
+		
 		Bill lasBill = list.get(0);
 		lBDocNo = lasBill.getDocNo();
 		lBDocType = lasBill.getDocType();
@@ -251,7 +274,6 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		int counter = 0;
 		for (Bill bill : list) {
-
 			Date currentReadingDate = bill.getBillDate();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			log.debug(currentReadingDate.toString());
@@ -264,12 +286,10 @@ public class AccountOverview extends VerticalLayout implements View {
 			opener.setParameter("billId", bill.getId().toString());
 			opener.setParameter("billCity", bill.getCity().toString());
 			opener.extend(button);
-
 			counter++;
 			if (counter >= 3) {
 				break;
 			}
-
 		}
 
 	}

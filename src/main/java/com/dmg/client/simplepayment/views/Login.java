@@ -410,8 +410,11 @@ public class Login extends VerticalLayout implements View {
 
 		resetFormValidation();
 		resetFormValues();
-
 		log.debug("Get IN LOGIN VIEW");
+		
+		if (SessionHandler.get() != null &&  !SessionHandler.get().isOnlyRegister()) {
+			navigator.navigateTo(Views.USER_PAGE);
+		}
 		System.out.println("get in login");
 
 	}

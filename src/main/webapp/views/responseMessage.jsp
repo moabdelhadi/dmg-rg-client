@@ -70,7 +70,7 @@
 			%>
                
                <p>Operation Sucess</p>
-               <h3><a href="https://www.royalgas.com">Go To Home Page</a></h3>
+               <h3><a href="https://www.royalgas.com/online-payment-test">Go To Home Page</a></h3>
 
 	 <%
 
@@ -78,7 +78,7 @@
 %>
                <p>Operation Faild</p>
                <p><%= resultMessage %><p>
-               <h3><a href="https://www.royalgas.com">Go To Home Page</a></h3>
+               <h3><a href="https://www.royalgas.com/online-payment-test">Go To Home Page</a></h3>
 
 
 	 <%

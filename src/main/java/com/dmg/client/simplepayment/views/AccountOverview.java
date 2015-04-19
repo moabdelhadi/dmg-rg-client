@@ -252,7 +252,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			log.debug("hereSSSSSSSSSSSSSSSSSSSSS");
 			String amountString = latestPaymentByUser.getDoubleAmount().toString();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String paymentDate = df.format(latestPaymentByUser.getDoubleAmount());
+			String paymentDate = df.format(latestPaymentByUser.getCreationDate());
 			String status = latestPaymentByUser.getStatus();
 			if("SENT".equals(status)){
 				status = "IN PROCESS";

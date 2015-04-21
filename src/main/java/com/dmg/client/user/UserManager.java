@@ -45,12 +45,12 @@ public class UserManager {
 		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
 		parameters.put(Constants.USER_CITY, user.getCity());
 
-		logger.debug("Start Search in user.getClass()= "+user.getClass().getName() + " ,  user.getContractNo()="+ user.getContractNo()+" , user.getCity() "+user.getCity());
-		
+		logger.debug("Start Search in user.getClass()= " + user.getClass().getName() + " ,  user.getContractNo()=" + user.getContractNo() + " , user.getCity() " + user.getCity());
+
 		List<? extends UserAccount> list = null;
 
 		try {
-			
+
 			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in retrieve data from database", e);
@@ -69,9 +69,9 @@ public class UserManager {
 		for (UserAccount userAccount : list) {
 
 			String password = userAccount.getPassword();
-			
+
 			int status = userAccount.getStatus();
-			
+
 			if (status == UserStatus.NEW.value()) {
 				logger.warn("This user is not registered yet, please register first");
 				throw new UserManagerException("This account is not registered yet, please register first");
@@ -118,7 +118,7 @@ public class UserManager {
 		parameters.put(Constants.USER_CITY, user.getCity());
 		List<? extends UserAccount> list;
 		try {
-			
+
 			list = FacadeFactory.getFacade().list(user.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Account is incorrect", e);
@@ -135,75 +135,84 @@ public class UserManager {
 		}
 
 		UserAccount userAccount = list.get(0);
+
+		try {
+			FacadeFactory.getFacade().refresh(userAccount);
+		} catch (DataAccessLayerException e) {
+			logger.error("Error in Refresh Account", e);
+			return null;
+		}
+
 		return userAccount;
 
 	}
 
-//	public void registerUser(UserAccount user) {
-//
-//		Map<String, Object> parameters = new HashMap<String, Object>();
-//		parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
-//		parameters.put(Constants.USER_CITY, user.getCity());
-//		List<UserAccount> list;
-//		try {
-//			list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
-//		} catch (DataAccessLayerException e) {
-//			logger.error("Account is incorrect", e);
-//			return;
-//
-//		}
-//
-//		if (list == null) {
-//			logger.warn("Account is incorrect");
-//			return;
-//		}
-//
-//		if (list.size() > 1) {
-//			logger.warn("Account is dublicated Please Check");
-//			return;
-//		}
-//
-//		UserAccount userAccount = list.get(0);
-//
-////		String activationLink = user.getEmail() + "==" + System.currentTimeMillis() + "==" + (Math.random() * 10000);
-////		String encrypt = EncryptionUtil.encrypt(activationLink);
-////		try {
-////			String decrypt = EncryptionUtil.decrypt(encrypt);
-////			if (decrypt != null && decrypt.equals(activationLink)) {
-////				System.out.println("Encription Success");
-////			}
-////		} catch (Exception e1) {
-////			// TODO Auto-generated catch block
-////			e1.printStackTrace();
-////		}
-////		user.setActivationString(encrypt);
-//
-//		userAccount.setEmail(user.getEmail());
-//		userAccount.setPobox(user.getPobox());
-//		userAccount.setPoboxCity(user.getPoboxCity());
-//		userAccount.setName(user.getName());
-//		userAccount.setPassword(user.getPassword());
-//		userAccount.setPhone(user.getPhone());
-//		userAccount.setStatus(UserStatus.NEW.value());
-//
-//		try {
-//			FacadeFactory.getFacade().store(userAccount);
-//		} catch (DataAccessLayerException e) {
-//			logger.error("Error in saving user acount=" + userAccount.getContractNo(), e);
-//			return;
-//		}
-//
-//	}
+	// public void registerUser(UserAccount user) {
+	//
+	// Map<String, Object> parameters = new HashMap<String, Object>();
+	// parameters.put(Constants.USER_ACCOUNT_ID, user.getContractNo());
+	// parameters.put(Constants.USER_CITY, user.getCity());
+	// List<UserAccount> list;
+	// try {
+	// list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
+	// } catch (DataAccessLayerException e) {
+	// logger.error("Account is incorrect", e);
+	// return;
+	//
+	// }
+	//
+	// if (list == null) {
+	// logger.warn("Account is incorrect");
+	// return;
+	// }
+	//
+	// if (list.size() > 1) {
+	// logger.warn("Account is dublicated Please Check");
+	// return;
+	// }
+	//
+	// UserAccount userAccount = list.get(0);
+	//
+	// // String activationLink = user.getEmail() + "==" +
+	// System.currentTimeMillis() + "==" + (Math.random() * 10000);
+	// // String encrypt = EncryptionUtil.encrypt(activationLink);
+	// // try {
+	// // String decrypt = EncryptionUtil.decrypt(encrypt);
+	// // if (decrypt != null && decrypt.equals(activationLink)) {
+	// // System.out.println("Encription Success");
+	// // }
+	// // } catch (Exception e1) {
+	// // // TODO Auto-generated catch block
+	// // e1.printStackTrace();
+	// // }
+	// // user.setActivationString(encrypt);
+	//
+	// userAccount.setEmail(user.getEmail());
+	// userAccount.setPobox(user.getPobox());
+	// userAccount.setPoboxCity(user.getPoboxCity());
+	// userAccount.setName(user.getName());
+	// userAccount.setPassword(user.getPassword());
+	// userAccount.setPhone(user.getPhone());
+	// userAccount.setStatus(UserStatus.NEW.value());
+	//
+	// try {
+	// FacadeFactory.getFacade().store(userAccount);
+	// } catch (DataAccessLayerException e) {
+	// logger.error("Error in saving user acount=" +
+	// userAccount.getContractNo(), e);
+	// return;
+	// }
+	//
+	// }
 
 	public UserAccount validateAccount(Map<String, Object> parameters) throws DataAccessLayerException {
 
 		List<? extends UserAccount> list;
 		try {
-			
+
 			Object city = parameters.get(Constants.USER_CITY);
 			UserAccount userAccount = BeansFactory.getInstance().getUserAccount(city.toString());
-			
-			
+
 			list = FacadeFactory.getFacade().list(userAccount.getClass(), parameters);
 		} catch (DataAccessLayerException e) {
 			logger.error("Account is incorrect", e);
@@ -221,7 +230,15 @@ public class UserManager {
 			throw new DataAccessLayerException("System Error occurred please call: 800-RGAS");
 		}
 
-		return list.get(0);
+		UserAccount userAccountRes = list.get(0);
+		try {
+			FacadeFactory.getFacade().refresh(userAccountRes);
+		} catch (DataAccessLayerException e) {
+			logger.error("Error in Refresh Account", e);
+			return null;
+		}
+		
+		return userAccountRes;
 	}
 
 	public void updateAccount(UserAccount userAccount) throws DataAccessLayerException {
@@ -233,93 +250,99 @@ public class UserManager {
 		}
 	}
 
-//	public boolean activate(String activationString) {
-//
-//		logger.debug("code=" + activationString);
-//		try {
-//			UserAccount user = getUserFromActivationLink(activationString);
-//
-//			if (user != null && activationString.equals(user.getActivationString())) {
-//				user.setStatus(UserStatus.RESGISTERED.value());
-//
-//				FacadeFactory.getFacade().store(user);
-//
-//				logger.info("activation Success");
-//				return true;
-//			}
-//
-//		} catch (Exception e) {
-//			logger.error("error in Activate User", e);
-//			e.printStackTrace();
-//		}
-//		return false;
-//
-//	}
+	// public boolean activate(String activationString) {
+	//
+	// logger.debug("code=" + activationString);
+	// try {
+	// UserAccount user = getUserFromActivationLink(activationString);
+	//
+	// if (user != null && activationString.equals(user.getActivationString()))
+	// {
+	// user.setStatus(UserStatus.RESGISTERED.value());
+	//
+	// FacadeFactory.getFacade().store(user);
+	//
+	// logger.info("activation Success");
+	// return true;
+	// }
+	//
+	// } catch (Exception e) {
+	// logger.error("error in Activate User", e);
+	// e.printStackTrace();
+	// }
+	// return false;
+	//
+	// }
 
-//	public boolean resetPassword(String activationString, String password) {
-//
-//		try {
-//			UserAccount user = getUserFromActivationLink(activationString);
-//
-//			if (user != null && activationString.equals(user.getActivationString())) {
-//				logger.info("reset enable");
-//				user.setPassword(password);
-//				user.setActivationString("");
-//				FacadeFactory.getFacade().store(user);
-//				return true;
-//			}
-//
-//		} catch (Exception e) {
-//			logger.error("error in Activate User", e);
-//		}
-//		return false;
-//
-//	}
-
+	// public boolean resetPassword(String activationString, String password) {
+	//
+	// try {
+	// UserAccount user = getUserFromActivationLink(activationString);
+	//
+	// if (user != null && activationString.equals(user.getActivationString()))
+	// {
+	// logger.info("reset enable");
+	// user.setPassword(password);
+	// user.setActivationString("");
+	// FacadeFactory.getFacade().store(user);
+	// return true;
+	// }
+	//
+	// } catch (Exception e) {
+	// logger.error("error in Activate User", e);
+	// }
+	// return false;
+	//
+	// }
 
 	public void sendActivationEmail(UserAccount user) throws DataAccessLayerException {
-		
+
 		String hashKey = user.getActivationKey();
-		
-		if(hashKey==null || hashKey.trim().isEmpty()){
+
+		if (hashKey == null || hashKey.trim().isEmpty()) {
 			hashKey = SHAEncrypt.encryptKey(user.getCity() + "_" + user.getContractNo() + "_" + System.currentTimeMillis());
 			user.setActivationKey(hashKey);
 			FacadeFactory.getFacade().store(user);
 		}
-		
-		String msgBody = "<div style=\"text-align:left\"><p>Hello "+user.getName()+",</p><p>Thanks for registering with Royal Development for Gas Works online Service</p><p>Please follow the link below to Activate your account.</p><p>"+PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()+"</p><p>Regards,</p><p>Royal Development for Gas Works</p></div>";
-		MailManager.getInstance().sendMail(
-				user.getEmail(),
-				"Account Activation",
-				msgBody);
-//				"Please click here: " + PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
-//						+ " to activate your account");
+
+		String msgBody = "<div style=\"text-align:left\"><p>Hello " + user.getName()
+				+ ",</p><p>Thanks for registering with Royal Development for Gas Works online Service</p><p>Please follow the link below to Activate your account.</p><p>"
+				+ PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) + "#!activationPage/" + user.getActivationKey() + "/" + user.getCity() + "/" + user.getContractNo()
+				+ "</p><p>Regards,</p><p>Royal Development for Gas Works</p></div>";
+		MailManager.getInstance().sendMail(user.getEmail(), "Account Activation", msgBody);
+		// "Please click here: " +
+		// PropertiesManager.getInstance().getProperty(CONFIRM_BASE_PATH) +
+		// "#!activationPage/" + user.getActivationKey() + "/" + user.getCity()
+		// + "/" + user.getContractNo()
+		// + " to activate your account");
 	}
-	
-	
-//	private UserAccount getUserFromActivationLink(String string) throws Exception {
-//
-//		String decrypt = EncryptionUtil.decrypt(string);
-//		String[] params = decrypt.split("==");
-//
-//		if (params.length != 3) {
-//			logger.warn("invalid activation Link decrypt=" + decrypt);
-//			return null;
-//		}
-//
-//		logger.debug("params= " + params[0] + " ' " + params[0] + " ' " + params[0]);
-//
-//		Map<String, Object> parameters = new HashMap<String, Object>();
-//		parameters.put(Constants.USER_ACCOUNT_EMAIL, params[0].trim());
-//
-//		List<UserAccount> list = FacadeFactory.getFacade().list(UserAccount.class, parameters);
-//
-//		if (list == null || list.isEmpty()) {
-//			logger.warn("no such Email decrypt=" + decrypt);
-//			return null;
-//		}
-//		return list.get(0);
-//
-//	}
+
+	// private UserAccount getUserFromActivationLink(String string) throws
+	// Exception {
+	//
+	// String decrypt = EncryptionUtil.decrypt(string);
+	// String[] params = decrypt.split("==");
+	//
+	// if (params.length != 3) {
+	// logger.warn("invalid activation Link decrypt=" + decrypt);
+	// return null;
+	// }
+	//
+	// logger.debug("params= " + params[0] + " ' " + params[0] + " ' " +
+	// params[0]);
+	//
+	// Map<String, Object> parameters = new HashMap<String, Object>();
+	// parameters.put(Constants.USER_ACCOUNT_EMAIL, params[0].trim());
+	//
+	// List<UserAccount> list =
+	// FacadeFactory.getFacade().list(UserAccount.class, parameters);
+	//
+	// if (list == null || list.isEmpty()) {
+	// logger.warn("no such Email decrypt=" + decrypt);
+	// return null;
+	// }
+	// return list.get(0);
+	//
+	// }
 
 }

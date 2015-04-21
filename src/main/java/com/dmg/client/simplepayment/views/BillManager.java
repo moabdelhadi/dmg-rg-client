@@ -41,6 +41,12 @@ public class BillManager {
 
 		try {
 			list.addAll(FacadeFactory.getFacade().list(bill.getClass(), parameters, Constants.BILL_INV_DATE, false));
+			
+			for (Bill billRes : list) {
+				FacadeFactory.getFacade().refresh(billRes);
+			}
+			
+			
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in get bills for contract number , "
 					+ contractID, e);
@@ -60,6 +66,8 @@ public class BillManager {
 				return bill;
 			}
 			bill = FacadeFactory.getFacade().find(billBean.getClass(), id);
+			FacadeFactory.getFacade().refresh(bill);
+			
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in get bill form id =" + id, e);
 		}

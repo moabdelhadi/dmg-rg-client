@@ -68,6 +68,9 @@ public class BillPopupUI extends UI {
 		Image logo = new Image(null, source);
 		customLayout.addComponent(logo, "logo");
 
+		
+		customLayout.addComponent(getLabel("Royal Development for Gas Works"), "companyNameLbl");
+		
 		customLayout.addComponent(getLabel(userAccount.getName()), "userName");
 		customLayout.addComponent(getLabel(bill.getBuildingName()), "BuildingOwner");
 		customLayout.addComponent(getLabel(bill.getBuildingCode()), "BuildingCode");

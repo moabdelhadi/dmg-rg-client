@@ -240,14 +240,14 @@ public class ForgotPassword extends VerticalLayout implements View {
 	}
 
 	private void appendChangePasswordFields() {
-		final PasswordField passwordField = new PasswordField("Password");
+		final PasswordField passwordField = new PasswordField("New Password");
 
 		passwordField.setHeight("30px");
 		// loginPassword.setWidth("200px");
 		passwordField.setStyleName("h2");
 		passwordField.setRequired(true);
 		passwordField.setRequiredError("please enter your password");
-		passwordField.setInputPrompt("Password");
+		passwordField.setInputPrompt("New Password");
 		layout.addComponent(passwordField, "userPassword");
 
 		final PasswordField confirmPassword = new PasswordField("Confirm Password");
@@ -257,7 +257,7 @@ public class ForgotPassword extends VerticalLayout implements View {
 		confirmPassword.setStyleName("h2");
 		confirmPassword.setRequired(true);
 		confirmPassword.setRequiredError("Please confirm your password");
-		confirmPassword.setInputPrompt("Password");
+		confirmPassword.setInputPrompt("New Password");
 		layout.addComponent(confirmPassword, "confirmPassword");
 
 		resetPasswordButton = new Button("Reset Password");

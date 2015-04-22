@@ -576,6 +576,7 @@ public class PaymentManager {
 			Transaction txn = getPaymentByTxnRef(merchTxnRef);
 			if (txnResponseCode.equals("0")) {
 				txn.setStatus("SUCCESS");
+				txn.setSyncStatus(2);
 			} else {
 				txn.setStatus("FAIL");
 			}

@@ -65,7 +65,7 @@ body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0,
 
 /* article */
 
-article, article address, table.meta, table.inventory { margin: 0 0 3em; }
+article, article address, table.meta, table.inventory { margin: 0 0 1em; }
 article:after { clear: both; content: ""; display: table; }
 article h1 { clip: rect(0 0 0 0); position: absolute; }
 
@@ -175,19 +175,24 @@ tr:hover .cut { opacity: 1; }
  	<div class="inv-header">
 			<h1>Gas Consumption Bill</h1>
 			<address >
+				<div location="companyNameLbl"></div>
 				<p>Royal Development for Gas Works</p>
 				<p>Abu Dhabi: Tel.:(02)6323236, (02) 6338455</p>
 				<p>Fax: (02) 6337267, P.O.Box:30058, U.A.E.</p>
+				<p>Email: support.ad@royalgas.ae</p>
 				<p>Dubai: Tel.:(04) 2580216, 2669363</p>
 				<p>Fax: (04) 2583217, P.O.Box: 42601, U.A.E</p>
+				<p>Email: support@royalgas.ae</p>
 			</address>
 			<span><div location="logo"></div></span>
 			<address  class="arAddress">
 				<p>التنمية الملكية لأعمال الغاز    </p>
 				<p>ابوظبي:   (02) 6323236</p>
 				<p>فاكس: (02) 6337267, ص.ب.:30058, U.A.E.</p>
+				<p>البريد الإلكتروني: support.ad@royalgas.ae</p>
 				<p>دبي: :(04) 2580216, 2669363</p>
 				<p>فاكس: (04) 2583217, ص.ب.: 42601, U.A.E</p>
+				<p>البريد الإلكتروني: support@royalgas.ae</p>
 			</address>
 			
 			
@@ -294,7 +299,15 @@ tr:hover .cut { opacity: 1; }
 					<td><span data-prefix>AED </span><span><div location="total"></div></span></td>
 				</tr>
 			</table>
-			<!--<table class="collector">
+
+			<div class="collector" style="padding-top:10px; clear: left; width: 39%;">
+				<p>Unless you pay online, Please send us your payment proof, with your account No. to
+					the following Email</p>
+				<p style="padding-top:7px"">support.ad@royalgas.ae</p>
+			</div>
+
+
+		<!--<table class="collector">
 				<tr>
 					<th><span >Collector Name</span><span class="arTitle" >اسم المحصل</span></th>
 					<td><span><div location="collectorName"></div></span></td>
@@ -307,9 +320,17 @@ tr:hover .cut { opacity: 1; }
 		</article>
 		<aside>
 			<h1><span >Additional Notes</span></h1>
-			<div >
+			<div style="float: left; width: 39%;">
 				<p>هذه الفاتورة لا تعتبر سند قبض رسمي</p>
 				<p>This bill will not be considered as receipt</p>
+			</div>
+			<div style="float: right; width: 39%;  text-align: right;">
+				<p>الرجاء ارسال ايميل بطريقة الدفع مع رقم حسابك على الايميل التالي</p>
+			
+			</div>
+			<div style="float: right; width: 39%;  text-align: right;">
+				<p>Unless you pay online, Please send us your payment proof, with your account No. to
+					the following Email: support.ad@royalgas.ae</p>
 			</div>
 		</aside>
 </div>

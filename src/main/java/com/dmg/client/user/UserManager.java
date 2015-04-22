@@ -68,6 +68,15 @@ public class UserManager {
 
 		for (UserAccount userAccount : list) {
 
+			
+			try {
+				FacadeFactory.getFacade().refresh(userAccount);
+			} catch (DataAccessLayerException e) {
+				logger.error("Error in refreshUser data from database", e);
+				throw new UserManagerException("Error in login, please try again later", e);
+			}
+			
+			
 			String password = userAccount.getPassword();
 
 			int status = userAccount.getStatus();

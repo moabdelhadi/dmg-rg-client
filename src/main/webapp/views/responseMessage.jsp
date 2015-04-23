@@ -55,12 +55,7 @@
 <div class="home-wrap clearfix">
 	
 
-
-			
-	    
-        
     <div id="home-tagline" class="clearfix">
-	
 
 	 <%
 	 try{
@@ -70,24 +65,17 @@
 			%>
                
                <p>Operation Sucess</p>
-               <p>Please note that your balance will be apdated with in 24 hours</p>
+               <p>Please note that your account payment and balance will be apdated within 24 hours</p>
                <h3><a href="https://www.royalgas.com/online-payment-test">Go To Home Page</a></h3>
-
-	 <%
-
+		 <%
 			} else {
 %>
                <p>Operation Faild</p>
                <p><%= resultMessage %><p>
                <h3><a href="https://www.royalgas.com/online-payment-test">Go To Home Page</a></h3>
-
-
 	 <%
-			
 			}
-	
 	 }catch(Exception e){
-		
 		 %>
 		 
 		 <p>Error Accour</p>
@@ -102,20 +90,7 @@
 %>    
     
         </div>
-				
-
-    
-    
-        
-    
-    
-    
-
-
-
-      	
 </div><!-- END home-wrap -->
-
 
 <div class="clear"></div>
 </div><!-- /container -->

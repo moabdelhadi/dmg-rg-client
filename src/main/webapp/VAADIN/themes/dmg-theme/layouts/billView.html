@@ -57,11 +57,13 @@ body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0,
 .inv-header address { float: left; font-size: 11px; font-style: normal; line-height: 1.25; margin: 0 0 0 0;; width:33%; }
 .inv-header address p { margin: 0 0 0.25em; }
 .inv-header .arAddress{float:right;direction:rtl}
-.inv-header .arAddress p{direction:rtl;algin:right;text-align: right;}
+.inv-header .arAddress div{direction:rtl;algin:right;text-align: right;}
 .inv-header span, .inv-header img { display: block; float: left;}
 .inv-header span { margin: 0 0 0 0; max-height: 25%;  position:relative; width: 33%; }
 .inv-header img { width:150px; max-width: 100%; }
 .inv-header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
+
+.dmg-theme.v-app, body {    background: #FFF!important;}
 
 /* article */
 
@@ -174,25 +176,18 @@ tr:hover .cut { opacity: 1; }
 <div class="wraper-full">
  	<div class="inv-header">
 			<h1>Gas Consumption Bill</h1>
-			<address >
+			<address>
 				<div location="companyNameLbl"></div>
-				<p>Royal Development for Gas Works</p>
-				<p>Abu Dhabi: Tel.:(02)6323236, (02) 6338455</p>
-				<p>Fax: (02) 6337267, P.O.Box:30058, U.A.E.</p>
-				<p>Email: support.ad@royalgas.ae</p>
-				<p>Dubai: Tel.:(04) 2580216, 2669363</p>
-				<p>Fax: (04) 2583217, P.O.Box: 42601, U.A.E</p>
-				<p>Email: support@royalgas.ae</p>
+				<div location="companyTelLbl"></div>
+				<div location="companyFaxLbl"></div>
+				<div location="companyEmailLbl"></div>
 			</address>
 			<span><div location="logo"></div></span>
 			<address  class="arAddress">
-				<p>التنمية الملكية لأعمال الغاز    </p>
-				<p>ابوظبي:   (02) 6323236</p>
-				<p>فاكس: (02) 6337267, ص.ب.:30058, U.A.E.</p>
-				<p>البريد الإلكتروني: support.ad@royalgas.ae</p>
-				<p>دبي: :(04) 2580216, 2669363</p>
-				<p>فاكس: (04) 2583217, ص.ب.: 42601, U.A.E</p>
-				<p>البريد الإلكتروني: support@royalgas.ae</p>
+				<div location="companyNameLblAr"></div>
+				<div location="companyTelLblAr"></div>
+				<div location="companyFaxLblAr"></div>
+				<div location="companyEmailLblAr"></div>
 			</address>
 			
 			
@@ -326,11 +321,11 @@ tr:hover .cut { opacity: 1; }
 			</div>
 			<div style="float: right; width: 39%;  text-align: right;">
 				<p>الرجاء ارسال ايميل بطريقة الدفع مع رقم حسابك على الايميل التالي</p>
-			
-			</div>
-			<div style="float: right; width: 39%;  text-align: right;">
 				<p>Unless you pay online, Please send us your payment proof, with your account No. to
-					the following Email: support.ad@royalgas.ae</p>
+					the following Email</p>
+					<div location="cmpEmailFotter"></div>
+					
+			
 			</div>
 		</aside>
 </div>

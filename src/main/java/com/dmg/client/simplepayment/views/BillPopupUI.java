@@ -3,6 +3,8 @@ package com.dmg.client.simplepayment.views;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.core.bean.Bill;
 import com.dmg.core.bean.UserAccount;
+import com.dmg.util.PropertiesManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
@@ -25,12 +28,40 @@ public class BillPopupUI extends UI {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory
-			.getLogger(BillManager.class);
+	private static final Logger log = LoggerFactory.getLogger(BillManager.class);
+	
+	private static final String COMPANY_NAME_EN= "companyNameEn";
+	
+	private static final String COMPANY_PHONE_EN_DU= "companyPhoneEnDU";
+	private static final String COMPANY_FAX_EN_DU= "companyFaxEnDU";
+	private static final String COMPANY_EMAIL_EN_DU= "companyEmailEnDU";
+	
+	private static final String COMPANY_PHONE_EN_AUH= "companyPhoneEnAUH";
+	private static final String COMPANY_FAX_EN_AUH= "companyFaxEnAUH";
+	private static final String COMPANY_EMAIL_EN_AUH= "companyEmailEnAUH";
 
+	
+	
+	private static final String COMPANY_NAME_AR= "companyNameAr";
+	
+	private static final String COMPANY_PHONE_AR_DU= "companyPhoneArDU";
+	private static final String COMPANY_FAX_AR_DU= "companyFaxArDU";
+	private static final String COMPANY_EMAIL_AR_DU= "companyEmailArDU";
+	
+	private static final String COMPANY_PHONE_AR_AUH= "companyPhoneArAUH";
+	private static final String COMPANY_FAX_AR_AUH= "companyFaxArAUH";
+	private static final String COMPANY_EMAIL_AR_AUH= "companyEmailArAUH";
+	
+	
+	private Map<String, String> addressAUH = new HashMap<String, String>();
+	private Map<String, String> addressDU = new HashMap<String, String>();
+	
+	
 
 	@Override
 	protected void init(VaadinRequest request) {
+		
+		populateAddress();
 
 		UserAccount userAccount = SessionHandler.get();
 		
@@ -42,6 +73,8 @@ public class BillPopupUI extends UI {
 			log.error("User Not Available");
 			return;
 		}
+		
+		Map<String,String> addressMap = getAddressMap(userAccount);
 
 		Long billIdValue = null;
 		try {
@@ -69,7 +102,17 @@ public class BillPopupUI extends UI {
 		customLayout.addComponent(logo, "logo");
 
 		
-		customLayout.addComponent(getLabel("Royal Development for Gas Works"), "companyNameLbl");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_NAME_AR")), "companyNameLblAr");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_NAME_EN")), "companyNameLbl");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_PHONE_AR")), "companyTelLblAr");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_PHONE_EN")), "companyTelLbl");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_FAX_AR")), "companyFaxLblAr");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_FAX_EN")), "companyFaxLbl");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_EMAIL_AR")), "companyEmailLblAr");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_EMAIL_EN")), "companyEmailLbl");
+		customLayout.addComponent(getLabel(addressMap.get("COMPANY_EMAIL_EN")), "cmpEmailFotter");
+		
+		
 		
 		customLayout.addComponent(getLabel(userAccount.getName()), "userName");
 		customLayout.addComponent(getLabel(bill.getBuildingName()), "BuildingOwner");
@@ -95,6 +138,44 @@ public class BillPopupUI extends UI {
 		customLayout.addComponent(getLabel(bill.getTotalAmount()), "total");
 		customLayout.addComponent(getLabel(bill.getCollectorName()), "collectorName");
 
+	}
+
+	private Map<String,String> getAddressMap(UserAccount userAccount) {
+		String city = userAccount.getCity();
+		if("DUBAI".equalsIgnoreCase(city)){
+			return addressDU;
+		}
+		
+		return addressAUH;
+		
+	}
+
+	private void populateAddress() {
+		
+		addressAUH.clear();
+		addressAUH.put("COMPANY_NAME_AR", getpropertyValue(COMPANY_NAME_AR));
+		addressAUH.put("COMPANY_NAME_EN", getpropertyValue(COMPANY_NAME_EN));
+		addressAUH.put("COMPANY_PHONE_AR", getpropertyValue(COMPANY_PHONE_AR_AUH));
+		addressAUH.put("COMPANY_PHONE_EN", getpropertyValue(COMPANY_PHONE_EN_AUH));
+		addressAUH.put("COMPANY_FAX_AR", getpropertyValue(COMPANY_FAX_AR_AUH));
+		addressAUH.put("COMPANY_FAX_EN", getpropertyValue(COMPANY_FAX_EN_AUH));
+		addressAUH.put("COMPANY_EMAIL_AR", getpropertyValue(COMPANY_EMAIL_AR_AUH));
+		addressAUH.put("COMPANY_EMAIL_EN", getpropertyValue(COMPANY_EMAIL_EN_AUH));
+
+		addressDU.clear();
+		addressDU.put("COMPANY_NAME_AR", getpropertyValue(COMPANY_NAME_AR));
+		addressDU.put("COMPANY_NAME_EN", getpropertyValue(COMPANY_NAME_EN));
+		addressDU.put("COMPANY_PHONE_AR", getpropertyValue(COMPANY_PHONE_AR_DU));
+		addressDU.put("COMPANY_PHONE_EN", getpropertyValue(COMPANY_PHONE_EN_DU));
+		addressDU.put("COMPANY_FAX_AR", getpropertyValue(COMPANY_FAX_AR_DU));
+		addressDU.put("COMPANY_FAX_EN", getpropertyValue(COMPANY_FAX_EN_DU));
+		addressDU.put("COMPANY_EMAIL_AR", getpropertyValue(COMPANY_EMAIL_AR_DU));
+		addressDU.put("COMPANY_EMAIL_EN", getpropertyValue(COMPANY_EMAIL_EN_DU));
+		
+	}
+	
+	private String  getpropertyValue(String name){
+		return PropertiesManager.getInstance().getProperty(name);
 	}
 
 	private Label getLabel(String label) {

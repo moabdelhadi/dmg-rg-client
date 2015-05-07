@@ -97,7 +97,14 @@ public class BillPopupUI extends UI {
 		//customLayout.setHeight("1000px");
 		setContent(customLayout);
 
-		ThemeResource source = new ThemeResource("img/adlogo.jpg");
+		String logoPath ="";
+		if("DUBAI".equalsIgnoreCase(userAccount.getCity())){
+			logoPath ="img/dlogo.png";
+		}else{
+			logoPath ="img/adlogo.png";
+		}
+		
+		ThemeResource source = new ThemeResource(logoPath);
 		Image logo = new Image(null, source);
 		customLayout.addComponent(logo, "logo");
 

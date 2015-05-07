@@ -78,8 +78,8 @@ public class AccountOverview extends VerticalLayout implements View {
 	private void init() {
 
 		fees = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
-		maxPayment= PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_MAX_PAY_NAME);
-		
+		maxPayment = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_MAX_PAY_NAME);
+
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
@@ -103,12 +103,11 @@ public class AccountOverview extends VerticalLayout implements View {
 		feeNote = new Label("Please note that " + fees + " AED were added to your amount as an online service fee");
 		feeNote.addStyleName("feeNoteLbl");
 		customLayout.addComponent(feeNote, "feeNote");
-		
-		
+
 		lastPaymentNote = new Label("...");
 		lastPaymentNote.addStyleName("lastPayNote");
 		customLayout.addComponent(lastPaymentNote, "lastPayment");
-		
+
 		for (int i = 0; i < 3; i++) {
 
 			Label date = new Label("...");
@@ -146,7 +145,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		payAmountField.setId("payAmountField");
 		payAmountField.setHeight("25px");
 		payAmountField.setInputPrompt("Please insert the ammount you want to pay");
-//		payAmountField.setRequired(true);
+		// payAmountField.setRequired(true);
 		payAmountField.setRequiredError("please inset the amount to pay");
 		customLayout.addComponent(payAmountField, "payamt");
 
@@ -162,14 +161,15 @@ public class AccountOverview extends VerticalLayout implements View {
 					log.info("Pay on process");
 					PaymentManager manager = PaymentManager.getInstance();
 
-					double parseDouble = 0.0 ;
+					double parseDouble = 0.0;
 					try {
 						payAmountField.validate();
 						String editPayAmount = payAmountField.getValue();
-						 parseDouble = Double.parseDouble(editPayAmount);
-						
-						if(parseDouble < fees + 0.1 || parseDouble>maxPayment){
-							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than "+maxPayment , Notification.Type.HUMANIZED_MESSAGE, true);
+						parseDouble = Double.parseDouble(editPayAmount);
+
+						if (parseDouble < fees + 0.1 || parseDouble > maxPayment) {
+							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than " + maxPayment,
+									Notification.Type.HUMANIZED_MESSAGE, true);
 							notification.setDelayMsec(-1);
 							notification.show(Page.getCurrent());
 							return;
@@ -241,32 +241,31 @@ public class AccountOverview extends VerticalLayout implements View {
 		name.setValue(user.getName());
 
 		BigDecimal balance = user.getBalance();
-		
 
+		log.debug("balance = " + balance);
 		totalAnoountDouble = balance.doubleValue() + fees;
 		totalAmount.setValue(totalAnoountDouble + " AED");
 		payAmountField.setValue(String.valueOf(totalAnoountDouble));
-		
-		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(),user.getCity());
-		if(latestPaymentByUser!=null){
+
+		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(), user.getCity());
+		if (latestPaymentByUser != null) {
 			log.debug("hereSSSSSSSSSSSSSSSSSSSSS");
 			String amountString = latestPaymentByUser.getDoubleAmount().toString();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String paymentDate = df.format(latestPaymentByUser.getCreationDate());
 			String status = latestPaymentByUser.getStatus();
-			if("SENT".equals(status)){
+			if ("SENT".equals(status)) {
 				status = "IN PROCESS";
 			}
-			lastPaymentNote.setValue("Last Payment: "+amountString+" AED,  "+paymentDate+",("+status+")");
+			lastPaymentNote.setValue("Last Payment: " + amountString + " AED,  " + paymentDate + ",(" + status + ")");
 		}
-		
-		
+
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
 
-		if(list==null || list.isEmpty()){
+		if (list == null || list.isEmpty()) {
 			return;
 		}
-		
+
 		Bill lasBill = list.get(0);
 		lBDocNo = lasBill.getDocNo();
 		lBDocType = lasBill.getDocType();

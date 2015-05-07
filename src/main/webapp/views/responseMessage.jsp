@@ -65,7 +65,7 @@
 			%>
                
                <p>Operation Sucess</p>
-               <p>Please note that your account payment and balance will be apdated within 24 hours</p>
+               <p>Please note that your account payment and balance will be updated within 24 hours</p>
                <h3><a href="https://www.royalgas.com/online-payment-test">Go To Home Page</a></h3>
 		 <%
 			} else {

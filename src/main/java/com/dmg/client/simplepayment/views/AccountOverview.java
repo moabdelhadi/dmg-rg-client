@@ -248,6 +248,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		BigDecimal balance = user.getBalance();
 		
 
+		log.debug("balance = " + balance);
 		totalAnoountDouble = balance.doubleValue() + fees;
 		totalAmount.setValue(totalAnoountDouble + " AED");
 		payAmountField.setValue(String.valueOf(totalAnoountDouble));

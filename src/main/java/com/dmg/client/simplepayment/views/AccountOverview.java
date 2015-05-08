@@ -69,6 +69,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private String lBDocType = "";
 	private String lBDocNo = "";
 	private String lBYearCode = "";
+	private Label feeFullNote;
 
 	public AccountOverview(Navigator navigator) {
 		this.navigator = navigator;
@@ -103,6 +104,10 @@ public class AccountOverview extends VerticalLayout implements View {
 		feeNote = new Label("Please note that " + fees + " AED were added to your amount as an online service fee");
 		feeNote.addStyleName("feeNoteLbl");
 		customLayout.addComponent(feeNote, "feeNote");
+		
+		feeFullNote = new Label("Please note that you have to pay the full amount to avoid service disconnect");
+		feeFullNote.addStyleName("feeNoteLbl");
+		customLayout.addComponent(feeFullNote, "fullAmountNote");
 		
 		
 		lastPaymentNote = new Label("...");
@@ -251,7 +256,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		if(latestPaymentByUser!=null){
 			log.debug("hereSSSSSSSSSSSSSSSSSSSSS");
 			String amountString = latestPaymentByUser.getDoubleAmount().toString();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String paymentDate = df.format(latestPaymentByUser.getCreationDate());
 			String status = latestPaymentByUser.getStatus();
 			if("SENT".equals(status)){
@@ -263,6 +268,8 @@ public class AccountOverview extends VerticalLayout implements View {
 		
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
 
+		emptyBills();
+		
 		if(list==null || list.isEmpty()){
 			return;
 		}
@@ -292,5 +299,19 @@ public class AccountOverview extends VerticalLayout implements View {
 			}
 		}
 
+	}
+
+	private void emptyBills() {
+		
+		lastPaymentNote = new Label("...");
+		lastPaymentNote.addStyleName("lastPayNote");
+		
+		for (int i = 0; i < 3; i++) {
+			dates.get(i).setValue("...");
+			amounts.get(i).setValue("...");
+		}
+
+		totalAmount = new Label("Ammount Due date: " + " ... " + " AED");
+		
 	}
 }

@@ -92,8 +92,9 @@ public class BillPopupUI extends UI {
 		
 
 //		setSizeFull();
-		setHeight("1000px");
+		//setHeight("1000px");
 		CustomLayout customLayout = new CustomLayout("billView");
+		
 		//customLayout.setHeight("1000px");
 		setContent(customLayout);
 

@@ -7132,3 +7132,8 @@ body .dmg-theme.v-app .v-app-loading {
 .dmg-theme .register .payment-div span {
 	font-size: 16px;
 }
+
+.dmg-theme .register .pay-update-note p {
+	margin: 0;
+	font-size: 14px !important;
+}

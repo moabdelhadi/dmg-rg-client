@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -82,8 +83,7 @@ public class PaymentManager {
 		map.put("vpc_AccessCode", accessCode);
 		map.put("vpc_Merchant", merchantID);
 
-		Calendar calendar = Calendar.getInstance();
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dubai"));		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		// String date = dateFormat.format(calendar.getTime());
 
 		String MerchTxnRef = "RG-" + user.getCity() + "-" + user.getContractNo() + "-" + calendar.getTimeInMillis();

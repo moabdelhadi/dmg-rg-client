@@ -79,8 +79,8 @@ public class AccountOverview extends VerticalLayout implements View {
 	private void init() {
 
 		fees = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
-		maxPayment= PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_MAX_PAY_NAME);
-		
+		maxPayment = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_MAX_PAY_NAME);
+
 		setSizeFull();
 
 		HorizontalLayout hsplit = new HorizontalLayout();
@@ -113,7 +113,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		lastPaymentNote = new Label("...");
 		lastPaymentNote.addStyleName("lastPayNote");
 		customLayout.addComponent(lastPaymentNote, "lastPayment");
-		
+
 		for (int i = 0; i < 3; i++) {
 
 			Label date = new Label("...");
@@ -151,7 +151,7 @@ public class AccountOverview extends VerticalLayout implements View {
 		payAmountField.setId("payAmountField");
 		payAmountField.setHeight("25px");
 		payAmountField.setInputPrompt("Please insert the ammount you want to pay");
-//		payAmountField.setRequired(true);
+		// payAmountField.setRequired(true);
 		payAmountField.setRequiredError("please inset the amount to pay");
 		customLayout.addComponent(payAmountField, "payamt");
 
@@ -167,14 +167,15 @@ public class AccountOverview extends VerticalLayout implements View {
 					log.info("Pay on process");
 					PaymentManager manager = PaymentManager.getInstance();
 
-					double parseDouble = 0.0 ;
+					double parseDouble = 0.0;
 					try {
 						payAmountField.validate();
 						String editPayAmount = payAmountField.getValue();
-						 parseDouble = Double.parseDouble(editPayAmount);
-						
-						if(parseDouble < fees + 0.1 || parseDouble>maxPayment){
-							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than "+maxPayment , Notification.Type.HUMANIZED_MESSAGE, true);
+						parseDouble = Double.parseDouble(editPayAmount);
+
+						if (parseDouble < fees + 0.1 || parseDouble > maxPayment) {
+							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than " + maxPayment,
+									Notification.Type.HUMANIZED_MESSAGE, true);
 							notification.setDelayMsec(-1);
 							notification.show(Page.getCurrent());
 							return;
@@ -252,9 +253,9 @@ public class AccountOverview extends VerticalLayout implements View {
 		totalAnoountDouble = balance.doubleValue() + fees;
 		totalAmount.setValue(totalAnoountDouble + " AED");
 		payAmountField.setValue(String.valueOf(totalAnoountDouble));
-		
-		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(),user.getCity());
-		if(latestPaymentByUser!=null){
+
+		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(), user.getCity());
+		if (latestPaymentByUser != null) {
 			log.debug("hereSSSSSSSSSSSSSSSSSSSSS");
 			String amountString = latestPaymentByUser.getDoubleAmount().toString();
 			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -265,8 +266,7 @@ public class AccountOverview extends VerticalLayout implements View {
 			}
 			lastPaymentNote.setValue("Last Payment: "+amountString+" AED,  "+paymentDate+",("+status+")");
 		}
-		
-		
+
 		List<Bill> list = BillManager.getInstance().getLatestBills(user.getContractNo(), user.getCity());
 
 		emptyBills();

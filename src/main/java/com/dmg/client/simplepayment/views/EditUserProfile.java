@@ -471,7 +471,9 @@ public class EditUserProfile extends VerticalLayout implements View {
 
 		phone.setValue("");
 		phonePrefix.setValue("");
-		String phoneFormated = getPhoneFormated(user.getPhone());
+		String phone2 = user.getPhone();
+		logger.debug("phone="+phone2);
+		String phoneFormated = getPhoneFormated(phone2);
 		if (phoneFormated.length() > 5) {
 			phonePrefix.setValue(phoneFormated.substring(0, 2));
 			phone.setValue(phoneFormated.substring(2));

@@ -70,7 +70,7 @@ public class UserManager {
 
 			
 			try {
-				FacadeFactory.getFacade().refresh(userAccount);
+				userAccount = (UserAccount)FacadeFactory.getFacade().refresh(userAccount);
 			} catch (DataAccessLayerException e) {
 				logger.error("Error in refreshUser data from database", e);
 				throw new UserManagerException("Error in login, please try again later", e);
@@ -146,7 +146,7 @@ public class UserManager {
 		UserAccount userAccount = list.get(0);
 
 		try {
-			FacadeFactory.getFacade().refresh(userAccount);
+			userAccount = (UserAccount)FacadeFactory.getFacade().refresh(userAccount);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in Refresh Account", e);
 			return null;
@@ -241,7 +241,7 @@ public class UserManager {
 
 		UserAccount userAccountRes = list.get(0);
 		try {
-			FacadeFactory.getFacade().refresh(userAccountRes);
+			userAccountRes= (UserAccount) FacadeFactory.getFacade().refresh(userAccountRes);
 		} catch (DataAccessLayerException e) {
 			logger.error("Error in Refresh Account", e);
 			return null;

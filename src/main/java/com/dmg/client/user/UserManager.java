@@ -63,22 +63,22 @@ public class UserManager {
 		}
 
 		if (list.size() > 1) {
-			logger.warn("Account ID or City dublicated Please Check, account=" + user.getContractNo() + " , city=" + user.getCity());
+			logger.warn("Account ID or City dublicated Please Check, account=" + user.getContractNo() + " , city=" + user.getCity() + "list.size() =" +list.size());
 		}
 
 		for (UserAccount userAccount : list) {
 
 			
-			try {
-				userAccount = (UserAccount)FacadeFactory.getFacade().refresh(userAccount);
-			} catch (DataAccessLayerException e) {
-				logger.error("Error in refreshUser data from database", e);
-				throw new UserManagerException("Error in login, please try again later", e);
-			}
+//			try {
+//				userAccount = (UserAccount)FacadeFactory.getFacade().refresh(userAccount);
+//			} catch (DataAccessLayerException e) {
+//				logger.error("Error in refreshUser data from database", e);
+//				throw new UserManagerException("Error in login, please try again later", e);
+//			}
 			
 			
 			String password = userAccount.getPassword();
-
+			logger.debug("userAccount = "+userAccount.getContractNo());
 			int status = userAccount.getStatus();
 
 			if (status == UserStatus.NEW.value()) {

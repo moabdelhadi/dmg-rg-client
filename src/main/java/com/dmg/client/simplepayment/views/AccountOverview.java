@@ -251,8 +251,10 @@ public class AccountOverview extends VerticalLayout implements View {
 
 		log.debug("balance = " + balance);
 		totalAnoountDouble = balance.doubleValue() + fees;
-		totalAmount.setValue(totalAnoountDouble + " AED");
-		payAmountField.setValue(String.valueOf(totalAnoountDouble));
+		
+		String format = String.format("%1$,.2f", totalAnoountDouble);
+		totalAmount.setValue(format);
+		payAmountField.setValue(format);
 
 		Transaction latestPaymentByUser = PaymentManager.getInstance().getLatestPaymentByUser(user.getContractNo(), user.getCity());
 		if (latestPaymentByUser != null) {

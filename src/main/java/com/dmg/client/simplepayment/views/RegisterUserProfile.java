@@ -277,6 +277,10 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 
 		try {
 			newPassword.validate();
+			if (newPassword.getValue() == null || newPassword.getValue().trim().isEmpty()) {
+				newPassword.setComponentError(new UserError("Should Not Be Empty", ContentMode.HTML, ErrorLevel.ERROR));
+				status = false;
+			}
 		} catch (InvalidValueException e) {
 			String htmlMessage = e.getHtmlMessage();
 			newPassword.setComponentError(new UserError(htmlMessage,
@@ -293,9 +297,7 @@ public class RegisterUserProfile extends VerticalLayout implements View {
 			status = false;
 		}
 
-		if (newPassword.getValue() != null
-				&& !newPassword.getValue().trim().isEmpty()
-				&& confirmPassword != null) {
+		if (newPassword.getValue() != null && !newPassword.getValue().trim().isEmpty()	&& confirmPassword != null) {
 			if (!newPassword.getValue().equals(confirmPassword.getValue())) {
 				confirmPassword.setComponentError(new UserError(
 						"Password must match"));

@@ -31,7 +31,7 @@ public class FileUtil {
 			copyFile(sourceFile, desFile);
 			boolean deleted = sourceFile.delete();
 			if (!deleted) {
-				System.out.println("Delete faild for the file" + sourceFile.getName());
+				//System.out.println("Delete faild for the file" + sourceFile.getName());
 			}
 		} catch (Exception e) {
 			logger.error("Error in moving file:" + sourceFile.getPath(), e);

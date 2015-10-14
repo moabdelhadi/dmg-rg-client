@@ -166,11 +166,12 @@ public class ChangePassword extends VerticalLayout implements View {
 		}
 
 		//user.setName(name.getValue());
-		user.setStatus(UserStatus.RESGISTERED.value());
+		//user.setStatus(UserStatus.ACTIVE.value());
 		
 		String password = user.getPassword();
-		if(!StringUtils.equals(password, oldPassword.getValue())){
-			logger.error( "Old Password is not correct password=" + password + "old password="+ oldPassword.getValue());
+		String oldPasswordHashed = PasswordUtil.generateHashedPassword(oldPassword.getValue());
+		if(!StringUtils.equals(password, oldPasswordHashed)){
+			logger.error( "Old Password is not correct ");
 			Notification.show("ERROR", "Old Password is not correct", Notification.Type.HUMANIZED_MESSAGE);
 			return;
 		}

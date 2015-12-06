@@ -56,7 +56,7 @@ public class MailManager {
 		props.put("mail.debug", MAIL_DEUG);
 		
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.starttls.enable", "false");
 		
 		props.put("mail.smtp.port", MAIL_SERVER_PORT);
 

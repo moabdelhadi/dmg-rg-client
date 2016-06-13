@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dmg.client.auth.util.PasswordUtil;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.bean.Constants;
 import com.dmg.core.bean.UserAccount;
@@ -277,7 +278,8 @@ public class ForgotPassword extends VerticalLayout implements View {
 			public void buttonClick(ClickEvent event) {
 				if (validatePasswords(passwordField, confirmPassword)) {
 					userAccount.setPassResetKey("");
-					userAccount.setPassword(passwordField.getValue());
+					
+					userAccount.setPassword(PasswordUtil.generateHashedPassword(passwordField.getValue()));
 					try {
 						UserManager.getInstance().updateAccount(userAccount);
 						Notification.show("Success", "Your password has been successfully changed", Type.HUMANIZED_MESSAGE);
@@ -321,6 +323,14 @@ public class ForgotPassword extends VerticalLayout implements View {
 			valid = false;
 		}
 		return valid;
+	}
+	
+	public static void main(String[] args) {
+		
+		String input="SCallaqs543";
+		String generateHashedPassword = PasswordUtil.generateHashedPassword(input);
+		System.out.println(input + "==" + generateHashedPassword);
+		
 	}
 
 }

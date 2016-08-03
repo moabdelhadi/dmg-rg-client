@@ -106,7 +106,7 @@ public class UserManager {
 				}
 
 				if (userAccount.isEnable() == null || !userAccount.isEnable()) {
-					logger.warn("This account is disabled by the admin, please contact thcompany to check");
+					logger.warn("This account is disabled by the admin, please contact the company to check");
 					throw new UserManagerException("This account is disabled by the admin, please contact the company to check");
 				}
 

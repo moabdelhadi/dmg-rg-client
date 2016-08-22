@@ -7,6 +7,8 @@
 	 <class>com.dmg.core.bean.TransactionDu</class> 
 	 <class>com.dmg.core.bean.UserAccountsAUH</class>
 	 <class>com.dmg.core.bean.UserAccountsDU</class>
+	 <class>com.dmg.core.bean.NewUserRegistrationDu</class>
+	 <class>com.dmg.core.bean.NewUserRegistrationAUH</class>
 	 <class>com.dmg.core.bean.BillAUH</class>
 	 <class>com.dmg.core.bean.BillDu</class> 
 	 <class>com.dmg.core.bean.PaymentResponse</class>  

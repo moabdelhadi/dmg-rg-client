@@ -11,9 +11,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta name="description" content="Royal Gas - New Contract Application" />
         <meta name="keywords" content="Royal Gas - New Contract Application" />
-        <link rel="stylesheet" type="text/css" href="css/demo.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-		<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+        <link rel="stylesheet" type="text/css" href="/dmg-rg-client/views/newapplication/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="/dmg-rg-client/views/newapplication/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="/dmg-rg-client/views/newapplication/css/animate-custom.css" />
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>

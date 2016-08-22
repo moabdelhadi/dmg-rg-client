@@ -81,6 +81,8 @@ public class NewUserApplication extends HttpServlet {
 			}
 			NewUserRegistration user = createUser(request);
 			FacadeFactory.getFacade().store(user);
+			responseSuccess(request,response, user.getRefNo());
+			
 
 		} catch (DataAccessLayerException e) {
 			log.error("error in saving data");
@@ -88,6 +90,26 @@ public class NewUserApplication extends HttpServlet {
 			validate.add("Un Known Error Accurs during your request . Please Try Again Later");
 			responseBadInput(request, response, validate);
 		}
+	}
+
+	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, String refNo) {
+		try {
+			request.setAttribute("ref", refNo);
+			request.setAttribute("requestStatus", "success");
+
+			RequestDispatcher view = request.getRequestDispatcher("/views/newapplication/newClientApplicationSuccess.jsp");
+
+			// response.setHeader("Content-Type","text/html");
+			// response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+			// response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
+			// response.setHeader("Pragma","no-cache");
+
+			view.forward(request, response);
+		} catch (Exception e) {
+			log.error("error in return response", e);
+		}
+
+		
 	}
 
 	private void responseBadInput(HttpServletRequest request, HttpServletResponse response, List<String> validate) {
@@ -132,7 +154,7 @@ public class NewUserApplication extends HttpServlet {
 			}
 		}
 
-		if (passwordCheck(request)) {
+		if (!passwordCheck(request)) {
 			list.add("Password must Match");
 		}
 

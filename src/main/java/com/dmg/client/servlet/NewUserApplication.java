@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.util.PasswordUtil;
+import com.dmg.client.payment.PaymentManager;
 import com.dmg.client.user.UserManager;
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.NewUserRegistration;
@@ -46,8 +48,10 @@ public class NewUserApplication extends HttpServlet {
 	private final String MOBILE_FIELD = "mobile";
 	private final String EMIRATES_ID_FIELD = "emiratesId";
 
-	private final String requireList[] = { CITY_FIELD, USERNAME_FIELD, EMAIL_FIELD, PASSWORD_FIELD, BUILDING_NO_FIELD,
-			APART_NO_FIELD, METER_READING_FIELD, METETR_NO_FIELD, START_DATE_FIELD, MOBILE_FIELD, EMIRATES_ID_FIELD };
+	private final String requireList[] = { CITY_FIELD, USERNAME_FIELD, EMAIL_FIELD, PASSWORD_FIELD, BUILDING_NO_FIELD, APART_NO_FIELD, METER_READING_FIELD, METETR_NO_FIELD, START_DATE_FIELD,
+			MOBILE_FIELD, EMIRATES_ID_FIELD };
+
+	private static volatile long lastRef = 0;
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(NewUserApplication.class);
@@ -72,7 +76,7 @@ public class NewUserApplication extends HttpServlet {
 			log.debug("Accept get");
 			List<String> validate = validate(request);
 			if (validate != null && validate.size() > 0) {
-				responseBadInput(response);
+				responseBadInput(request, response, validate);
 				return;
 			}
 			NewUserRegistration user = createUser(request);
@@ -80,11 +84,29 @@ public class NewUserApplication extends HttpServlet {
 
 		} catch (DataAccessLayerException e) {
 			log.error("error in saving data");
-			responseBadInput(response);
+			List<String> validate = new ArrayList<String>();
+			validate.add("Un Known Error Accurs during your request . Please Try Again Later");
+			responseBadInput(request, response, validate);
 		}
 	}
 
-	private void responseBadInput(HttpServletResponse response) {
+	private void responseBadInput(HttpServletRequest request, HttpServletResponse response, List<String> validate) {
+
+		try {
+			request.setAttribute("errors", validate);
+			request.setAttribute("requestStatus", "error");
+
+			RequestDispatcher view = request.getRequestDispatcher("/views/newapplication/newClientApplication.jsp");
+
+			// response.setHeader("Content-Type","text/html");
+			// response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
+			// response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
+			// response.setHeader("Pragma","no-cache");
+
+			view.forward(request, response);
+		} catch (Exception e) {
+			log.error("error in return response", e);
+		}
 
 	}
 
@@ -92,8 +114,7 @@ public class NewUserApplication extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}
 
@@ -106,8 +127,8 @@ public class NewUserApplication extends HttpServlet {
 		}
 
 		for (String fname : requireList) {
-			if (requireCheck(request, fname)) {
-				list.add("fname is required");
+			if (!requireCheck(request, fname)) {
+				list.add(fname +" is required");
 			}
 		}
 
@@ -129,7 +150,7 @@ public class NewUserApplication extends HttpServlet {
 
 	private boolean isRobot(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	private boolean requireCheck(HttpServletRequest request, String fieldName) {
@@ -169,8 +190,32 @@ public class NewUserApplication extends HttpServlet {
 		newUser.setEmiratesId(request.getParameter(EMIRATES_ID_FIELD));
 		newUser.setStatus(UserStatus.NEW.value());
 		newUser.setSyncStatus(0);
-
+		newUser.setRefNo(createRefNo());
 		return newUser;
+	}
+
+	private synchronized String createRefNo() {
+		long currentTimeMillis = System.currentTimeMillis();
+		long ref = (currentTimeMillis - 1467316800000L) / 1000;
+		if (ref != lastRef) {
+			lastRef = ref;
+			return String.valueOf(ref);
+		}
+
+		while (ref == lastRef) {
+			try {
+				log.debug("before wait");
+				wait(1100L);
+				log.debug("after wait");
+				currentTimeMillis = System.currentTimeMillis();
+				ref = (currentTimeMillis - 1467316800000L) / 1000;
+			} catch (InterruptedException e) {
+				log.error("error in waiting thread", e);
+			}
+
+		}
+		lastRef = ref;
+		return String.valueOf(ref);
 	}
 
 }

@@ -37,6 +37,7 @@
                     <div id="wrapper">
                         <div id="login" class="form">
                             <h2>Thanks you for your registration. Please Save your reference to followup the request: 123456</h2>
+                            <a target="_blank" href="/dmg-rg-client/views/contract/contract.html">View Contract</a>
                         </div>
 						
                     </div>

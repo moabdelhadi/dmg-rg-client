@@ -46,7 +46,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private static final Logger log = LoggerFactory.getLogger(AccountOverview.class);
 	private static final String PAYMENT_URL = "payment.paymentUrl";
 	// private PaymentManager manager = PaymentManager.getInstance();
-	private Map<String, String> postFields;
+//	private Map<String, String> postFields;
 
 	private Navigator navigator;
 
@@ -64,7 +64,7 @@ public class AccountOverview extends VerticalLayout implements View {
 	private double totalAnoountDouble = 0;
 	private double fees = 0;
 	private double maxPayment = 0;
-	private Label feeNote;
+//	private Label feeNote;
 	private Label lastPaymentNote;
 	private String lBDocType = "";
 	private String lBDocNo = "";
@@ -101,9 +101,9 @@ public class AccountOverview extends VerticalLayout implements View {
 		amounts.clear();
 		billViews.clear();
 
-		feeNote = new Label("Please note that " + fees + " AED were added to your amount as an online service fee");
-		feeNote.addStyleName("feeNoteLbl");
-		customLayout.addComponent(feeNote, "feeNote");
+//		feeNote = new Label("Please note that " + fees + " AED were added to your amount as an online service fee");
+//		feeNote.addStyleName("feeNoteLbl");
+//		customLayout.addComponent(feeNote, "feeNote");
 		
 		feeFullNote = new Label("Please note that you have to pay the full amount to avoid service disconnect");
 		feeFullNote.addStyleName("feeNoteLbl");

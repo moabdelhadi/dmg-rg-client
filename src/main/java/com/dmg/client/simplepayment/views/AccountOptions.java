@@ -52,7 +52,7 @@ public class AccountOptions implements Serializable{
 		Button summary = new Button("Account Overview");
 		summary.addStyleName("optViewButton");
 
-		Button editProfile = new Button("Edit Proifile");
+		Button editProfile = new Button("Edit Profile");
 		editProfile.addStyleName("optViewButton");
 
 		Button changePassword = new Button("Change Password");

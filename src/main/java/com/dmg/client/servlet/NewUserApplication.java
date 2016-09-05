@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.RequestDispatcher;
@@ -14,17 +15,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.util.PasswordUtil;
-import com.dmg.client.payment.PaymentManager;
-import com.dmg.client.user.UserManager;
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.NewUserRegistration;
 import com.dmg.core.bean.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
+import com.dmg.util.PropertiesManager;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class NewUserApplication
@@ -47,6 +55,10 @@ public class NewUserApplication extends HttpServlet {
 	private final String PHONE_FIELD = "phone";
 	private final String MOBILE_FIELD = "mobile";
 	private final String EMIRATES_ID_FIELD = "emiratesId";
+	private final String CAPTCH_FIELD = "g-recaptcha-response";
+
+	private final String captchaSecret = PropertiesManager.getInstance().getProperty("recaptcha.secret");
+	private final String captchaReq = PropertiesManager.getInstance().getProperty("recaptcha.url");
 
 	private final String requireList[] = { CITY_FIELD, USERNAME_FIELD, EMAIL_FIELD, PASSWORD_FIELD, BUILDING_NO_FIELD, APART_NO_FIELD, METER_READING_FIELD, METETR_NO_FIELD, START_DATE_FIELD,
 			MOBILE_FIELD, EMIRATES_ID_FIELD };
@@ -55,6 +67,10 @@ public class NewUserApplication extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(NewUserApplication.class);
+
+	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+	OkHttpClient client = new OkHttpClient();
+	private final Gson gson = new Gson();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -81,8 +97,7 @@ public class NewUserApplication extends HttpServlet {
 			}
 			NewUserRegistration user = createUser(request);
 			FacadeFactory.getFacade().store(user);
-			responseSuccess(request,response, user.getRefNo());
-			
+			responseSuccess(request, response, user.getRefNo());
 
 		} catch (DataAccessLayerException e) {
 			log.error("error in saving data");
@@ -109,7 +124,6 @@ public class NewUserApplication extends HttpServlet {
 			log.error("error in return response", e);
 		}
 
-		
 	}
 
 	private void responseBadInput(HttpServletRequest request, HttpServletResponse response, List<String> validate) {
@@ -150,7 +164,7 @@ public class NewUserApplication extends HttpServlet {
 
 		for (String fname : requireList) {
 			if (!requireCheck(request, fname)) {
-				list.add(fname +" is required");
+				list.add(fname + " is required");
 			}
 		}
 
@@ -171,8 +185,50 @@ public class NewUserApplication extends HttpServlet {
 	}
 
 	private boolean isRobot(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return false;
+
+		String captch = request.getParameter(CAPTCH_FIELD);
+		if (captch == null || captch.isEmpty()) {
+			return true;
+		}
+
+		RequestBody body = new FormBody.Builder().add("secret", captchaSecret).add("response", captch).build();
+
+		Request clientRequest = new Request.Builder().url(captchaReq).post(body).build();
+
+		try {
+			Response response = client.newCall(clientRequest).execute();
+
+			if (!response.isSuccessful()) {
+				log.error("error reading from captch Server" + response);
+			}
+
+			CaptchaRespone gist = gson.fromJson(response.body().charStream(), CaptchaRespone.class);
+
+			if (gist == null) {
+				log.warn("Cannot Read Response of Captcha gist==null");
+				return true;
+			}
+
+			if (gist.getSuccess() == null) {
+				log.warn("Cannot Read Response of Captcha gist.getSuccess==null");
+				return true;
+			}
+
+			if (gist.getSuccess() == false) {
+				log.warn("Cannot Read Response of Captcha getSuccess==false");
+				for (String string : gist.getErrorCodes()) {
+					log.warn(string);
+				}
+				return true;
+			}
+			
+			return false;
+		
+		} catch (Exception e) {
+			log.error("error in reading CAptch", e);
+		}
+		return true;
+
 	}
 
 	private boolean requireCheck(HttpServletRequest request, String fieldName) {

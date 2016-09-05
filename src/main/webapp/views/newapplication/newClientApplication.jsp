@@ -17,6 +17,7 @@
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>
   <script>
   $( function() {
 				$( "#startDate" ).datepicker();
@@ -65,19 +66,19 @@
                                 </p>
 								<p> 
                                     <label for="buildingNumber" class="uname" data-iconz="u">Building No.</label>
-                                    <input id="buildingNumber" name="buildingNumber" required="required" type="text" placeholder="101" />
+                                    <input id="buildingNumber" name="buildingNumber" required="required" type="text" placeholder="eg. 2323" />
                                 </p>
 								<p> 
                                     <label for="appartmentNumber" class="uname" data-iconz="u">Apartment No.</label>
-                                    <input id="appartmentNumber" name="appartmentNumber" required="required" type="text" placeholder="101" />
+                                    <input id="appartmentNumber" name="appartmentNumber" required="required" type="text" placeholder="eg. 104" />
                                 </p>
 								<p> 
                                     <label for="meterReading" class="uname" data-iconz="u">Last Meter Reading</label>
-                                    <input id="meterReading" name="meterReading" required="required" type="text" placeholder="123456" />
+                                    <input id="meterReading" name="meterReading" required="required" type="text" placeholder="eg. 12345" />
                                 </p>
                                 <p> 
                                     <label for="meterNo" class="uname" data-iconz="u">Meter No.</label>
-                                    <input id="meterNo" name="meterNo" required="required" type="text" placeholder="123456" />
+                                    <input id="meterNo" name="meterNo" required="required" type="text" placeholder="eg. 98987889" />
                                 </p>
 								<p> 
                                     <label for="startDate" class="" data-iconz="u">Start Date</label>
@@ -85,24 +86,27 @@
                                 </p>
 								<p> 
                                     <label for="pobox" class="uname" data-iconz="u">P.O.Box</label>
-                                    <input id="pobox" name="pobox" required="required" type="text" placeholder="1234" />
+                                    <input id="pobox" name="pobox" required="required" type="text" placeholder="eg. 2323" />
                                 </p>
 								<p> 
                                     <label for="poboxCity" class="uname" data-iconz="u">P.O.Box City</label>
-                                    <input id="poboxCity" name="poboxCity" required="required" type="text" placeholder="abudhabi" />
+                                    <input id="poboxCity" name="poboxCity" required="required" type="text" placeholder="eg. Abudhabi" />
                                 </p>
 								<p> 
                                     <label for="phone" class="uname" data-iconz="u">Phone No.</label>
-                                    <input id="phone" name="phone" required="required" type="text" placeholder="021234567" />
+                                    <input id="phone" name="phone" required="required" type="text" placeholder="eg. 021234567" />
                                 </p>
 								<p> 
                                     <label for="mobile" class="uname" data-iconz="u">Mobile No.</label>
-                                    <input id="mobile" name="mobile" required="required" type="text" placeholder="0501234567" />
+                                    <input id="mobile" name="mobile" required="required" type="text" placeholder="eg. 0501234567" />
                                 </p>
                                 <p> 
                                     <label for="emiratesId" class="uname" data-iconz="u">Mobile No.</label>
                                     <input id="emiratesId" name="emiratesId" required="required" type="text" placeholder="1980-xxx-xxx" />
                                 </p>
+                                
+                                <div class="g-recaptcha" data-sitekey="6Le68SYTAAAAALKatLmMCKxTWBZsqO9WLPpDr270"></div>
+                                
                                 <p class="signin button"> 
 									<input type="submit" value="Sign up"/> 
 								</p>

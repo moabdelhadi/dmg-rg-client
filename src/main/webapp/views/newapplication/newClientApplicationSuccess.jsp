@@ -36,8 +36,24 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="form">
-                            <h2>Thanks you for your registration. Please Save your reference to followup the request: 123456</h2>
-                            <a target="_blank" href="/dmg-rg-client/views/contract/contract.html">View Contract</a>
+
+						<%
+							String ref = (String) request.getAttribute("ref");
+							String resultStatus = (String) request.getAttribute("requestStatus");
+							if (resultStatus != null && resultStatus.equals("success") ) {
+								
+						%>
+
+						<h2>Thanks you for your registration. Please Save your reference in order to follow-up youe request: <%=ref%></h2>
+						<a target="_blank" href="/dmg-rg-client/views/contract/contract.html">View Contract</a>
+
+						<%
+							}
+						%>
+
+
+						
+                            
                         </div>
 						
                     </div>

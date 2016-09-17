@@ -3,7 +3,12 @@
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
 <!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> 
+
+<%@page import="java.util.List"%>
+
+
+<html lang="en" class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="UTF-8" />
         <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  -->
@@ -40,6 +45,22 @@
                             <form  action="/dmg-rg-client/newUserApplication" autocomplete="on" method="post"> 
                                 <h1> Apply for New Contract </h1>
 
+ <%
+List<String> errors = (List<String>) request.getAttribute("errors");
+String resultStatus = (String) request.getAttribute("requestStatus");
+if (resultStatus != null && resultStatus.equals("error") && errors!=null && !errors.isEmpty()) {
+	 for (String errMessage : errors) {
+	
+	%>
+  
+  <p><%= errMessage %></p>
+  
+  <%
+	 }
+}
+  %>
+
+
 								<p class="selectInput"> 
                                     <label for="city" class="selectInput" >Select City</label>
                                     <select id="city" name="city" required="required" >
@@ -70,7 +91,7 @@
                                 </p>
 								<p> 
                                     <label for="appartmentNumber" class="uname" data-iconz="u">Apartment No.</label>
-                                    <input id="appartmentNumber" name="appartmentNumber" required="required" type="text" placeholder="eg. 104" />
+                                    <input id="appartmentNumber" name="appartmentNumber" required="required" type="text" placeholder="eg. 104" pattern="[0-9]{1,4}"/>
                                 </p>
 								<p> 
                                     <label for="meterReading" class="uname" data-iconz="u">Last Meter Reading</label>
@@ -78,7 +99,7 @@
                                 </p>
                                 <p> 
                                     <label for="meterNo" class="uname" data-iconz="u">Meter No.</label>
-                                    <input id="meterNo" name="meterNo" required="required" type="text" placeholder="eg. 98987889" />
+                                    <input id="meterNo" name="meterNo" required="required" type="text" placeholder="eg. 98987889" pattern="[0-9]+"/>
                                 </p>
 								<p> 
                                     <label for="startDate" class="" data-iconz="u">Start Date</label>
@@ -86,22 +107,22 @@
                                 </p>
 								<p> 
                                     <label for="pobox" class="uname" data-iconz="u">P.O.Box</label>
-                                    <input id="pobox" name="pobox" required="required" type="text" placeholder="eg. 2323" />
+                                    <input id="pobox" name="pobox"  type="text" placeholder="eg. 2323" pattern="[0-9]{1,6}" />
                                 </p>
 								<p> 
                                     <label for="poboxCity" class="uname" data-iconz="u">P.O.Box City</label>
-                                    <input id="poboxCity" name="poboxCity" required="required" type="text" placeholder="eg. Abudhabi" />
+                                    <input id="poboxCity" name="poboxCity"  type="text" placeholder="eg. Abudhabi" />
                                 </p>
 								<p> 
                                     <label for="phone" class="uname" data-iconz="u">Phone No.</label>
-                                    <input id="phone" name="phone" required="required" type="text" placeholder="eg. 021234567" />
+                                    <input id="phone" name="phone"  type="text" placeholder="eg. 021234567"  pattern="[0-9]+"/>
                                 </p>
 								<p> 
                                     <label for="mobile" class="uname" data-iconz="u">Mobile No.</label>
-                                    <input id="mobile" name="mobile" required="required" type="text" placeholder="eg. 0501234567" />
+                                    <input id="mobile" name="mobile" required="required" type="text" placeholder="eg. 0501234567" pattern="[0-9]+"/>
                                 </p>
                                 <p> 
-                                    <label for="emiratesId" class="uname" data-iconz="u">Mobile No.</label>
+                                    <label for="emiratesId" class="uname" data-iconz="u">Emirates Id</label>
                                     <input id="emiratesId" name="emiratesId" required="required" type="text" placeholder="1980-xxx-xxx" />
                                 </p>
                                 

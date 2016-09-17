@@ -97,7 +97,7 @@ public class NewUserApplication extends HttpServlet {
 			}
 			NewUserRegistration user = createUser(request);
 			FacadeFactory.getFacade().store(user);
-			responseSuccess(request, response, user.getRefNo(), user.getMobile());
+			responseSuccess(request, response, user);
 
 		} catch (DataAccessLayerException e) {
 			log.error("error in saving data");
@@ -107,10 +107,9 @@ public class NewUserApplication extends HttpServlet {
 		}
 	}
 
-	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, String refNo, String mobile) {
+	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, NewUserRegistration user) {
 		try {
-			request.setAttribute("ref", refNo);
-			request.setAttribute("mobile", mobile);
+			request.setAttribute("user", user);
 			request.setAttribute("requestStatus", "success");
 
 			RequestDispatcher view = request.getRequestDispatcher("/views/newapplication/newClientApplicationSuccess.jsp");

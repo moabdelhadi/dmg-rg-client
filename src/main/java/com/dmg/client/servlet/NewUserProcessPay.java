@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -28,8 +29,11 @@ import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.auth.util.PasswordUtil;
+import com.dmg.client.payment.PaymentManager;
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.NewUserRegistration;
+import com.dmg.core.bean.NewUserRegistrationDu;
+import com.dmg.core.bean.Transaction;
 import com.dmg.core.bean.UserStatus;
 import com.dmg.core.exception.DataAccessLayerException;
 import com.dmg.core.persistence.FacadeFactory;
@@ -39,8 +43,8 @@ import com.google.gson.Gson;
 /**
  * Servlet implementation class NewUserApplication
  */
-@WebServlet("/newUserApplication")
-public class NewUserApplication extends HttpServlet {
+@WebServlet("/regUserProcessPay")
+public class NewUserProcessPay extends HttpServlet {
 
 	private final String CITY_FIELD = "city";
 	private final String USERNAME_FIELD = "username";
@@ -68,7 +72,7 @@ public class NewUserApplication extends HttpServlet {
 	private static volatile long lastRef = 0;
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(NewUserApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(NewUserProcessPay.class);
 
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	OkHttpClient client = new OkHttpClient();
@@ -77,7 +81,7 @@ public class NewUserApplication extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public NewUserApplication() {
+	public NewUserProcessPay() {
 		super();
 	}
 
@@ -92,16 +96,40 @@ public class NewUserApplication extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			log.debug("Accept get");
-			List<String> validate = validate(request);
+			HttpSession session = request.getSession();
+			NewUserRegistration user = (NewUserRegistration) session.getAttribute("userVal");
+			
+			List<String> errors = new ArrayList<String>();
+			if (user == null) {
+				errors.add("Error process new user, no user in session");
+				responseBadInput(request, response, errors);
+				return;
+			}
+
+			List<String> validate = validate(user);
 			if (validate != null && validate.size() > 0) {
 				responseBadInput(request, response, validate);
 				return;
 			}
-			NewUserRegistration user = createUser(request);
+			
+			PaymentManager manager = PaymentManager.getInstance();
+			Map<String, String> postFields = manager.getNewUserPostFields(user, 10);
+			user.setAmount(postFields.get("vpc_Amount"));
+//			user.setApproveStatus("SENT");
+			user.setMerchant(postFields.get("vpc_Merchant"));
+			user.setMerchTxnRef("vpc_MerchTxnRef");
+			user.setOrderInfo("vpc_OrderInfo");
+			user.setStatus(UserStatus.INBANK.value());
+			
 			FacadeFactory.getFacade().store(user);
-			responseSuccess(request, response, user);
+			
+			//Resirect Request;
+			
+			//Transaction txn = manager.getPaymentByTxnRef(postFields.get("vpc_MerchTxnRef"));
+			
+			// responseSuccess(request, response, user);
 
-		} catch (DataAccessLayerException e) {
+		} catch (Exception e) {
 			log.error("error in saving data");
 			List<String> validate = new ArrayList<String>();
 			validate.add("Un Known Error Accurs during your request . Please Try Again Later");
@@ -111,10 +139,10 @@ public class NewUserApplication extends HttpServlet {
 
 	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, NewUserRegistration user) {
 		try {
-			
+
 			HttpSession session = request.getSession();
 			session.setAttribute("userVal", user);
-			
+
 			request.setAttribute("user", user);
 			request.setAttribute("requestStatus", "success");
 			RequestDispatcher view = request.getRequestDispatcher("/views/newapplication/UserDetails.jsp");
@@ -159,22 +187,31 @@ public class NewUserApplication extends HttpServlet {
 		doProcess(request, response);
 	}
 
-	private List<String> validate(HttpServletRequest request) {
-		List<String> list = new ArrayList<String>();
+	private List<String> validate(NewUserRegistration user) {
 
-		if (isRobot(request)) {
-			list.add("Please Fill Data Using human ineraction.");
+		List<String> list = new ArrayList<String>();
+		if (user.getCity() == null) {
+			list.add("City is null");
 			return list;
 		}
 
-		for (String fname : requireList) {
-			if (!requireCheck(request, fname)) {
-				list.add(fname + " is required");
-			}
-		}
+		NewUserRegistration newUser = BeansFactory.getInstance().getNewUser(user.getCity());
 
-		if (!passwordCheck(request)) {
-			list.add("Password must Match");
+		try {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("refNo", user.getRefNo());
+			List<? extends NewUserRegistration> listUsers = FacadeFactory.getFacade().list(newUser.getClass(), map);
+
+			if (listUsers == null || listUsers.size() != 1) {
+				log.error("User Reference Incorrect");
+				list.add("User Reference Incorrect");
+				return list;
+			}
+		} catch (DataAccessLayerException e) {
+			log.error("Error in get referenced User");
+			list.add("Error in get referenced User");
+			return list;
 		}
 
 		return list;
@@ -226,9 +263,9 @@ public class NewUserApplication extends HttpServlet {
 				}
 				return true;
 			}
-			
+
 			return false;
-		
+
 		} catch (Exception e) {
 			log.error("error in reading CAptch", e);
 		}

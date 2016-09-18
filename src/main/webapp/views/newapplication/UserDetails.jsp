@@ -539,6 +539,9 @@ tr:hover .cut {
 				</tr>
 			</table>
 		</article>
+		<div class="submit"> 
+			<a href="/dmg-rg-client/regUserProcessPay">I AGREE</a>
+		</div>
 		<aside>
 			<h1>
 				<span>Additional Notes</span>

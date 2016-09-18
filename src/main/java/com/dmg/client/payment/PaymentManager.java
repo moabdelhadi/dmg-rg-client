@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.Constants;
+import com.dmg.core.bean.NewUserRegistration;
 import com.dmg.core.bean.PaymentResponse;
 import com.dmg.core.bean.Transaction;
 import com.dmg.core.bean.UserAccount;
@@ -24,17 +25,18 @@ import com.dmg.util.SHAEncrypt;
 
 public class PaymentManager {
 
-	private static String ACCESS_CODE_AD = "payment.vpc_AccessCode.AD";
-	private static String ACCESS_CODE_DU = "payment.vpc_AccessCode.DU";
-	private static String VERSION = "payment.vpc_Version";
+	private static final String ACCESS_CODE_AD = "payment.vpc_AccessCode.AD";
+	private static final String ACCESS_CODE_DU = "payment.vpc_AccessCode.DU";
+	private static final String VERSION = "payment.vpc_Version";
 	// private static String SUBMIT = "payment.submit";
-	private static String COMMAND = "payment.vpc_Command";
-	private static String LOCALE = "payment.vpc_Locale";
-	private static String MERCHANT_ID_AD = "payment.vpc_Merchant.AD";
-	private static String MERCHANT_ID_DU = "payment.vpc_Merchant.DU";
-	private static String SECURE_HASH_CODE_AD = "payment.SecureHashCode.AD";
-	private static String SECURE_HASH_CODE_DU = "payment.SecureHashCode.DU";
-	private static String RETURN_URL = "payment.vpc_ReturnURL";
+	private static final String COMMAND = "payment.vpc_Command";
+	private static final String LOCALE = "payment.vpc_Locale";
+	private static final String MERCHANT_ID_AD = "payment.vpc_Merchant.AD";
+	private static final String MERCHANT_ID_DU = "payment.vpc_Merchant.DU";
+	private static final String SECURE_HASH_CODE_AD = "payment.SecureHashCode.AD";
+	private static final String SECURE_HASH_CODE_DU = "payment.SecureHashCode.DU";
+	private static final String RETURN_URL = "payment.vpc_ReturnURL";
+	private static final String REG_RETURN_URL = "payment.vpc_reg_ReturnURL";
 	// private static String PAYMENT_URL = "payment.paymentUrl";
 	// private static String PAYMENT_URL_FALLBACK = "";
 	private static PaymentManager INSTANCE = new PaymentManager();
@@ -42,6 +44,7 @@ public class PaymentManager {
 	private Map<String, String> accessCodeMap = new HashMap<String, String>();
 	private Map<String, String> secureHashMap = new HashMap<String, String>();
 	private static final Logger log = LoggerFactory.getLogger(PaymentManager.class);
+	
 
 	private PaymentManager() {
 
@@ -58,6 +61,66 @@ public class PaymentManager {
 
 	public static PaymentManager getInstance() {
 		return INSTANCE;
+	}
+	
+	
+	public Map<String, String> getNewUserPostFields(NewUserRegistration user, double totalAnoountDouble) {
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		if (user == null) {
+			log.error("Error user is null");
+			return map;
+		}
+
+		map.put("vpc_Version", readProperty(VERSION));
+		// map.put("submit", readProperty(SUBMIT));
+		map.put("vpc_Command", readProperty(COMMAND));
+		map.put("vpc_Locale", readProperty(LOCALE));
+		map.put("vpc_ReturnURL", readProperty(REG_RETURN_URL));
+
+		String city = user.getCity();
+		String merchantID = merchantMap.get(city);
+		String accessCode = accessCodeMap.get(city);
+		String secureHashKey = secureHashMap.get(city);
+
+		map.put("vpc_AccessCode", accessCode);
+		map.put("vpc_Merchant", merchantID);
+
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dubai"));		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		// String date = dateFormat.format(calendar.getTime());
+
+		String MerchTxnRef = "RG-REG-" + user.getCity() + "-" + user.getRefNo() + "-" + calendar.getTimeInMillis();
+
+		map.put("vpc_MerchTxnRef", MerchTxnRef);
+
+		int  tamnt = (int)(totalAnoountDouble*100);
+		map.put("vpc_Amount", tamnt +"");
+
+		map.put("vpc_OrderInfo", MerchTxnRef);
+		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
+
+		// map.remove("submit");
+		// map.put("vpc_SecureHashType", "MD5");
+
+		map.put("vpc_SecureHash", hashAllFields);
+
+//		Transaction transaction = saveNewPayment(map, user);
+//		transaction.setInvDocNo(lBDocNo);
+//		transaction.setInvDocType(lBDocType);
+//		transaction.setInvYearCode(lBYearCode);
+//		transaction.setDoubleAmount(new BigDecimal(totalAnoountDouble));
+//		int fee = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
+//		transaction.setFees(BigDecimal.valueOf(fee));
+//		try {
+//			FacadeFactory.getFacade().store(transaction);
+//		} catch (Exception e) {
+//			log.error("error in save new payment: transaction=" + transaction, e);
+//			return null;
+//		}
+
+		return map;
+
 	}
 
 	public Map<String, String> getPostFields(UserAccount user, double totalAnoountDouble, String lBDocNo, String lBDocType, String lBYearCode) {

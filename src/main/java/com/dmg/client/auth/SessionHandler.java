@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dmg.core.bean.NewUserRegistration;
 import com.dmg.core.bean.UserAccount;
 import com.vaadin.server.VaadinService;
 
@@ -42,11 +43,12 @@ public class SessionHandler implements Serializable {
 	 */
 	public static void setUser(UserAccount user) {
 		SessionHandler current = getCurrent();
-		if(current==null){
+		if (current == null) {
 			initialize();
 		}
 		getCurrent().user = user;
 	}
+
 
 	/**
 	 * Get the User object of the currently inlogged user for this application
@@ -55,13 +57,14 @@ public class SessionHandler implements Serializable {
 	 * @return The currently inlogged user
 	 */
 	public static UserAccount get() {
-		
+
 		SessionHandler current = getCurrent();
-		if(current==null){
+		if (current == null) {
 			return null;
 		}
 		return current.user;
 	}
+
 
 	/**
 	 * Method for logging out a user

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dmg.client.auth.SessionHandler;
 import com.dmg.client.auth.util.PasswordUtil;
+import com.dmg.client.payment.PaymentManager;
 import com.dmg.core.bean.BeansFactory;
 import com.dmg.core.bean.NewUserRegistration;
 import com.dmg.core.bean.UserStatus;
@@ -97,9 +99,24 @@ public class NewUserApplication extends HttpServlet {
 				responseBadInput(request, response, validate);
 				return;
 			}
+			
 			NewUserRegistration user = createUser(request);
+			
+			if(user==null){
+				validate.add("Error while creating user information P1");
+				responseBadInput(request, response, validate);
+				return;
+			}
+			
+			Map<String, String> processPayment = processPayment(user);
+			if(processPayment==null){
+				validate.add("Error while creating user payment Information");
+				responseBadInput(request, response, validate);
+				return;
+			} 
+			
 			FacadeFactory.getFacade().store(user);
-			responseSuccess(request, response, user);
+			responseSuccess(request, response, user, processPayment);
 
 		} catch (DataAccessLayerException e) {
 			log.error("error in saving data");
@@ -108,21 +125,74 @@ public class NewUserApplication extends HttpServlet {
 			responseBadInput(request, response, validate);
 		}
 	}
+	
+	
+	private Map<String, String> processPayment(NewUserRegistration user) {
+		try {
+			
+			log.debug("Accept get");
+			
+			PaymentManager manager = PaymentManager.getInstance();
+			Map<String, String> postFields = manager.getNewUserPostFields(user, 10);
+			user.setAmount(postFields.get("vpc_Amount"));
+			user.setMerchant(postFields.get("vpc_Merchant"));
+			user.setMerchTxnRef("vpc_MerchTxnRef");
+			user.setOrderInfo("vpc_OrderInfo");
+			user.setStatus(UserStatus.INBANK.value());
+			
+			return postFields;
 
-	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, NewUserRegistration user) {
+		} catch (Exception e) {
+			log.error("error in saving data");
+		}
+		return null;
+	}
+	
+	
+	private NewUserRegistration getUser(NewUserRegistration user) {
+
+		List<String> list = new ArrayList<String>();
+		if (user.getCity() == null) {
+			list.add("City is null");
+			return null;
+		}
+
+		NewUserRegistration newUser = BeansFactory.getInstance().getNewUser(user.getCity());
+
+		try {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("refNo", user.getRefNo());
+			List<? extends NewUserRegistration> listUsers = FacadeFactory.getFacade().list(newUser.getClass(), map);
+
+			if (listUsers == null || listUsers.size() != 1 || listUsers.get(0)==null) {
+				log.error("User Reference Incorrect");
+				return null;
+			}
+		
+			return listUsers.get(0) ;
+		
+		} catch (DataAccessLayerException e) {
+			log.error("Error in get referenced User");
+			return null;
+		}
+
+		
+	}
+	
+	
+	
+	
+
+	private void responseSuccess(HttpServletRequest request, HttpServletResponse response, NewUserRegistration user, Map<String, String> payMap) {
 		try {
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("userVal", user);
-			
 			request.setAttribute("user", user);
 			request.setAttribute("requestStatus", "success");
+			request.setAttribute("paymentMap", payMap);
 			RequestDispatcher view = request.getRequestDispatcher("/views/newapplication/UserDetails.jsp");
-
-			// response.setHeader("Content-Type","text/html");
-			// response.setHeader("Expires","Mon, 26 Jul 1997 05:00:00 GMT");
-			// response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
-			// response.setHeader("Pragma","no-cache");
 
 			view.forward(request, response);
 		} catch (Exception e) {

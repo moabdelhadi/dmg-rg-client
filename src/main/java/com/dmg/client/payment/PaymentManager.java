@@ -74,7 +74,6 @@ public class PaymentManager {
 		}
 
 		map.put("vpc_Version", readProperty(VERSION));
-		// map.put("submit", readProperty(SUBMIT));
 		map.put("vpc_Command", readProperty(COMMAND));
 		map.put("vpc_Locale", readProperty(LOCALE));
 		map.put("vpc_ReturnURL", readProperty(REG_RETURN_URL));
@@ -88,7 +87,6 @@ public class PaymentManager {
 		map.put("vpc_Merchant", merchantID);
 
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dubai"));		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		// String date = dateFormat.format(calendar.getTime());
 
 		String MerchTxnRef = "RG-REG-" + user.getCity() + "-" + user.getRefNo() + "-" + calendar.getTimeInMillis();
 
@@ -100,24 +98,7 @@ public class PaymentManager {
 		map.put("vpc_OrderInfo", MerchTxnRef);
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
 
-		// map.remove("submit");
-		// map.put("vpc_SecureHashType", "MD5");
-
 		map.put("vpc_SecureHash", hashAllFields);
-
-//		Transaction transaction = saveNewPayment(map, user);
-//		transaction.setInvDocNo(lBDocNo);
-//		transaction.setInvDocType(lBDocType);
-//		transaction.setInvYearCode(lBYearCode);
-//		transaction.setDoubleAmount(new BigDecimal(totalAnoountDouble));
-//		int fee = PropertiesManager.getInstance().getPropertyInt(Constants.ONLINE_FEES_NAME);
-//		transaction.setFees(BigDecimal.valueOf(fee));
-//		try {
-//			FacadeFactory.getFacade().store(transaction);
-//		} catch (Exception e) {
-//			log.error("error in save new payment: transaction=" + transaction, e);
-//			return null;
-//		}
 
 		return map;
 

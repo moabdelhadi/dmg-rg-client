@@ -1,3 +1,5 @@
+<%@page import="com.dmg.util.PropertiesManager"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.dmg.core.bean.NewUserRegistration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -450,6 +452,8 @@ tr:hover .cut {
 <%
 	NewUserRegistration user = (NewUserRegistration) request.getAttribute("user");
 	String resultStatus = (String) request.getAttribute("requestStatus");
+	Map<String,String> formMap = (Map<String,String>) request.getAttribute("paymentMap");
+	
 %>
 		<article>
 			<div class="contIntro">
@@ -539,7 +543,21 @@ tr:hover .cut {
 				</tr>
 			</table>
 		</article>
-		<div class="submit"> 
+		<div class="Paymentform">
+		
+		<form name="RedirectForm" action="<%= PropertiesManager.getInstance().getProperty("payment.paymentUrl")%>" method="post">
+            <%
+            for(String key: formMap.keySet()){
+            	%>
+            	<input type="hidden" name="<%= key %>" value="<%= formMap.get(key) %>">
+            	<%
+            }
+            %>
+            <input type="submit" name="submit" value="Continue"></td></tr>
+        </form>
+		
+		
+		 
 			<a href="/dmg-rg-client/regUserProcessPay">I AGREE</a>
 		</div>
 		<aside>

@@ -131,7 +131,6 @@ public class NewUserApplication extends HttpServlet {
 		try {
 			
 			log.debug("Accept get");
-			
 			PaymentManager manager = PaymentManager.getInstance();
 			Map<String, String> postFields = manager.getNewUserPostFields(user, 10);
 			user.setAmount(postFields.get("vpc_Amount"));
@@ -139,7 +138,6 @@ public class NewUserApplication extends HttpServlet {
 			user.setMerchTxnRef("vpc_MerchTxnRef");
 			user.setOrderInfo("vpc_OrderInfo");
 			user.setStatus(UserStatus.INBANK.value());
-			
 			return postFields;
 
 		} catch (Exception e) {
@@ -149,36 +147,36 @@ public class NewUserApplication extends HttpServlet {
 	}
 	
 	
-	private NewUserRegistration getUser(NewUserRegistration user) {
-
-		List<String> list = new ArrayList<String>();
-		if (user.getCity() == null) {
-			list.add("City is null");
-			return null;
-		}
-
-		NewUserRegistration newUser = BeansFactory.getInstance().getNewUser(user.getCity());
-
-		try {
-
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("refNo", user.getRefNo());
-			List<? extends NewUserRegistration> listUsers = FacadeFactory.getFacade().list(newUser.getClass(), map);
-
-			if (listUsers == null || listUsers.size() != 1 || listUsers.get(0)==null) {
-				log.error("User Reference Incorrect");
-				return null;
-			}
-		
-			return listUsers.get(0) ;
-		
-		} catch (DataAccessLayerException e) {
-			log.error("Error in get referenced User");
-			return null;
-		}
-
-		
-	}
+//	private NewUserRegistration getUser(NewUserRegistration user) {
+//
+//		List<String> list = new ArrayList<String>();
+//		if (user.getCity() == null) {
+//			list.add("City is null");
+//			return null;
+//		}
+//
+//		NewUserRegistration newUser = BeansFactory.getInstance().getNewUser(user.getCity());
+//
+//		try {
+//
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			map.put("refNo", user.getRefNo());
+//			List<? extends NewUserRegistration> listUsers = FacadeFactory.getFacade().list(newUser.getClass(), map);
+//
+//			if (listUsers == null || listUsers.size() != 1 || listUsers.get(0)==null) {
+//				log.error("User Reference Incorrect");
+//				return null;
+//			}
+//		
+//			return listUsers.get(0) ;
+//		
+//		} catch (DataAccessLayerException e) {
+//			log.error("Error in get referenced User");
+//			return null;
+//		}
+//
+//		
+//	}
 	
 	
 	

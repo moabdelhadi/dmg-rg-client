@@ -1,11 +1,16 @@
 package com.dmg.util;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 public class SHAEncrypt {
 
@@ -27,7 +32,7 @@ public class SHAEncrypt {
 	 */
 	public static String hashAllFields(Map<String, String> fields, String SECURE_SECRET) {
 
-		// 	    String hashKeys = "";
+		//String hashKeys = "";
 		// 	    String hashValues = "";
 
 		// create a list and sort it
@@ -36,7 +41,7 @@ public class SHAEncrypt {
 
 		// create a buffer for the md5 input and add the secure secret first
 		StringBuffer buf = new StringBuffer();
-		buf.append(SECURE_SECRET);
+		//buf.append(SECURE_SECRET);
 
 		// iterate through the list and add the remaining field values
 		Iterator itr = fieldNames.iterator();
@@ -44,13 +49,16 @@ public class SHAEncrypt {
 		while (itr.hasNext()) {
 			String fieldName = (String) itr.next();
 			String fieldValue = fields.get(fieldName);
-			// 	            hashKeys += fieldName + ", ";
+			//hashKeys += fieldName + ", ";
 			if ((fieldValue != null) && (fieldValue.length() > 0)) {
-				buf.append(fieldValue);
+				buf.append(fieldName + "=" + fieldValue);
+				if(itr.hasNext()){
+					buf.append('&');
+				}
 			}
 		}
 
-		return encryptKey(buf.toString());
+		return encryptKeySHA(buf.toString(), SECURE_SECRET);
 
 	} // end hashAllFields()
 
@@ -68,6 +76,23 @@ public class SHAEncrypt {
 
 		// 	    hashValues = buf.toString();
 		return hex(ba);
+	}
+	
+	public static String encryptKeySHA(String buf, String secretKey) {
+		byte[] mac = null;
+		try {
+			byte []  b = new BigInteger(secretKey, 16).toByteArray();
+			SecretKey key = new SecretKeySpec(b, "HmacSHA256");
+			Mac m = Mac.getInstance("HmacSHA256");
+			m.init(key);
+			//String values = new String(buf.toString(), "UTF-8");
+			m.update(buf.toString().getBytes("ISO-8859-1"));
+			mac = m.doFinal();
+		} catch(Exception e) {
+			
+			}
+		String hashValue = hex(mac);
+		return hashValue;
 	}
 
 	/**

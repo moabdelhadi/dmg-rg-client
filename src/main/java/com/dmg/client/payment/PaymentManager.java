@@ -99,6 +99,7 @@ public class PaymentManager {
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
 
 		map.put("vpc_SecureHash", hashAllFields);
+		map.put("vpc_SecureHashType", "SHA256");
 
 		return map;
 
@@ -144,6 +145,7 @@ public class PaymentManager {
 		// map.put("vpc_SecureHashType", "MD5");
 
 		map.put("vpc_SecureHash", hashAllFields);
+		map.put("vpc_SecureHashType", "SHA256");
 
 		Transaction transaction = saveNewPayment(map, user);
 		transaction.setInvDocNo(lBDocNo);
@@ -518,14 +520,22 @@ public class PaymentManager {
 		// want to include this field in the hash calculation
 		String vpc_Txn_Secure_Hash = null2unknown((String) fields.remove("vpc_SecureHash"));
 		String hashValidated = null;
-
+		String txtref = fields.get("vpc_MerchTxnRef");
+		if(txtref==null || txtref.isEmpty()){
+			//TODO Error Validating Data
+		}
+		
+		String city = getCity(txtref);
+		if(city==null || city.isEmpty()){
+			//TODO Error Validating Data
+		}
 		// defines if error message should be output
 		boolean errorExists = false;
 
 		// create secure hash and append it to the hash map if it was
 		// created
 		// remember if SECURE_SECRET = "" it wil not be created
-		String secureHash = SHAEncrypt.hashAllFields(fields, secureHashMap.get("DUBAI"));
+		String secureHash = SHAEncrypt.hashAllFields(fields, secureHashMap.get(city));
 
 		// Validate the Secure Hash (remember MD5 hashes are not case
 		// sensitive)
@@ -553,7 +563,7 @@ public class PaymentManager {
 		String orderInfo = null2unknown((String) fields.get("vpc_OrderInfo"));
 		String receiptNo = null2unknown((String) fields.get("vpc_ReceiptNo"));
 		String merchantID = null2unknown((String) fields.get("vpc_Merchant"));
-		String merchTxnRef = null2unknown((String) fields.get("vpc_MerchTxnRef"));
+		String merchTxnRef = null2unknown((String) txtref);
 		String authorizeID = null2unknown((String) fields.get("vpc_AuthorizeId"));
 		String transactionNo = null2unknown((String) fields.get("vpc_TransactionNo"));
 		String acqResponseCode = null2unknown((String) fields.get("vpc_AcqResponseCode"));
@@ -580,6 +590,7 @@ public class PaymentManager {
 		// Show this page as an error page if error condition
 		if (txnResponseCode == null || txnResponseCode.equals("7") || txnResponseCode.equals("No Value Returned") || errorExists) {
 			error = "Error ";
+			log.info("ERROR in Processing Transaction");
 		}
 		PaymentResponse response = new PaymentResponse();
 		response.setAmount(amount);

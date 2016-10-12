@@ -173,8 +173,8 @@ public class AccountOverview extends VerticalLayout implements View {
 						String editPayAmount = payAmountField.getValue();
 						parseDouble = Double.parseDouble(editPayAmount);
 
-						if (parseDouble < fees + 0.1 || parseDouble > maxPayment) {
-							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than " + fees + " , and less than " + maxPayment,
+						if (parseDouble < fees + 15 || parseDouble > maxPayment) {
+							Notification notification = new Notification("Invalid Amount", "Please insert amount greater than 15 AED , and less than " + maxPayment,
 									Notification.Type.HUMANIZED_MESSAGE, true);
 							notification.setDelayMsec(-1);
 							notification.show(Page.getCurrent());

@@ -12,8 +12,12 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SHAEncrypt {
 
+	private static final Logger log = LoggerFactory.getLogger(SHAEncrypt.class);
 	// This is secret for encoding the MD5 hash
 	// This secret will vary from merchant to merchant
 	// static final String SECURE_SECRET = "your-secure-hash-secret";
@@ -32,7 +36,7 @@ public class SHAEncrypt {
 	 */
 	public static String hashAllFields(Map<String, String> fields, String SECURE_SECRET) {
 
-		//String hashKeys = "";
+		String hashKeys = "";
 		// 	    String hashValues = "";
 
 		// create a list and sort it
@@ -48,16 +52,17 @@ public class SHAEncrypt {
 
 		while (itr.hasNext()) {
 			String fieldName = (String) itr.next();
-			String fieldValue = fields.get(fieldName);
-			//hashKeys += fieldName + ", ";
+			String fieldValue = (String) fields.get(fieldName);
+				hashKeys += fieldName + ", ";
 			if ((fieldValue != null) && (fieldValue.length() > 0)) {
 				buf.append(fieldName + "=" + fieldValue);
-				if(itr.hasNext()){
+				if (itr.hasNext()) {
 					buf.append('&');
 				}
 			}
 		}
 
+//		return encryptKeySHA(buf.toString());
 		return encryptKeySHA(buf.toString(), SECURE_SECRET);
 
 	} // end hashAllFields()
@@ -89,8 +94,8 @@ public class SHAEncrypt {
 			m.update(buf.toString().getBytes("ISO-8859-1"));
 			mac = m.doFinal();
 		} catch(Exception e) {
-			
-			}
+			log.error("error in Encryption", e);	
+		}
 		String hashValue = hex(mac);
 		return hashValue;
 	}

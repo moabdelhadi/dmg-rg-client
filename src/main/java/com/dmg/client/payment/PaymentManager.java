@@ -113,32 +113,35 @@ public class PaymentManager {
 			log.error("Error user is null");
 			return map;
 		}
-
-		map.put("vpc_Version", readProperty(VERSION));
-		// map.put("submit", readProperty(SUBMIT));
-		map.put("vpc_Command", readProperty(COMMAND));
-		map.put("vpc_Locale", readProperty(LOCALE));
-		map.put("vpc_ReturnURL", readProperty(RETURN_URL));
-
+		
+		
 		String city = user.getCity();
 		String merchantID = merchantMap.get(city);
 		String accessCode = accessCodeMap.get(city);
 		String secureHashKey = secureHashMap.get(city);
 
 		map.put("vpc_AccessCode", accessCode);
-		map.put("vpc_Merchant", merchantID);
+		map.put("vpc_Version", readProperty(VERSION));
 
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dubai"));		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		// String date = dateFormat.format(calendar.getTime());
-
 		String MerchTxnRef = "RG-" + user.getCity() + "-" + user.getContractNo() + "-" + calendar.getTimeInMillis();
-
-		map.put("vpc_MerchTxnRef", MerchTxnRef);
+		map.put("vpc_OrderInfo", MerchTxnRef);
+		map.put("vpc_Command", readProperty(COMMAND));
+		map.put("vpc_Locale", readProperty(LOCALE));
+		map.put("vpc_Merchant", merchantID);
 
 		int  tamnt = (int)(totalAnoountDouble*100);
 		map.put("vpc_Amount", tamnt +"");
+		map.put("vpc_Currency","AED");
+		
+		map.put("vpc_ReturnURL", readProperty(RETURN_URL));
+		map.put("vpc_MerchTxnRef", MerchTxnRef);
 
-		map.put("vpc_OrderInfo", MerchTxnRef);
+		
+		for (String txtno : map.keySet()) {
+			log.debug("txtno: "+txtno + " : "+map.get(txtno));
+		}
+
 		String hashAllFields = SHAEncrypt.hashAllFields(map, secureHashKey);
 
 		// map.remove("submit");
@@ -521,21 +524,21 @@ public class PaymentManager {
 		String vpc_Txn_Secure_Hash = null2unknown((String) fields.remove("vpc_SecureHash"));
 		String hashValidated = null;
 		String txtref = fields.get("vpc_MerchTxnRef");
-		if(txtref==null || txtref.isEmpty()){
-			//TODO Error Validating Data
-		}
-		
-		String city = getCity(txtref);
-		if(city==null || city.isEmpty()){
-			//TODO Error Validating Data
-		}
+//		if(txtref==null || txtref.isEmpty()){
+//			//TODO Error Validating Data
+//		}
+//		
+//		String city = getCity(txtref);
+//		if(city==null || city.isEmpty()){
+//			//TODO Error Validating Data
+//		}
 		// defines if error message should be output
 		boolean errorExists = false;
 
 		// create secure hash and append it to the hash map if it was
 		// created
 		// remember if SECURE_SECRET = "" it wil not be created
-		String secureHash = SHAEncrypt.hashAllFields(fields, secureHashMap.get(city));
+		String secureHash = SHAEncrypt.hashAllFields(fields, secureHashMap.get("DUBAI"));
 
 		// Validate the Secure Hash (remember MD5 hashes are not case
 		// sensitive)
